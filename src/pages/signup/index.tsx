@@ -10,6 +10,8 @@ import signupBgImage from "../../assets/signupImage.jpg";
 import { UserState } from "../../models/user";
 //constants
 import { emailPattern, phoneNumber } from "../../utils/constants";
+//common
+import Button from "../../common/button";
 
 const SignUp: React.FC = () => {
   const [user, setUser] = useState<UserState>({
@@ -103,7 +105,6 @@ const SignUp: React.FC = () => {
               />
             </div>
           </div>
-
           <div className={`${styles.input}`}>
             <div className={`${styles.formContent}`}>
               <label>First Name</label>
@@ -124,7 +125,6 @@ const SignUp: React.FC = () => {
               />
             </div>
           </div>
-
           <div className={` ${styles.input}`}>
             <div className={`${styles.formContent}`}>
               <label>Phone Number</label>
@@ -145,7 +145,6 @@ const SignUp: React.FC = () => {
               />
             </div>
           </div>
-
           <div className={`  ${styles.input}`}>
             <div className={`${styles.formContent}`}>
               <label>Password</label>
@@ -166,9 +165,8 @@ const SignUp: React.FC = () => {
               />
             </div>
           </div>
-
           <div className={`${styles.submit}`}>
-            <input type="submit" value="SIGNUP NOW" />
+            <Button className="signup-btn" value="SIGN UP" />
             <span>
               Already Have an Account ? <NavLink to={"/login"}>Login</NavLink>
             </span>

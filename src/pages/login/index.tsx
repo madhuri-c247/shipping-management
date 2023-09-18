@@ -7,6 +7,8 @@ import styles from "./login.module.scss";
 import { UserState } from "../../models/user";
 //constants
 import { emailPattern } from "../../utils/constants";
+//common
+import Button from "../../common/button";
 
 const Login: React.FC = () => {
   // const [forgetPassword, setForgetPassword] = useState(false);
@@ -68,7 +70,7 @@ const Login: React.FC = () => {
         </div>
 
         <div className={`${styles.submit}`}>
-          <input type="submit" value="LOGIN" />
+          <Button value="Login" className="login-btn" />
           <span>
             Don't Have an account ? <NavLink to={"/signup"}>Sign Up</NavLink>
           </span>
