@@ -3,10 +3,11 @@ import { ChangeEvent, useState } from "react";
 import styles from "./letterSelectionGuest.module.scss";
 //common
 import Button from "../../common/button/index";
-import { emailPattern, phoneNumber } from "../../utils/constants";
+//models
+import { GuestState } from "../../models/GuestState";
 
 export const LetterSelectionGuest = () => {
-  const [info, setInfo] = useState({
+  const [info, setInfo] = useState<GuestState>({
     fromCity: "",
     toCity: "",
     name: "",
@@ -24,25 +25,6 @@ export const LetterSelectionGuest = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (
-      info.fromCity !== "" &&
-      info.toCity !== "" &&
-      info.name !== "" &&
-      info.phone !== "" &&
-      info.email !== ""
-    ) {
-      if (emailPattern.test(info.email)) {
-        if (phoneNumber.test(info.phone)) {
-          alert("successful"); //
-        } else {
-          alert("invalid number");
-        }
-      } else {
-        alert("invalid email");
-      }
-    } else {
-      alert("fields can't be empty");
-    }
   };
 
   return (
@@ -55,6 +37,7 @@ export const LetterSelectionGuest = () => {
           onChange={handleChange}
           placeholder="from"
           value={info.fromCity}
+          required
         />
       </div>
       <div className={`${styles.content}`}>
@@ -65,6 +48,7 @@ export const LetterSelectionGuest = () => {
           onChange={handleChange}
           placeholder="to"
           value={info.toCity}
+          required
         />
       </div>
       <div className={`${styles.contactContainer} `}>
@@ -77,6 +61,7 @@ export const LetterSelectionGuest = () => {
             onChange={handleChange}
             placeholder="name"
             value={info.name}
+            required
           />
           <input
             className={`${styles.contactInput}`}
@@ -85,6 +70,7 @@ export const LetterSelectionGuest = () => {
             onChange={handleChange}
             placeholder="phone"
             value={info.phone}
+            required
           />
           <input
             className={`${styles.contactInput}`}
@@ -93,6 +79,7 @@ export const LetterSelectionGuest = () => {
             onChange={handleChange}
             placeholder="email"
             value={info.email}
+            required
           />
         </div>
       </div>

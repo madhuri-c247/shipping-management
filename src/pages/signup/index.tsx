@@ -7,9 +7,7 @@ import styles from "./signup.module.scss";
 //assets
 import signupBgImage from "../../assets/signupImage.jpg";
 //models
-import { UserState } from "../../models/user";
-//constants
-import { emailPattern, phoneNumber } from "../../utils/constants";
+import { UserState } from "../../models/userState";
 //common
 import Button from "../../common/button";
 
@@ -26,36 +24,6 @@ const SignUp: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (
-      user.companyName !== "" &&
-      user.firstName !== "" &&
-      user.lastName !== "" &&
-      user.number !== "" &&
-      user.email !== "" &&
-      user.password !== "" &&
-      user.confirmPassword !== ""
-    ) {
-      if (emailPattern.test(user.email)) {
-        if (
-          user.number !== undefined &&
-          user.number.length >= 10 &&
-          user.number.length <= 15 &&
-          phoneNumber.test(user.number)
-        ) {
-          if (user.password === user.confirmPassword) {
-            alert("submitted successfully");
-          } else {
-            alert("password do not match");
-          }
-        } else {
-          alert("invalid number");
-        }
-      } else {
-        alert("invalid email");
-      }
-    } else {
-      alert("fields can't be empty");
-    }
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -102,6 +70,7 @@ const SignUp: React.FC = () => {
                 name="companyName"
                 onChange={handleChange}
                 value={user.companyName}
+                required
               />
             </div>
           </div>
@@ -113,6 +82,7 @@ const SignUp: React.FC = () => {
                 onChange={handleChange}
                 value={user.firstName}
                 type="text"
+                required
               />
             </div>
             <div className={`${styles.formContent}`}>
@@ -122,6 +92,7 @@ const SignUp: React.FC = () => {
                 onChange={handleChange}
                 value={user.lastName}
                 type="text"
+                required
               />
             </div>
           </div>
@@ -133,6 +104,7 @@ const SignUp: React.FC = () => {
                 onChange={handleChange}
                 value={user.number}
                 type="tel"
+                required
               />
             </div>
             <div className={`${styles.formContent}`}>
@@ -142,6 +114,7 @@ const SignUp: React.FC = () => {
                 onChange={handleChange}
                 value={user.email}
                 type="email"
+                required
               />
             </div>
           </div>
@@ -153,6 +126,7 @@ const SignUp: React.FC = () => {
                 onChange={handleChange}
                 value={user.password}
                 type="password"
+                required
               />
             </div>
             <div className={`${styles.formContent}`}>
@@ -162,6 +136,7 @@ const SignUp: React.FC = () => {
                 onChange={handleChange}
                 value={user.confirmPassword}
                 type="password"
+                required
               />
             </div>
           </div>

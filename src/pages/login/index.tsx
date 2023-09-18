@@ -4,14 +4,11 @@ import { Form } from "react-bootstrap";
 //CSS
 import styles from "./login.module.scss";
 //models
-import { UserState } from "../../models/user";
-//constants
-import { emailPattern } from "../../utils/constants";
+import { UserState } from "../../models/userState";
 //common
 import Button from "../../common/button";
 
 const Login: React.FC = () => {
-  // const [forgetPassword, setForgetPassword] = useState(false);
   const [user, setUser] = useState<UserState>({
     email: "",
     password: "",
@@ -19,15 +16,6 @@ const Login: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (user.email !== "" && user.password !== "") {
-      if (emailPattern.test(user.email)) {
-        alert("successful");
-      } else {
-        alert("invalid email");
-      }
-    } else {
-      alert("fields can't be empty");
-    }
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +43,7 @@ const Login: React.FC = () => {
             onChange={handleChange}
             value={user.email}
             type="email"
+            required
           />
         </div>
 
@@ -65,6 +54,7 @@ const Login: React.FC = () => {
             onChange={handleChange}
             value={user.password}
             type="password"
+            required
           />
           <button onClick={forgotPassword}>Forget Password ?</button> <br />
         </div>

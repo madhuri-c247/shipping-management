@@ -3,9 +3,11 @@ import { ChangeEvent, useState } from "react";
 import styles from "./packageSelectionGuest.module.scss";
 //common
 import Button from "../../common/button/index";
-import { emailPattern, phoneNumber } from "../../utils/constants";
+//models
+import { GuestState } from "../../models/GuestState";
+
 export const PackageSelectionGuest = () => {
-  const [info, setInfo] = useState({
+  const [info, setInfo] = useState<GuestState>({
     fromCity: "",
     toCity: "",
     name: "",
@@ -25,30 +27,6 @@ export const PackageSelectionGuest = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (
-      info.fromCity !== "" &&
-      info.toCity !== "" &&
-      info.name !== "" &&
-      info.phone !== "" &&
-      info.email !== "" &&
-      info.totalWeight !== ""
-    ) {
-      if (emailPattern.test(info.email)) {
-        if (phoneNumber.test(info.phone)) {
-          if(info.package !>=0 ){
-            alert("successful"); //
-          }else{
-            alert("invalid quantity"); 
-          }
-        } else {
-          alert("invalid number");
-        }
-      } else {
-        alert("invalid email");
-      }
-    } else {
-      alert("fields can't be empty");
-    }
   };
 
   return (
@@ -61,6 +39,7 @@ export const PackageSelectionGuest = () => {
           onChange={handleChange}
           placeholder="from"
           value={info.fromCity}
+          required
         />
       </div>
       <div className={`${styles.content}`}>
@@ -71,6 +50,7 @@ export const PackageSelectionGuest = () => {
           onChange={handleChange}
           placeholder="to"
           value={info.toCity}
+          required
         />
       </div>
       <div className={`${styles.content}`}>
@@ -81,6 +61,7 @@ export const PackageSelectionGuest = () => {
           onChange={handleChange}
           placeholder="package"
           value={info.package}
+          required
         />
       </div>
       <div className={`${styles.content}`}>
@@ -91,6 +72,7 @@ export const PackageSelectionGuest = () => {
           onChange={handleChange}
           placeholder="weight"
           value={info.totalWeight}
+          required
         />
       </div>
       <div className={`${styles.contactContainer} `}>
@@ -103,6 +85,7 @@ export const PackageSelectionGuest = () => {
             onChange={handleChange}
             placeholder="name"
             value={info.name}
+            required
           />
           <input
             className={`${styles.contactInput}`}
@@ -111,6 +94,7 @@ export const PackageSelectionGuest = () => {
             onChange={handleChange}
             placeholder="phone"
             value={info.phone}
+            required
           />
           <input
             className={`${styles.contactInput}`}
@@ -119,6 +103,7 @@ export const PackageSelectionGuest = () => {
             onChange={handleChange}
             placeholder="email"
             value={info.email}
+            required
           />
         </div>
       </div>

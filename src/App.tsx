@@ -15,7 +15,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-      <Particle/>
+        <Particle />
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />}>

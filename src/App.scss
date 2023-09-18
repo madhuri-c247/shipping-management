@@ -1,15 +1,14 @@
 @import "./color.scss";
+
 .d-flex-r {
   display: flex;
   flex-direction: row;
 }
-
 button,
 a,
 input[type="submit"] {
   cursor: pointer;
 }
-
 input {
   width: 90%;
   height: 5vh;
