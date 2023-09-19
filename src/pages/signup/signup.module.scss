@@ -26,7 +26,6 @@
       img {
         width: 85%;
         height: 73vh;
-
         position: absolute;
         top: 4%;
         left: 4%;
@@ -71,15 +70,16 @@
       .formContent {
         display: flex;
         flex-direction: column;
-        width: 40%;
+        width: 60%;
         margin: 1%;
-
         label {
-          margin: 1%;
-          margin: 2%;
+          margin: 1% 0px;
+          font-size: 14px;
+        }
+        input {
+          width: 100%;
         }
       }
-
       .submit {
         display: flex;
         flex-direction: column;

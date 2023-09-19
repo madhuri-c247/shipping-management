@@ -2,9 +2,9 @@ import { ChangeEvent, useState } from "react";
 //css
 import styles from "./packageSelectionGuest.module.scss";
 //common
-import Button from "../../common/button/index";
+import Button from "../../../common/button/index";
 //models
-import { GuestState } from "../../models/GuestState";
+import { GuestState } from "../../../models/GuestState";
 
 export const PackageSelectionGuest = () => {
   const [info, setInfo] = useState<GuestState>({

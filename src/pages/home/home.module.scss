@@ -65,15 +65,13 @@
         color: #064c92;
         border: none;
       }
-      a:active {
+      .active {
         background-color: #02284e;
         color: white;
         border: none;
       }
-      a:focus {
-        background-color: #02284e;
+      .active:hover {
         color: white;
-        border: none;
       }
       .icon {
         margin: 5px;
