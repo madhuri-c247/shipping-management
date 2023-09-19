@@ -3,7 +3,7 @@ import type { Container, Engine } from "tsparticles-engine";
 import Particles from "react-particles";
 import { loadSlim } from "tsparticles-slim";
 
-export const Particle = () => {
+export const Particle = (props:any) => {
   const particlesInit = useCallback(async (engine: Engine) => {
     console.log(engine);
     await loadSlim(engine);
@@ -16,6 +16,7 @@ export const Particle = () => {
     []
   );
   return (
+    <>
     <Particles
       id="tsparticles"
       init={particlesInit}
@@ -23,7 +24,7 @@ export const Particle = () => {
       options={{
         background: {
           color: {
-            value: "#0d47a1",
+            value: "#011226",
           },
         },
         fpsLimit: 120,
@@ -89,6 +90,8 @@ export const Particle = () => {
         },
         detectRetina: true,
       }}
-    />
+      />
+      {props.children}
+      </>
   );
 };

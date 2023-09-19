@@ -4,7 +4,7 @@
   width: 100%;
   justify-content: space-around;
   align-items: center;
-  height: 12vh;
+  height: 11vh;
   position: fixed;
   z-index: 999;
   background-color: white;
@@ -15,7 +15,7 @@
   .menuContainer {
     width: 30%;
     height: 10vh;
-    font-size: 15px;
+    font-size: 14px;
     align-items: center;
     justify-content: space-around;
     text-transform: uppercase;
@@ -29,8 +29,10 @@ a:hover {
   color: #0865c2;
   border-bottom: 1px solid #0865c2;
 }
-
-a:focus {
+.active {
   color: #0865c2;
   border-bottom: 1px solid #0865c2;
+}
+.notActive {
+  text-decoration: none;
 }

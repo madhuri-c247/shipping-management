@@ -1,0 +1,41 @@
+@import "../../../color.scss";
+
+.container {
+  width: 90%;
+  height: 80vh;
+  margin: 5%;
+  .content {
+    width: 100%;
+    background-image: $buttonBgColor;
+    height: 6vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    .menuContainer {
+      width: 30%;
+      height: 6vh;
+      margin-top: 2%;
+      display: flex;
+      flex-direction: row;
+      justify-content: start;
+      padding-left: 0;
+      align-items: center;
+
+      a {
+        width: 100%;
+        padding: 2%;
+        margin-top: 0;
+        align-self: center;
+        color: white;
+      }
+      a:hover {
+        border-bottom: none;
+      }
+      .active {
+        background-color: white;
+        color: $blueColor;
+      }
+    }
+  }
+}
