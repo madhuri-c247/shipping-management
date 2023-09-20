@@ -25,7 +25,7 @@ const Home = () => {
               quote in seconds today
             </pre>
           </div>
-          <div className={`${styles.shipmentForm}`}>
+          <div className={`${styles.shipmentForm} form`}>
             <ul>
               <NavLink
                 className={({ isActive }) => (isActive ? styles.active : "")}

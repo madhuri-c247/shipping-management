@@ -7,3 +7,7 @@ export interface UserState {
   password: string;
   confirmPassword?: string;
 }
+
+export interface User{
+  user: UserState[]
+}

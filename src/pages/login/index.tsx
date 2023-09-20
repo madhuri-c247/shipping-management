@@ -40,10 +40,10 @@ const Login: React.FC = () => {
     <Layout>
       <Particle>
         <div className={`${styles.container}  `}>
-          <Form className={` ${styles.form} `} onSubmit={handleSubmit}>
+          <Form className={` ${styles.form} form d-flex-col`} onSubmit={handleSubmit}>
             <h1 className="m-1">Login</h1>
 
-            <div className={`${styles.formContent}`}>
+            <div className={`${styles.formContent} d-flex-col`}>
               <label>E-mail</label>
               <input
                 name="email"
@@ -63,10 +63,10 @@ const Login: React.FC = () => {
                 type="password"
                 required
               />
-              <button onClick={forgotPassword}>Forget Password ?</button> <br />
+              <button className={styles.forgotPasswordBtn} onClick={forgotPassword}>Forget Password ?</button> <br />
             </div>
 
-            <div className={`${styles.submit}`}>
+            <div className={`${styles.submit} d-flex-col`}>
               <Button value="Login" className="login-btn" />
               <span>
                 Don't Have an account ?<NavLink to={"/signup"}>Sign Up</NavLink>

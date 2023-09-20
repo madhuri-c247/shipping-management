@@ -14,8 +14,17 @@ import Button from "../../common/button";
 //layouts
 import Layout from "../../NavLayout";
 import { Particle } from "../../particles";
+import axios from "axios";
+import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { AddUser } from "../../redux/reducers/userReducer";
 
 const SignUp: React.FC = () => {
+  const useAppDispatch: () => AppDispatch = useDispatch;
+  const dispatch = useAppDispatch();
+  const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+  const userState = useAppSelector((state) => state.user);
+
   const [user, setUser] = useState<UserState>({
     companyName: "",
     firstName: "",
@@ -28,6 +37,7 @@ const SignUp: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    dispatch(AddUser(user))
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +53,7 @@ const SignUp: React.FC = () => {
     <Layout>
       <Particle>
         <div className={`${styles.container}  `}>
-          <div className={`${styles.childContainer} d-flex-r`}>
+          <div className={`${styles.childContainer} form d-flex-r`}>
             <div className={` ${styles.container1} `}>
               <img
                 className={`${styles.image}`}

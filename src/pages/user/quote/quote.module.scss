@@ -3,25 +3,26 @@
 .container {
   width: 90%;
   height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   margin: 5%;
   .content {
     width: 100%;
     background-image: $buttonBgColor;
-    height: 6vh;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: start;
     .menuContainer {
       width: 30%;
-      height: 6vh;
-      margin-top: 2%;
       display: flex;
+      height: auto;
       flex-direction: row;
       justify-content: start;
       padding-left: 0;
+      margin-bottom: 0;
       align-items: center;
-
       a {
         width: 100%;
         padding: 2%;

@@ -14,9 +14,9 @@ import styles from "./userDashboard.module.scss";
 const UserDashboard = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.content}>
+      <div className={`${styles.content} d-flex-col`}>
         <h1>ShipNow</h1>
-        <ul>
+        <ul className="d-flex-col">
           <NavLink
             className={({ isActive }) => (isActive ? styles.active : "")}
             to={"/user/quote"}

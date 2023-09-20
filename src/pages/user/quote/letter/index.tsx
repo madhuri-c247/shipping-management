@@ -1,8 +1,20 @@
-import React from 'react'
+import styles from './letter.module.scss'
 
 const Letter = () => {
   return (
-    <div>Letter</div>
+    <form className= {`${styles.container} form`}>
+      <div>
+        <div>
+          letter
+        </div>
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+      </div>
+    </form>
   )
 }
 
