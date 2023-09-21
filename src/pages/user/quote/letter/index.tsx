@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import styles from "./letter.module.scss";
 
 const Letter = () => {
   return (
-    <div>Letter</div>
-  )
-}
+    <form className={`${styles.form} form`}>
+      <div>
+        
+      </div>
+    </form>
+  );
+};
 
-export default Letter
+export default Letter;
