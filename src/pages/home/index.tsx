@@ -7,7 +7,7 @@ import background from "../../assets/homeBackground.jpg";
 import { BsEnvelope } from "react-icons/bs";
 import { LuPackage2 } from "react-icons/lu";
 //nav-layout
-import Layout from "../../NavLayout";
+import Layout from "../../layout/NavLayout";
 
 const Home = () => {
   return (

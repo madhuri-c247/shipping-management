@@ -25,3 +25,7 @@ label {
 .form{
   background-color: white;
 }
+.error{
+  color: red;
+  font-size: 10px;
+}

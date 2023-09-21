@@ -1,19 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { User} from "../../../models/UserState";
-  import { SIGNUP_BASE_URL } from "../../../constants";
+import { User, UserState} from "../../../models/UserState";
 import axios from "axios";
 
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: [],
-  } as User,
+    user: null,
+    loggedIn: false
+  } as UserState,
   reducers: {
     AddUser: (state, actions) => {
         const user = actions.payload;
         console.log(user,'user');
         if(user){
-          axios.post(SIGNUP_BASE_URL, user)
+         
         }
     },
   },

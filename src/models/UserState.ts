@@ -3,8 +3,8 @@ export interface UserState {
   firstName?: string;
   lastName?: string;
   number?: string;
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
   confirmPassword?: string;
 }
 
