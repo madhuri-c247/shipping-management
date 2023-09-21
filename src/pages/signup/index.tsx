@@ -1,3 +1,4 @@
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { ChangeEvent, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Form } from "react-bootstrap";
@@ -14,8 +15,16 @@ import Button from "../../common/button";
 //layouts
 import Layout from "../../NavLayout";
 import { Particle } from "../../particles";
+//store
+import { AppDispatch, RootState } from "../../redux/store";
+//reducer
+import { AddUser } from "../../redux/reducers/userReducer";
 
 const SignUp: React.FC = () => {
+  const useAppDispatch: () => AppDispatch = useDispatch;
+  const dispatch = useAppDispatch();
+  // const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+  // const userAll = useAppSelector((state) => state.user);
   const [user, setUser] = useState<UserState>({
     companyName: "",
     firstName: "",
@@ -28,6 +37,7 @@ const SignUp: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    dispatch(AddUser(user));
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
