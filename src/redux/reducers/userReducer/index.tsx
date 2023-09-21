@@ -13,7 +13,7 @@ const userSlice = createSlice({
         const user = actions.payload;
         console.log(user,'user');
         if(user){
-          axios.post(SIGNUP_BASE_URL, user)
+          axios.post(SIGNUP_BASE_URL , user)
         }
     },
   },
