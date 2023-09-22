@@ -3,7 +3,7 @@ import { Formik, Field, ErrorMessage } from "formik";
 import { Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import {useState} from 'react';
+import { useState } from "react";
 import * as Yup from "yup";
 //CSS
 import styles from "./login.module.scss";
@@ -23,7 +23,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const useAppDispatch: () => AppDispatch = useDispatch;
   const dispatch = useAppDispatch();
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState("");
   const initialValues = {
     email: "",
     password: "",
@@ -41,16 +41,19 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (values: UserState) => {
     try {
-      const response = await axios.post(LOGIN_BASE_URL, values);
-      setMessage(response.data)
-      console.log(response.data,'response')
-      if (response.status === 200) {
-        navigate("/user/quote");
-      }else{
-      }
-    } catch (error) {
-      // console.log(error);
-    }
+      await axios
+        .post(LOGIN_BASE_URL, values)
+        .then((response) => {
+          console.log(response,'response')
+          if (response.status === 200) {
+            // navigate("/user/quote");
+            // setMessage(response.data);
+          }
+        })
+        .catch((err) => {
+          setMessage(err.response.data.message);
+        });
+    } catch (error) {}
   };
 
   const forgotPassword = () => {
@@ -90,11 +93,16 @@ const Login: React.FC = () => {
                     component="div"
                     className={`${styles.error} error`}
                   />
-                  <button onClick={forgotPassword}>Forget Password ?</button>{" "}
-                  <br />
+                  <button onClick={forgotPassword}>Forget Password ?</button>
                 </div>
-                {message? message:'not'}
                 <div className={`${styles.submit}`}>
+                  {message ? (
+                    <h6 className={`${styles.message} error`}>
+                      Sorry! {message}
+                    </h6>
+                  ) : (
+                    ""
+                  )}
                   <Button value="Login" className="login-btn" />
                   <span>
                     Don't Have an account ?

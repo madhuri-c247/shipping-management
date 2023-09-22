@@ -19,6 +19,7 @@ import Setting from "./pages/user/setting";
 import Notification from "./pages/user/notification";
 import Letter from "./pages/user/quote/letter";
 import Package from "./pages/user/quote/package";
+import Verification from "./pages/signup/verification";
 
 function App() {
   return (
@@ -38,11 +39,16 @@ function App() {
             />
           </Route>
           <Route path="/signup" element={<SignUp />} />
+
+          <Route
+            path="/mail/account-verification-mail"
+            element={<Verification />}
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/user" element={<User />}>
-            <Route path="/user/quote" element={<Quote />} >
-              <Route path="/user/quote/letter" element={<Letter/>}/>
-              <Route path="/user/quote/package" element={<Package/>}/>
+            <Route path="/user/quote" element={<Quote />}>
+              <Route path="/user/quote/letter" element={<Letter />} />
+              <Route path="/user/quote/package" element={<Package />} />
             </Route>
             <Route path="/user/saved-quotes" element={<SavedQuote />} />
             <Route path="/user/shipment" element={<Shipment />} />

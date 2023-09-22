@@ -1,7 +1,7 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Form } from "react-bootstrap";
+import { Form, Toast } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 //react-icons
@@ -20,10 +20,10 @@ import { Particle } from "../../layout/particles";
 //apiHelper
 import { SIGNUP_BASE_URL } from "../../apiHelper";
 
-
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
+  const [Successful, setSuccessful] = useState(false);
   const initialValues = {
     companyName: "",
     firstName: "",
@@ -34,6 +34,11 @@ const SignUp: React.FC = () => {
     confirmPassword: "",
   };
 
+  useEffect(()=>{
+    setTimeout(()=>{
+      setSuccessful(false);
+    },3000)
+  })
   const validationSchema = Yup.object().shape({
     companyName: Yup.string().required("Company Name is required"),
     firstName: Yup.string()
@@ -65,14 +70,17 @@ const SignUp: React.FC = () => {
 
   const handleSubmit = async (values: UserState) => {
     try {
-      const response = await axios.post(SIGNUP_BASE_URL, values);
-      console.log(response.status);
-      console.log(response.data.error, "error");
-      if (response.status === 200) {
-        navigate("/login");
-      } else {
-        setMessage(response.data.error);
-      }
+      await axios
+        .post(SIGNUP_BASE_URL, values)
+        .then((response) => {
+          if (response.status === 200) {
+            setSuccessful(true);
+            navigate('/')
+          }
+        })
+        .catch((error) => {
+          setMessage(error.response.data.message);
+        });
     } catch (error) {}
   };
 
@@ -189,7 +197,11 @@ const SignUp: React.FC = () => {
                       />
                     </div>
                   </div>
-                  {message ? message : ""}
+                  {message ? (
+                    <h6 className={`${styles.message} error m-1`}>{message}</h6>
+                  ) : (
+                    ""
+                  )}
                   <div className={`${styles.submit}`}>
                     <Button className="signup-btn" value="SIGN UP" />
                     <span>
@@ -201,6 +213,13 @@ const SignUp: React.FC = () => {
               )}
             </Formik>
           </div>
+          {Successful ? (
+          <Toast 
+          bg={"Success".toLowerCase()}
+           className={`${styles.toast} d-inline-block m-1`}>            
+            <Toast.Body>Your Account is Created Successfully !</Toast.Body>
+          </Toast>
+        ) : ''}
         </div>
       </Particle>
     </Layout>

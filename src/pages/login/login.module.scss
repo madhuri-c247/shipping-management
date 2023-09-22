@@ -21,6 +21,7 @@
       flex-direction: column;
       width: 90%;
       margin: 1%;
+      position: relative;
       label {
         margin: 1% 0px;
         font-size: 14px;
@@ -31,9 +32,10 @@
       background-color: transparent;
       color: $blueColor;
       font-size: 11px;
-      bottom: 43%;
+      bottom: -30%;
       position: absolute;
     }
+    
     .submit {
       display: flex;
       flex-direction: column;
@@ -41,6 +43,11 @@
       position: relative;
       justify-content: space-around;
       align-items: center;
+      .message{
+        // border: 1px solid red;
+        font-size: 12px;
+        margin-top: 2%;
+      }
       a {
         font-size: 14px;
         text-decoration: none;
