@@ -16,12 +16,12 @@ import { useState } from "react";
 const UserDashboard = () => {
   const [spinner, setSpinner] = useState(false);
   const navigate = useNavigate()
-  const handleLogout = ()=> {
+  const handleLogout = () => {
     console.log('logout')
     sessionStorage.removeItem('token')
     setSpinner(true)
-    setInterval(()=>{
-       navigate('/login')      
+    setInterval(() => {
+      navigate('/login')
     }, 1000)
   }
   return (
@@ -65,9 +65,9 @@ const UserDashboard = () => {
           </NavLink>
         </ul>
       </div>
-      {spinner?
-                    <span className={`spinner`}><Spinner animation="border" variant="dark" /></span>
-                    :''}
+      {spinner ?
+        <span className={`spinner`}><Spinner animation="border" variant="dark" /></span>
+        : ''}
       <Button className={styles.logout} onClick={handleLogout}>
         <RiLogoutCircleLine /> Logout
       </Button>

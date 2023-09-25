@@ -16,6 +16,7 @@ import Layout from "../../layout/NavLayout";
 import { Particle } from "../../layout/particles";
 //store
 import { AppDispatch } from "../../redux/store";
+//reducer
 import { handleLogin } from "../../redux/reducers/userReducer";
 
 const Login: React.FC = () => {
@@ -56,60 +57,60 @@ const Login: React.FC = () => {
   return (
     <Layout>
       <Particle>
-          <div className={`${styles.container}  `}>
-            <Formik<UserState>
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={handleSubmit}
-            >
-              {(formik) => (
-                <Form
-                  className={` ${styles.form} `}
-                  onSubmit={formik.handleSubmit}
-                >
-                  <>
-                    <h1 className="m-1">Login</h1>
-                    <div className={`${styles.formContent}`}>
-                      <label>E-mail</label>
-                      <Field name="email" type="email" />
-                      <ErrorMessage
-                        name="email"
-                        component="div"
-                        className={`${styles.error} error`}
-                      />
-                    </div>
+        <div className={`${styles.container}  `}>
+          <Formik<UserState>
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {(formik) => (
+              <Form
+                className={` ${styles.form} `}
+                onSubmit={formik.handleSubmit}
+              >
+                <>
+                  <h1 className="m-1">Login</h1>
+                  <div className={`${styles.formContent}`}>
+                    <label>E-mail</label>
+                    <Field name="email" type="email" />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className={`${styles.error} error`}
+                    />
+                  </div>
 
-                    <div className={`${styles.formContent}`}>
-                      <label>Password</label>
-                      <Field name="password" type="password" />
-                      <ErrorMessage
-                        name="password"
-                        component="div"
-                        className={`${styles.error} error`}
-                      />
-                      <button type="button" onClick={forgetPassword}>
-                        Forget Password ?
-                      </button>
-                    </div>
-                    <div className={`${styles.submit}`}>
-                      {message ? (
-                        <h6 className={`${styles.message} error`}>
-                          Sorry! {message}
-                        </h6>
-                      ) : (
-                        ""
-                      )}
-                      <Button value="Login" className="login-btn" />
-                      <span>
-                        Don't Have an account ?
-                        <NavLink to={"/signup"}>Sign Up</NavLink>
-                      </span>
-                    </div>
-                  </>
-                </Form>
-              )}
-            </Formik>
-          </div>
+                  <div className={`${styles.formContent}`}>
+                    <label>Password</label>
+                    <Field name="password" type="password" />
+                    <ErrorMessage
+                      name="password"
+                      component="div"
+                      className={`${styles.error} error`}
+                    />
+                    <button type="button" onClick={forgetPassword}>
+                      Forget Password ?
+                    </button>
+                  </div>
+                  <div className={`${styles.submit}`}>
+                    {message ? (
+                      <h6 className={`${styles.message} error`}>
+                        Sorry! {message}
+                      </h6>
+                    ) : (
+                      ""
+                    )}
+                    <Button value="Login" className="login-btn" />
+                    <span>
+                      Don't Have an account ?
+                      <NavLink to={"/signup"}>Sign Up</NavLink>
+                    </span>
+                  </div>
+                </>
+              </Form>
+            )}
+          </Formik>
+        </div>
       </Particle>
     </Layout>
   );
