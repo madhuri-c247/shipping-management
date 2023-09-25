@@ -20,15 +20,18 @@ import Notification from "./pages/user/notification";
 import Letter from "./pages/user/quote/letter";
 import Package from "./pages/user/quote/package";
 import Verification from "./pages/signup/verification";
+import Auth from "./Auth";
 
 function App() {
+  // const auth = sessionStorage.getItem('token')
   return (
     <>
       <BrowserRouter>
         {/* <Particle /> */}
         <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/" element={<Home />}>
+         
+            <Route path="/home" element={<Auth><Home /></Auth>}/>
+          <Route path="/" element={<Auth><Home /></Auth>}>
             <Route
               path="/home/letter-selection"
               element={<LetterSelectionGuest />}
@@ -38,14 +41,12 @@ function App() {
               element={<PackageSelectionGuest />}
             />
           </Route>
-          <Route path="/signup" element={<SignUp />} />
 
           <Route
             path="/mail/account-verification-mail"
             element={<Verification />}
           />
-          <Route path="/login" element={<Login />} />
-          <Route path="/user" element={<User />}>
+          <Route path="/user" element={<Auth><User /></Auth>}>
             <Route path="/user/quote" element={<Quote />}>
               <Route path="/user/quote/letter" element={<Letter />} />
               <Route path="/user/quote/package" element={<Package />} />
@@ -55,7 +56,11 @@ function App() {
             <Route path="/user/setting" element={<Setting />} />
             <Route path="/user/notification" element={<Notification />} />
           </Route>
+            
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
           <Route path="*" element={<Error />} />
+
         </Routes>
       </BrowserRouter>
     </>

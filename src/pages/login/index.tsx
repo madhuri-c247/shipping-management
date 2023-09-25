@@ -18,12 +18,14 @@ import { Particle } from "../../layout/particles";
 import { AppDispatch } from "../../redux/store";
 //apiHelper
 import { LOGIN_BASE_URL } from "../../apiHelper";
+import { ForgotPassword } from "./forgetPassword";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const useAppDispatch: () => AppDispatch = useDispatch;
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState("");
+   const [forgot, setPassword] = useState(false)
   const initialValues = {
     email: "",
     password: "",
@@ -46,8 +48,8 @@ const Login: React.FC = () => {
         .then((response) => {
           console.log(response,'response')
           if (response.status === 200) {
-            // navigate("/user/quote");
-            // setMessage(response.data);
+            sessionStorage.setItem('token',response.data.token)
+            navigate('/user/quote/letter')
           }
         })
         .catch((err) => {
@@ -55,14 +57,16 @@ const Login: React.FC = () => {
         });
     } catch (error) {}
   };
-
-  const forgotPassword = () => {
-    // alert("forgot");
-  };
+ 
+   const forgetPassword = ()=>{
+    console.log('forget')
+    setPassword(true)
+   }
 
   return (
     <Layout>
       <Particle>
+      {forgot?<ForgotPassword styles = {styles} forget={forgot} setPassword={setPassword}/> :
         <div className={`${styles.container}  `}>
           <Formik<UserState>
             initialValues={initialValues}
@@ -74,6 +78,8 @@ const Login: React.FC = () => {
                 className={` ${styles.form} `}
                 onSubmit={formik.handleSubmit}
               >
+               
+                <>
                 <h1 className="m-1">Login</h1>
                 <div className={`${styles.formContent}`}>
                   <label>E-mail</label>
@@ -82,7 +88,7 @@ const Login: React.FC = () => {
                     name="email"
                     component="div"
                     className={`${styles.error} error`}
-                  />
+                    />
                 </div>
 
                 <div className={`${styles.formContent}`}>
@@ -92,8 +98,8 @@ const Login: React.FC = () => {
                     name="password"
                     component="div"
                     className={`${styles.error} error`}
-                  />
-                  <button onClick={forgotPassword}>Forget Password ?</button>
+                    />
+                  <button onClick={forgetPassword}>Forget Password ?</button>
                 </div>
                 <div className={`${styles.submit}`}>
                   {message ? (
@@ -102,17 +108,22 @@ const Login: React.FC = () => {
                     </h6>
                   ) : (
                     ""
-                  )}
+                    )}
                   <Button value="Login" className="login-btn" />
                   <span>
                     Don't Have an account ?
                     <NavLink to={"/signup"}>Sign Up</NavLink>
                   </span>
                 </div>
+              
+                </>
+
               </Form>
+
             )}
           </Formik>
         </div>
+        }
       </Particle>
     </Layout>
   );

@@ -1,9 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Form, Toast } from "react-bootstrap";
+import { Form, Spinner, Toast } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 //react-icons
 import { IoMdCheckmarkCircle } from "react-icons/io";
 //CSS
@@ -19,10 +18,13 @@ import Layout from "../../layout/NavLayout";
 import { Particle } from "../../layout/particles";
 //apiHelper
 import { SIGNUP_BASE_URL } from "../../apiHelper";
+//validationSchema
+import { validationSchema } from "../../utils/Validation";
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
+  const [spinner, setSpinner] = useState(false);
   const [Successful, setSuccessful] = useState(false);
   const initialValues = {
     companyName: "",
@@ -33,40 +35,7 @@ const SignUp: React.FC = () => {
     password: "",
     confirmPassword: "",
   };
-
-  useEffect(()=>{
-    setTimeout(()=>{
-      setSuccessful(false);
-    },3000)
-  })
-  const validationSchema = Yup.object().shape({
-    companyName: Yup.string().required("Company Name is required"),
-    firstName: Yup.string()
-      .required("First Name is required")
-      .matches(
-        /^[A-Za-z]+$/,
-        "First Name must contain only alphabetic characters"
-      ),
-    lastName: Yup.string()
-      .required("Last Name is required")
-      .matches(
-        /^[A-Za-z]+$/,
-        "First Name must contain only alphabetic characters"
-      ),
-    number: Yup.string()
-      .min(10, "Number must be greater than or equal to 10")
-      .required("Phone Number is required"),
-    email: Yup.string().email("Invalid email").required("Email is required"),
-    password: Yup.string()
-      .required("Password is required")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special symbol, and be at least 8-16 characters long"
-      ),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password")], "Passwords must match")
-      .required("Confirm Password is required"),
-  });
+  
 
   const handleSubmit = async (values: UserState) => {
     try {
@@ -74,8 +43,17 @@ const SignUp: React.FC = () => {
         .post(SIGNUP_BASE_URL, values)
         .then((response) => {
           if (response.status === 200) {
-            setSuccessful(true);
-            navigate('/')
+            setSpinner(true)
+            setInterval(()=>{
+              setSuccessful(true);
+              setSpinner(false)
+
+            },2000)
+            setInterval(()=>{
+              setSuccessful(false)
+              //  navigate('/')
+             
+            },4000)
           }
         })
         .catch((error) => {
@@ -203,6 +181,10 @@ const SignUp: React.FC = () => {
                     ""
                   )}
                   <div className={`${styles.submit}`}>
+                    {spinner?
+                    <span className={`spinner m-1`}><Spinner animation="border" variant="dark" /></span>
+                    :''}
+                  
                     <Button className="signup-btn" value="SIGN UP" />
                     <span>
                       Already Have an Account ?{" "}
@@ -217,7 +199,7 @@ const SignUp: React.FC = () => {
           <Toast 
           bg={"Success".toLowerCase()}
            className={`${styles.toast} d-inline-block m-1`}>            
-            <Toast.Body>Your Account is Created Successfully !</Toast.Body>
+            <Toast.Body>Account Created, Please Verify Your email !!</Toast.Body>
           </Toast>
         ) : ''}
         </div>

@@ -23,7 +23,7 @@ const Verification = () => {
             }
           })
           .catch((err) => {
-            navigate("/");
+            navigate("/home/letter-selection", {state:{response: err.response.data}});
             console.log(err, "error");
           });
       } catch (error) {
