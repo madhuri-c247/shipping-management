@@ -6,8 +6,10 @@ export interface UserState {
   email?: string;
   password?: string;
   confirmPassword?: string;
+  newPassword?:string
 }
 
 export interface User {
-  user: UserState[]
+  user: UserState[],
+  loggedInUser: string
 }

@@ -23,7 +23,9 @@ const Verification = () => {
             }
           })
           .catch((err) => {
-            navigate("/home/letter-selection", {state:{response: err.response.data}});
+            navigate("/home/letter-selection", {
+              state: { response: err.response.data },
+            });
             console.log(err, "error");
           });
       } catch (error) {
