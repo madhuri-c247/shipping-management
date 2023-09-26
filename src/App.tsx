@@ -25,11 +25,9 @@ import { ForgotPassword } from "./pages/login/forgetPassword";
 import ResetPassword from "./pages/login/resetPassword";
 
 function App() {
-  // const auth = sessionStorage.getItem('token')
   return (
     <>
       <BrowserRouter>
-        {/* <Particle /> */}
         <Routes>
           <Route
             path="/home"
@@ -78,11 +76,11 @@ function App() {
             <Route path="/user/setting" element={<Setting />} />
             <Route path="/user/notification" element={<Notification />} />
           </Route>
-
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/sign-in" element={<Login />} >
+          </Route>
           <Route path="/login/reset-password-verification" element={<ResetPassword />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="*" element={<Error />} />
         </Routes>
       </BrowserRouter>

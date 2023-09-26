@@ -7,7 +7,7 @@ const Auth = (props:any) => {
     console.log(token, ' token' )
     useEffect(() => {
         if (!token || token === undefined) {
-            navigate('/login')
+            navigate('/sign-in')
             console.log('not authenticate')
         }
     },[token])

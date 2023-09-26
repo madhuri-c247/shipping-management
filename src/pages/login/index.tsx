@@ -46,6 +46,7 @@ const Login: React.FC = () => {
       console.log(login, "login page true");
       navigate('/user/quote/letter')
     } else {
+      setMessage('something went wrong!')
     }
   };
 

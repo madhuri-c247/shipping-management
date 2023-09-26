@@ -19,7 +19,7 @@ const Verification = () => {
           .then((res) => {
             console.log(res, "res");
             if (res.status === 200) {
-              navigate(`/login`);
+              navigate(`/sign-in`);
             }
           })
           .catch((err) => {

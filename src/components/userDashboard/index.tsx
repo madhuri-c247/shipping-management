@@ -21,7 +21,7 @@ const UserDashboard = () => {
     sessionStorage.removeItem('token')
     setSpinner(true)
     setInterval(() => {
-      navigate('/login')
+      navigate('/sign-in')
     }, 1000)
   }
   return (
