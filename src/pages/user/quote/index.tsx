@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
+//css
 import styles from "./quote.module.scss";
 
 const Quote = () => {

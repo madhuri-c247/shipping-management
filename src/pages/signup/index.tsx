@@ -19,7 +19,7 @@ import { Particle } from "../../layout/particles";
 //apiHelper
 import { SIGNUP_BASE_URL } from "../../apiHelper";
 //validationSchema
-import { validationSchema } from "../../utils/Validation";
+import { signupValidationSchema } from "../../utils/Validation";
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -36,28 +36,27 @@ const SignUp: React.FC = () => {
     confirmPassword: "",
   };
 
-
   const handleSubmit = async (values: UserState) => {
     try {
       await axios
         .post(SIGNUP_BASE_URL, values)
         .then((response) => {
           if (response.status === 200) {
-            setSpinner(true)
+            setSpinner(true);
             setInterval(() => {
               setSuccessful(true);
-              setSpinner(false)
-            }, 2000)
+              setSpinner(false);
+            }, 2000);
             setInterval(() => {
-              setSuccessful(false)
-              navigate('/')
-            }, 4000)
+              setSuccessful(false);
+              navigate("/");
+            }, 4000);
           }
         })
         .catch((error) => {
           setMessage(error.response.data.message);
         });
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (
@@ -90,7 +89,7 @@ const SignUp: React.FC = () => {
 
             <Formik<UserState>
               initialValues={initialValues}
-              validationSchema={validationSchema}
+              validationSchema={signupValidationSchema}
               onSubmit={handleSubmit}
             >
               {(formik) => (
@@ -179,9 +178,13 @@ const SignUp: React.FC = () => {
                     ""
                   )}
                   <div className={`${styles.submit}`}>
-                    {spinner ?
-                      <span className={`spinner m-1`}><Spinner animation="border" variant="dark" /></span>
-                      : ''}
+                    {spinner ? (
+                      <span className={`spinner m-1`}>
+                        <Spinner animation="border" variant="dark" />
+                      </span>
+                    ) : (
+                      ""
+                    )}
 
                     <Button className="signup-btn" value="SIGN UP" />
                     <span>
@@ -196,10 +199,15 @@ const SignUp: React.FC = () => {
           {Successful ? (
             <Toast
               bg={"Success".toLowerCase()}
-              className={`${styles.toast} d-inline-block m-1`}>
-              <Toast.Body>Account Created, Please Verify Your email !!</Toast.Body>
+              className={`${styles.toast} d-inline-block m-1`}
+            >
+              <Toast.Body>
+                Account Created, Please Verify Your email !!
+              </Toast.Body>
             </Toast>
-          ) : ''}
+          ) : (
+            ""
+          )}
         </div>
       </Particle>
     </Layout>

@@ -1,5 +1,3 @@
-import { AxiosResponse } from "axios";
-
 export interface UserState {
   companyName?: string;
   firstName?: string;
@@ -15,6 +13,5 @@ export interface User {
   user: UserState[];
   loggedInUser: string;
   error: string;
-  success: boolean
- 
+  success: boolean;
 }

@@ -1,5 +1,5 @@
 @import "../../color.scss";
-.toast{
+.toast {
   color: white;
   z-index: 9999;
   position: absolute;
@@ -7,9 +7,6 @@
   bottom: 1%;
   right: 2%;
   width: 20%;
-
-  
-  
 }
 .container {
   width: 100%;
@@ -91,7 +88,7 @@
         input {
           width: 100%;
         }
-        .error{
+        .error {
           color: red;
           font-size: 10px;
         }
@@ -116,7 +113,6 @@
       }
     }
   }
-  
 }
 @media screen and (min-width: 768) {
   .childContainer {
