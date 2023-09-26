@@ -13,12 +13,8 @@ const userSlice = createSlice({
 
   reducers: {
     AddUser: (state, actions) => {
-      const user = actions.payload;
-      console.log(user, 'user');
-      if (user) {
-
-      }
     },
+
     handleLogin: (state, actions) => {
       try {
         axios
@@ -49,9 +45,7 @@ const userSlice = createSlice({
       } catch (error) {
 
       }
-      // console.log(actions.payload,'forogotte')
     }
-
   },
 });
 

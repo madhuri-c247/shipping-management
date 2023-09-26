@@ -35,7 +35,7 @@ const SignUp: React.FC = () => {
     password: "",
     confirmPassword: "",
   };
-  
+
 
   const handleSubmit = async (values: UserState) => {
     try {
@@ -44,22 +44,20 @@ const SignUp: React.FC = () => {
         .then((response) => {
           if (response.status === 200) {
             setSpinner(true)
-            setInterval(()=>{
+            setInterval(() => {
               setSuccessful(true);
               setSpinner(false)
-
-            },2000)
-            setInterval(()=>{
+            }, 2000)
+            setInterval(() => {
               setSuccessful(false)
-              //  navigate('/')
-             
-            },4000)
+              navigate('/')
+            }, 4000)
           }
         })
         .catch((error) => {
           setMessage(error.response.data.message);
         });
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
@@ -181,10 +179,10 @@ const SignUp: React.FC = () => {
                     ""
                   )}
                   <div className={`${styles.submit}`}>
-                    {spinner?
-                    <span className={`spinner m-1`}><Spinner animation="border" variant="dark" /></span>
-                    :''}
-                  
+                    {spinner ?
+                      <span className={`spinner m-1`}><Spinner animation="border" variant="dark" /></span>
+                      : ''}
+
                     <Button className="signup-btn" value="SIGN UP" />
                     <span>
                       Already Have an Account ?{" "}
@@ -196,12 +194,12 @@ const SignUp: React.FC = () => {
             </Formik>
           </div>
           {Successful ? (
-          <Toast 
-          bg={"Success".toLowerCase()}
-           className={`${styles.toast} d-inline-block m-1`}>            
-            <Toast.Body>Account Created, Please Verify Your email !!</Toast.Body>
-          </Toast>
-        ) : ''}
+            <Toast
+              bg={"Success".toLowerCase()}
+              className={`${styles.toast} d-inline-block m-1`}>
+              <Toast.Body>Account Created, Please Verify Your email !!</Toast.Body>
+            </Toast>
+          ) : ''}
         </div>
       </Particle>
     </Layout>
