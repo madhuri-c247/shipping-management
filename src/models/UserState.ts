@@ -1,3 +1,5 @@
+import { AxiosResponse } from "axios";
+
 export interface UserState {
   companyName?: string;
   firstName?: string;
@@ -6,10 +8,13 @@ export interface UserState {
   email?: string;
   password?: string;
   confirmPassword?: string;
-  newPassword?:string
+  newPassword?: string;
 }
 
 export interface User {
-  user: UserState[],
-  loggedInUser: string
+  user: UserState[];
+  loggedInUser: string;
+  error: string;
+  success: boolean
+ 
 }
