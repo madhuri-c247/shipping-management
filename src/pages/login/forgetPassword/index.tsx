@@ -15,7 +15,7 @@ import { AppDispatch } from "../../../redux/store";
 import { handleForgetPassword } from "../../../redux/reducers/userReducer";
 
 export const ForgotPassword = () => {
-  const [message, setMessage] = useState(false);
+  const [message, setMessage] = useState('');
   const useAppDispatch: () => AppDispatch = useDispatch;
   const dispatch = useAppDispatch();
   const initialValues = {
@@ -26,10 +26,9 @@ export const ForgotPassword = () => {
     email: Yup.string().email("Invalid email").required("Email is required"),
   });
 
-  useEffect(() => { }, []);
-
   const handleSubmit = (values: UserState) => {
-    dispatch(handleForgetPassword(values));
+   const response = dispatch(handleForgetPassword(values));
+     
   };
   return (
     <div className={`${styles.container} `}>
@@ -53,7 +52,7 @@ export const ForgotPassword = () => {
             </div>
             <div className={`${styles.submit}`}>
               {message ? (
-                <h6 className={`${styles.message} error`}>Sorry! {message}</h6>
+                <h6 className={`${styles.message} error`}>{message}</h6>
               ) : (
                 ""
               )}

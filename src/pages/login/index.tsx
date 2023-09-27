@@ -1,8 +1,7 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Formik, Field, ErrorMessage } from "formik";
 import { Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import axios from "axios";
 import { useState } from "react";
 import * as Yup from "yup";
 //CSS
@@ -24,7 +23,6 @@ const Login: React.FC = () => {
   const useAppDispatch: () => AppDispatch = useDispatch;
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState("");
-  const [forgot, setPassword] = useState(false);
   const initialValues = {
     email: "",
     password: "",
@@ -43,10 +41,9 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: UserState) => {
     const login = dispatch(handleLogin(values));
     if (login) {
-      console.log(login, "login page true");
-      navigate('/user/quote/letter')
+      navigate("/user/quote/letter");
     } else {
-      setMessage('something went wrong!')
+      setMessage("something went wrong!");
     }
   };
 

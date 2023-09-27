@@ -43,7 +43,6 @@ const userSlice = createSlice({
     },
 
     handleForgetPassword: (state, actions) => {
-      console.log(actions.payload.email, "action");
       const email = actions.payload.email;
       try {
         axios
@@ -51,7 +50,8 @@ const userSlice = createSlice({
             email: email,
           })
           .then((res) => {
-            console.log(res, "res");
+            console.log(res,'res')
+            return res.data.email
           });
       } catch (error) {}
     },
