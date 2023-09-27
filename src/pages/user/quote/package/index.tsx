@@ -257,7 +257,7 @@ const Package = () => {
                       onChange={(e) => handleChange(e, "toPostal")}
                     />
                   </div>
-                  <div className={`${styles.portalContent}  d-flex-r`}>
+                  <div className={`${styles.portalContent}   d-flex-r`}>
 
                     <Field
                       type="text"
