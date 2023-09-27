@@ -13,3 +13,4 @@ export interface QuoteState {
   weight?: number;
   unit?: string;
 }
+

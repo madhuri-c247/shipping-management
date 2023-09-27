@@ -52,7 +52,7 @@ const Login: React.FC = () => {
     console.log(token)
     const reset = dispatch(handleReset({values, token, url}));
     if (reset) {
-
+      navigate('/sign-in')
     } else {
     }
   };

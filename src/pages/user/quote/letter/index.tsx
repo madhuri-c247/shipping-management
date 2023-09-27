@@ -21,49 +21,121 @@ import { letterValidationSchema } from "../../../../utils/Validation";
 const Letter = () => {
   const useAppDispatch: () => AppDispatch = useDispatch;
   const dispatch = useAppDispatch();
-
   const initialValues = {
-    fromCity: "",
-    fromProvince: "",
-    fromCountry: "",
     weight: 1,
     unit: "",
-    toCity: "",
-    toProvince: "",
-    toCountry: "",
     insuranceAmount: 0,
     currency: "",
     agreeTerms: false,
   };
-  const [postalCode, setPostalCode] = useState({
+  const [postal, setPostal] = useState("");
+
+  const [postalFrom, setPostalFrom] = useState({
     fromPostalCode: "",
-    toPostalCode: "",
+    fromCity: "",
+    fromProvince: "",
+    fromCountry: "",
   });
 
+  const [postalTo, setPostalTo] = useState({
+    toPostalCode: "",
+    toCity: "",
+    toProvince: "",
+    toCountry: "",
+  });
+
+  const [error, setError] = useState("");
   const handleSubmit = (values: any) => {
-    const addLetter = dispatch(AddLetter({ values, postalCode }));
+    const addLetter = dispatch(AddLetter({ values }));
     if (addLetter) {
     } else {
     }
   };
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>): void {
-    const { name, value } = event.target;
-    setPostalCode({
-      ...postalCode,
-      [name]: value,
-    });
-    console.log(postalCode);
-    console.log(name);
-    console.log(postalCode[name as keyof typeof postalCode]);
-    axios
+  const handlePostalFrom = async (postalFrom: any) => {
+    console.log(postalFrom);
+    await axios
       .post(POSTAL_URL, {
-        code: postalCode[name as keyof typeof postalCode],
+        code: postalFrom.fromPostalCode,
       })
       .then((res) => {
-        console.log(res);
+        const { city, country, province } = res.data;
+        setError("");
+        setPostalFrom((prevState) => ({
+          ...prevState,
+          fromCity: city,
+          fromCountry: country,
+          fromProvince: province,
+        }));
+      })
+      .catch((err) => {
+        const message = err.response.data.error;
+        setError(message);
+        setPostalFrom((prevState) => ({
+          ...prevState,
+          fromCity: "",
+          fromCountry: "",
+          fromProvince: "",
+        }));
       });
+  };
+  const handlePostalTo = async (postalTo: any) => {
+    console.log(postalTo);
+    await axios
+      .post(POSTAL_URL, {
+        code: postalTo.ToPostalCode
+      })
+      .then((res) => {
+        const { city, country, province } = res.data;
+        setError("");
+        setPostalTo((prevState) => ({
+          ...prevState,
+          toCity: city,
+          toCountry: country,
+          toProvince: province,
+        }));
+      })
+      .catch((err) => {
+        const message = err.response.data.error;
+        setError(message);
+        setPostalFrom((prevState) => ({
+          ...prevState,
+          toCity: "",
+          toCountry: "",
+          toProvince: "",
+        }));
+      });
+  };
+
+  function handleChange(
+    event: ChangeEvent<HTMLInputElement>,
+    postalCheck: string
+  ): void {
+    const { name, value } = event.target;
+    if (postalCheck === "fromPostal") {
+      setPostal('from')
+      setPostalFrom((postalFrom) => ({
+        ...postalFrom,
+        [name]: value,
+      }));
+    } else {
+      setPostal('to')
+      setPostalTo((postalTo) => ({
+        ...postalTo,
+        [name]: value,
+      }));
+    }
   }
+ 
+  useEffect(() => {
+    console.log(postal)
+    if(postal==='from'){
+      handlePostalFrom(postalFrom);
+    }else if(postal === 'to'){
+      handlePostalTo(postalTo);
+    }
+    
+  }, [postalFrom.fromPostalCode, postalTo.toPostalCode]);
 
   return (
     <Formik<QuoteState>
@@ -77,38 +149,34 @@ const Letter = () => {
             <div className={`${styles.innerContainer} d-flex-col w-50 `}>
               <div className={`${styles.fromDiv} `}>
                 <h6>Shipping From</h6>
+                {error ? <h6 className="error">{error}</h6> : ""}
                 <div className="d-flex-col">
                   <input
                     type="number"
                     name="fromPostalCode"
                     placeholder="Postal Code"
-                    onChange={handleChange}
+                    value={postalFrom.fromPostalCode}
+                    onChange={(e) => handleChange(e, "fromPostal")}
                   />
-                  <ErrorMessage
-                    name="fromPostalCode"
-                    component="div"
-                    className={`${styles.error} error`}
-                  />
+                  
                 </div>
                 <div className={`${styles.portalContent}  d-flex-r`}>
                   <div className="d-flex-col">
-                    <Field type="text" name="fromCity" placeholder="city" />
-                    <ErrorMessage
+                    <Field
+                      type="text"
                       name="fromCity"
-                      component="div"
-                      className={`${styles.error} error`}
+                      placeholder="city"
+                      value={postalFrom.fromCity}
+                      onChange={handleChange}
                     />
                   </div>
                   <div className="d-flex-col">
                     <Field
                       type="text"
                       name="fromProvince"
+                      onChange={handleChange}
+                      value={postalFrom.fromProvince}
                       placeholder="Province"
-                    />
-                    <ErrorMessage
-                      name="fromProvince"
-                      component="div"
-                      className={`${styles.error} error`}
                     />
                   </div>
                   <div className="d-flex-col">
@@ -116,6 +184,8 @@ const Letter = () => {
                       type="text"
                       name="fromCountry"
                       placeholder="Country"
+                      value={postalFrom.fromCountry}
+                      onChange={handleChange}
                     />
                     <ErrorMessage
                       name="fromCountry"
@@ -161,24 +231,20 @@ const Letter = () => {
                   <div className="d-flex-col">
                     <input
                       type="number"
-                      name=" toPostalCode"
-                      placeholder=" Postal Code"
-                      onChange={handleChange}
-                    />
-
-                    <ErrorMessage
                       name="toPostalCode"
-                      component="div"
-                      className={`${styles.error} error`}
+                      placeholder=" Postal Code"
+                      value={postalTo.toPostalCode}
+                      onChange={(e) => handleChange(e, "toPostal")}
                     />
                   </div>
                   <div className={`${styles.portalContent}  d-flex-r`}>
                     <div className="d-flex-col">
-                      <Field type="text" name="toCity" placeholder="city" />
-                      <ErrorMessage
+                      <Field
+                        type="text"
                         name="toCity"
-                        component="div"
-                        className={`${styles.error} error`}
+                        placeholder="city"
+                        value={postalTo.toCity}
+                        onChange={handleChange}
                       />
                     </div>
                     <div className="d-flex-col">
@@ -186,11 +252,8 @@ const Letter = () => {
                         type="text"
                         name="toProvince"
                         placeholder="Province"
-                      />
-                      <ErrorMessage
-                        name="toProvince"
-                        component="div"
-                        className={`${styles.error} error`}
+                        value={postalTo.toProvince}
+                        onChange={handleChange}
                       />
                     </div>
                     <div className="d-flex-col">
@@ -198,11 +261,8 @@ const Letter = () => {
                         type="text"
                         name="toCountry"
                         placeholder="Country"
-                      />
-                      <ErrorMessage
-                        name="toCountry"
-                        component="div"
-                        className={`${styles.error} error`}
+                        value={postalTo.toCountry}
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -254,6 +314,7 @@ const Letter = () => {
               </div>
             </div>
           </div>
+
           <Button className={`${styles.submitBtn}`} value="Get Quote" />
         </Form>
       )}
