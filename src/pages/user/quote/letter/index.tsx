@@ -144,10 +144,10 @@ const Letter = () => {
     >
       {(formik) => (
         <Form className={`${styles.form} form `} onSubmit={formik.handleSubmit}>
-          <div className={`${styles.container} d-flex-r`}>
+          <div className={`${styles.container} m-2 d-flex-r`}>
             <div className={`${styles.innerContainer} d-flex-col w-50 `}>
-              <div className={`${styles.fromDiv} `}>
-                <h6>Shipping From</h6>
+              <div className={`${styles.fromDiv} d-flex-col `}>
+                <h6 className="mb-3">Shipping From</h6>
                 {postalFromError ? (
                   <h6 className="error">{postalFromError}</h6>
                 ) : (
@@ -155,6 +155,7 @@ const Letter = () => {
                 )}
                 <div className="d-flex-col">
                   <input
+                    className="w-100"
                     type="number"
                     name="fromPostal"
                     placeholder="Postal Code"
@@ -163,55 +164,51 @@ const Letter = () => {
                   />
                 </div>
                 <div className={`${styles.portalContent}  d-flex-r`}>
-                  <div className="d-flex-col">
-                    <Field
-                      type="text"
-                      name="fromCity"
-                      placeholder="city"
-                      value={postalFrom.fromCity}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="d-flex-col">
-                    <Field
-                      type="text"
-                      name="fromProvince"
-                      onChange={handleChange}
-                      value={postalFrom.fromProvince}
-                      placeholder="Province"
-                    />
-                  </div>
-                  <div className="d-flex-col">
-                    <Field
-                      type="text"
-                      name="fromCountry"
-                      placeholder="Country"
-                      value={postalFrom.fromCountry}
-                      onChange={handleChange}
-                    />
-                    <ErrorMessage
-                      name="country"
-                      component="div"
-                      className={`${styles.error} error`}
-                    />
-                  </div>
+
+                  <Field
+                    type="text"
+                    name="fromCity"
+
+                    placeholder="city"
+                    value={postalFrom.fromCity}
+                    onChange={handleChange}
+                  />
+
+                  <Field
+                    type="text"
+                    name="fromProvince"
+
+                    onChange={handleChange}
+                    value={postalFrom.fromProvince}
+                    placeholder="Province"
+                  />
+
+                  <Field
+                    type="text"
+                    name="fromCountry"
+
+                    placeholder="Country"
+                    value={postalFrom.fromCountry}
+                    onChange={handleChange}
+                  />
+
                 </div>
               </div>
-              <div>
-                <h6>Package Details</h6>
-                <div className="d-flex-r">
-                  <div className="d-flex-col">
-                    <label htmlFor="">Weight</label>
-                    <Field name="weight" type="number" />
+              <div className={`${styles.packageContainer} `}>
+                <h6 >Package Details</h6>
+                <div className={`${styles.innerPackage}  d-flex-r`}>
+                  <div className={`w-50 d-flex-col`}>
+                    <label  >Weight</label>
+                    <Field className="w-100" name="weight" type="number" />
                     <ErrorMessage
                       name="weight"
                       component="div"
                       className={`${styles.error} error`}
                     />
                   </div>
-                  <div className="d-flex-col">
-                    <label htmlFor="">Unit</label>
-                    <select name="unit" id="" value={""}>
+                  <div className={`${styles.unitDiv}  d-flex-col`}>
+                    <label >Unit</label>
+                    <select className={`w-100 d-flex-col`} name="unit" id="" >
                       <option value="kg">kg</option>
                       <option value="LBS">LBS</option>
                       <option value="kg">kg</option>
@@ -228,8 +225,9 @@ const Letter = () => {
             </div>
             <div>
               <div className={`${styles.innerContainer} d-flex-col w-100`}>
-                <div className={`${styles.fromDiv} `}>
-                  <h6>Shipping To</h6>
+                <div className={`${styles.fromDiv} d-flex-col`}>
+
+                  <h6 className="mb-3"> Shipping To</h6>
                   {postalToError ? (
                     <h6 className="error">{postalToError}</h6>
                   ) : (
@@ -237,6 +235,7 @@ const Letter = () => {
                   )}
                   <div className="d-flex-col">
                     <input
+                      className="w-100"
                       type="number"
                       name="toPostal"
                       placeholder=" Postal Code"
@@ -245,38 +244,36 @@ const Letter = () => {
                     />
                   </div>
                   <div className={`${styles.portalContent}  d-flex-r`}>
-                    <div className="d-flex-col">
-                      <Field
-                        type="text"
-                        name="toCity"
-                        placeholder="city"
-                        value={postalTo.toCity}
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="d-flex-col">
-                      <Field
-                        type="text"
-                        name="toProvince"
-                        placeholder="Province"
-                        value={postalTo.toProvince}
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="d-flex-col">
-                      <Field
-                        type="text"
-                        name="toCountry"
-                        placeholder="Country"
-                        value={postalTo.toCountry}
-                        onChange={handleChange}
-                      />
-                    </div>
+
+                    <Field
+                      type="text"
+                      name="toCity"
+                      placeholder="city"
+                      value={postalTo.toCity}
+                      onChange={handleChange}
+                    />
+
+                    <Field
+                      type="text"
+                      name="toProvince"
+                      placeholder="Province"
+                      value={postalTo.toProvince}
+                      onChange={handleChange}
+                    />
+
+                    <Field
+                      type="text"
+                      name="toCountry"
+                      placeholder="Country"
+                      value={postalTo.toCountry}
+                      onChange={handleChange}
+                    />
+
                   </div>
                 </div>
                 <div>
-                  <div className="d-flex-r">
-                    <div>
+                  <div className={`${styles.insuranceContainer}  d-flex-r`}>
+                    <div className={`${styles.currency} w-25  d-flex-col`}>
                       <label htmlFor="">Insurance</label>
                       <Field
                         type="number"
@@ -289,7 +286,7 @@ const Letter = () => {
                         className={`${styles.error} error`}
                       />
                     </div>
-                    <div>
+                    <div className={`${styles.currency} w-25  d-flex-col`}>
                       <label htmlFor="">Currency</label>
                       <select name="currency" id="">
                         <option value="CAD">CAD</option>
@@ -303,8 +300,8 @@ const Letter = () => {
                         className={`${styles.error} error`}
                       />
                     </div>
-                    <div className="d-flex-r">
-                      <Field type="checkbox" name="agreeTerms" />
+                    <div className={`${styles.currency, styles.checkbox} mt-4  d-flex-r`}>
+                      <Field className={`${styles.check} m-2`} type="checkbox" name="agreeTerms" />
 
                       <span className="d-flex-col">
                         <label htmlFor="">I have read and agree with the</label>
@@ -320,9 +317,9 @@ const Letter = () => {
                 </div>
               </div>
             </div>
+            <Button className={`${styles.submitBtn}`} value="Get Quote" />
           </div>
 
-          <Button className={`${styles.submitBtn}`} value="Get Quote" />
         </Form>
       )}
     </Formik>
