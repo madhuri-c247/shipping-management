@@ -21,6 +21,7 @@ import { letterValidationSchema } from "../../../../utils/Validation";
 const Letter = () => {
   const useAppDispatch: () => AppDispatch = useDispatch;
   const dispatch = useAppDispatch();
+  const token = sessionStorage.getItem("token");
   const initialValues = {
     weight: 1,
     unit: "",
@@ -28,39 +29,40 @@ const Letter = () => {
     currency: "",
     agreeTerms: false,
   };
-  const [postal, setPostal] = useState("");
+  const [postalCheck, setPostalCheck] = useState("");
 
   const [postalFrom, setPostalFrom] = useState({
-    fromPostalCode: "",
+    fromPostal: "",
     fromCity: "",
     fromProvince: "",
     fromCountry: "",
   });
 
   const [postalTo, setPostalTo] = useState({
-    toPostalCode: "",
+    toPostal: "",
     toCity: "",
     toProvince: "",
     toCountry: "",
   });
 
-  const [error, setError] = useState("");
+  const [postalFromError, setPostalFromError] = useState("");
+  const [postalToError, setPostalToError] = useState("");
+
   const handleSubmit = (values: any) => {
-    const addLetter = dispatch(AddLetter({ values }));
-    if (addLetter) {
-    } else {
-    }
+    console.log("submitted");
+    const addLetter = dispatch(
+      AddLetter({ values, postalFrom, postalTo, token })
+    );
   };
 
-  const handlePostalFrom = async (postalFrom: any) => {
-    console.log(postalFrom);
+  const handlePostalFrom = async () => {
     await axios
       .post(POSTAL_URL, {
-        code: postalFrom.fromPostalCode,
+        code: postalFrom.fromPostal,
       })
       .then((res) => {
         const { city, country, province } = res.data;
-        setError("");
+        setPostalFromError("");
         setPostalFrom((prevState) => ({
           ...prevState,
           fromCity: city,
@@ -70,7 +72,7 @@ const Letter = () => {
       })
       .catch((err) => {
         const message = err.response.data.error;
-        setError(message);
+        setPostalFromError(message);
         setPostalFrom((prevState) => ({
           ...prevState,
           fromCity: "",
@@ -79,15 +81,14 @@ const Letter = () => {
         }));
       });
   };
-  const handlePostalTo = async (postalTo: any) => {
-    console.log(postalTo);
+  const handlePostalTo = async () => {
     await axios
       .post(POSTAL_URL, {
-        code: postalTo.ToPostalCode
+        code: postalTo.toPostal,
       })
       .then((res) => {
         const { city, country, province } = res.data;
-        setError("");
+        setPostalToError("");
         setPostalTo((prevState) => ({
           ...prevState,
           toCity: city,
@@ -97,8 +98,8 @@ const Letter = () => {
       })
       .catch((err) => {
         const message = err.response.data.error;
-        setError(message);
-        setPostalFrom((prevState) => ({
+        setPostalToError(message);
+        setPostalTo((prevState) => ({
           ...prevState,
           toCity: "",
           toCountry: "",
@@ -113,29 +114,27 @@ const Letter = () => {
   ): void {
     const { name, value } = event.target;
     if (postalCheck === "fromPostal") {
-      setPostal('from')
+      setPostalCheck("from");
       setPostalFrom((postalFrom) => ({
         ...postalFrom,
         [name]: value,
       }));
     } else {
-      setPostal('to')
+      setPostalCheck("to");
       setPostalTo((postalTo) => ({
         ...postalTo,
         [name]: value,
       }));
     }
   }
- 
+
   useEffect(() => {
-    console.log(postal)
-    if(postal==='from'){
-      handlePostalFrom(postalFrom);
-    }else if(postal === 'to'){
-      handlePostalTo(postalTo);
+    if (postalCheck === "from") {
+      handlePostalFrom();
+    } else if (postalCheck === "to") {
+      handlePostalTo();
     }
-    
-  }, [postalFrom.fromPostalCode, postalTo.toPostalCode]);
+  }, [postalFrom.fromPostal, postalTo.toPostal]);
 
   return (
     <Formik<QuoteState>
@@ -149,16 +148,19 @@ const Letter = () => {
             <div className={`${styles.innerContainer} d-flex-col w-50 `}>
               <div className={`${styles.fromDiv} `}>
                 <h6>Shipping From</h6>
-                {error ? <h6 className="error">{error}</h6> : ""}
+                {postalFromError ? (
+                  <h6 className="error">{postalFromError}</h6>
+                ) : (
+                  ""
+                )}
                 <div className="d-flex-col">
                   <input
                     type="number"
-                    name="fromPostalCode"
+                    name="fromPostal"
                     placeholder="Postal Code"
-                    value={postalFrom.fromPostalCode}
+                    value={postalFrom.fromPostal}
                     onChange={(e) => handleChange(e, "fromPostal")}
                   />
-                  
                 </div>
                 <div className={`${styles.portalContent}  d-flex-r`}>
                   <div className="d-flex-col">
@@ -188,7 +190,7 @@ const Letter = () => {
                       onChange={handleChange}
                     />
                     <ErrorMessage
-                      name="fromCountry"
+                      name="country"
                       component="div"
                       className={`${styles.error} error`}
                     />
@@ -209,11 +211,11 @@ const Letter = () => {
                   </div>
                   <div className="d-flex-col">
                     <label htmlFor="">Unit</label>
-                    <select name="unit" id="">
-                      <option value="">kg</option>
-                      <option value="">LBS</option>
-                      <option value="">kg</option>
-                      <option value="">kg</option>
+                    <select name="unit" id="" value={""}>
+                      <option value="kg">kg</option>
+                      <option value="LBS">LBS</option>
+                      <option value="kg">kg</option>
+                      <option value="kg">kg</option>
                     </select>
                     <ErrorMessage
                       name="unit"
@@ -228,12 +230,17 @@ const Letter = () => {
               <div className={`${styles.innerContainer} d-flex-col w-100`}>
                 <div className={`${styles.fromDiv} `}>
                   <h6>Shipping To</h6>
+                  {postalToError ? (
+                    <h6 className="error">{postalToError}</h6>
+                  ) : (
+                    ""
+                  )}
                   <div className="d-flex-col">
                     <input
                       type="number"
-                      name="toPostalCode"
+                      name="toPostal"
                       placeholder=" Postal Code"
-                      value={postalTo.toPostalCode}
+                      value={postalTo.toPostal}
                       onChange={(e) => handleChange(e, "toPostal")}
                     />
                   </div>
@@ -285,10 +292,10 @@ const Letter = () => {
                     <div>
                       <label htmlFor="">Currency</label>
                       <select name="currency" id="">
-                        <option value="">CAD</option>
-                        <option value="">LBS</option>
-                        <option value="">kg</option>
-                        <option value="">kg</option>
+                        <option value="CAD">CAD</option>
+                        <option value="LBS">LBS</option>
+                        <option value="kg">kg</option>
+                        <option value="kg">kg</option>
                       </select>
                       <ErrorMessage
                         name="currency"

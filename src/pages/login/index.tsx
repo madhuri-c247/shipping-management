@@ -40,11 +40,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (values: UserState) => {
     const login = dispatch(handleLogin(values));
-    if (login) {
-      navigate("/user/quote/letter");
-    } else {
-      setMessage("something went wrong!");
-    }
+    console.log(login, 'login')   
   };
 
   const forgetPassword = () => {

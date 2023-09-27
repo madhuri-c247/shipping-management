@@ -30,17 +30,11 @@ export const signupValidationSchema = Yup.object().shape({
 });
 
 export const letterValidationSchema = Yup.object().shape({
-  fromCity: Yup.string().required("City is required"),
-  fromProvince: Yup.string().required("Province is required"),
-  fromCountry: Yup.string().required("Country is required"),
   weight: Yup.number()
     .required("Weight is required")
     .positive("Weight must be positive")
     .min(0.1, "Weight must be at least 0.1")
     .max(1000, "Weight cannot exceed 1000"),
-  toCity: Yup.string().required("City is required"),
-  toProvince: Yup.string().required("Province is required"),
-  toCountry: Yup.string().required("Country is required"),
   insuranceAmount: Yup.number()
     .typeError("Insurance Amount must be a number")
     .positive("Insurance Amount must be positive")

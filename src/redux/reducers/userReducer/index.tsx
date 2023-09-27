@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { User, UserState } from "../../../models/UserState";
 import axios from "axios";
 import { FORGOT_PASSWORD_URL, LOGIN_BASE_URL } from "../../../apiHelper";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const userSlice = createSlice({
   name: "user",
@@ -14,7 +15,6 @@ const userSlice = createSlice({
 
   reducers: {
     AddUser: (state, actions) => {},
-
     handleLogin: (
       state: any,
       actions: {
@@ -22,24 +22,25 @@ const userSlice = createSlice({
         type: string;
       }
     ) => {
+      
       try {
         axios
           .post(LOGIN_BASE_URL, actions.payload)
           .then((response) => {
             if (response.status === 200) {
-              state.success = true;
+              console.log('success login')
               sessionStorage.setItem("token", response.data.token);
-              return state.success;
+              
             }
           })
           .catch((err) => {
-            state.success = false;
-            return state.success;
+            
           });
       } catch (error) {
         state.success = false;
-        return state.success;
+        
       }
+      return state.success
     },
 
     handleForgetPassword: (state, actions) => {
