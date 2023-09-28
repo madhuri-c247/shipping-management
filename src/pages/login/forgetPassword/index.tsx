@@ -1,46 +1,47 @@
 import { ErrorMessage, Field, Formik } from "formik";
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
 import { Form } from "react-bootstrap";
 import * as Yup from "yup";
+import axios from "axios";
 //common
 import Button from "../../../common/button";
 //CSS
-import styles from "../login.module.scss";
+import styles from "./forgetPassword.module.scss";
 //models
 import { UserState } from "../../../models/UserState";
-//store
-import { AppDispatch } from "../../../redux/store";
-//reducers
-import { handleForgetPassword } from "../../../redux/reducers/userReducer";
+//apiHelper
+import { FORGOT_PASSWORD_URL } from "../../../apiHelper";
+//validations
+import { emailValidationSchema } from "../../../utils/Validation";
 
 export const ForgotPassword = () => {
-  const [message, setMessage] = useState('');
-  const useAppDispatch: () => AppDispatch = useDispatch;
-  const dispatch = useAppDispatch();
+  const [message, setMessage] = useState("");
   const initialValues = {
-    email: ''
+    email: "",
   };
 
-  const validationSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Email is required"),
-  });
-
   const handleSubmit = (values: UserState) => {
-   const response = dispatch(handleForgetPassword(values));
-     
+    axios
+      .put(FORGOT_PASSWORD_URL, {
+        email: values.email,
+      })
+      .then((res) => {
+        setMessage("Please Check Your Mail");
+      })
+      .catch((error) => {
+        setMessage(error.response.data[0].errors);
+      });
   };
   return (
     <div className={`${styles.container} `}>
       <Formik<UserState>
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={emailValidationSchema}
         onSubmit={handleSubmit}
       >
         {(formik) => (
           <Form className={` ${styles.form} `} onSubmit={formik.handleSubmit}>
             <h4 className="m-1">Forgot Password</h4>
-
             <div className={`${styles.formContent}`}>
               <label>Email </label>
               <Field name="email" type="email" />
@@ -56,7 +57,10 @@ export const ForgotPassword = () => {
               ) : (
                 ""
               )}
-              <Button value={"Forgot Password"} className="forgot-btn" />
+              <Button
+                className={`${styles.forgotBtn}`}
+                value={"Send Reset Link"}
+              />
             </div>
           </Form>
         )}

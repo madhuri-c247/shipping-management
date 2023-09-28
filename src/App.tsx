@@ -15,8 +15,7 @@ import { PackageSelectionGuest } from "./pages/home/packageSelectionGuest";
 import Quote from "./pages/user/quote";
 import SavedQuote from "./pages/user/saved-quote";
 import Shipment from "./pages/user/shipment";
-import Setting from "./pages/user/setting";
-import Notification from "./pages/user/notification";
+import Setting from "./pages/user/accountSetting";
 import Letter from "./pages/user/quote/letter";
 import Package from "./pages/user/quote/package";
 import Verification from "./pages/signup/verification";
@@ -62,9 +61,9 @@ function App() {
           <Route
             path="/user"
             element={
-              // <Auth>
-              // </Auth>
-                <User />
+               <Auth>
+                 <User />
+               </Auth>
             }
           >
             <Route path="/user/quote" element={<Quote />}>
@@ -74,11 +73,9 @@ function App() {
             <Route path="/user/saved-quotes" element={<SavedQuote />} />
             <Route path="/user/shipment" element={<Shipment />} />
             <Route path="/user/setting" element={<Setting />} />
-            <Route path="/user/notification" element={<Notification />} />
           </Route>
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/sign-in" element={<Login />} >
-          </Route>
+          <Route path="/login" element={<Login />} />
           <Route path="/login/reset-password-verification" element={<ResetPassword />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="*" element={<Error />} />

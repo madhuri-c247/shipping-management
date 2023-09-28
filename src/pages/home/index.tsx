@@ -8,17 +8,19 @@ import { BsEnvelope } from "react-icons/bs";
 import { LuPackage2 } from "react-icons/lu";
 //nav-layout
 import Layout from "../../layout/NavLayout";
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from "react";
 import { Toast } from "react-bootstrap";
 
 const Home = () => {
-  const [error, setError] = useState(false)
-  // const {state} = useLocation();
-  // const {response} = state;
-  // console.log('res', response)
-  
-  useEffect(()=>{
-  })
+  const [error, setError] = useState(false);
+  const { state } = useLocation();
+
+  useEffect(() => {
+    if (state) {
+      const { response } = state;
+      setError(response);
+    }
+  }, [state]);
   return (
     <Layout>
       <div
@@ -54,11 +56,16 @@ const Home = () => {
             <Outlet />
           </div>
         </div>
-        {error?  <Toast 
-          bg={"Danger".toLowerCase()}
-           className={`${styles.toast} d-inline-block m-1`}>            
+        {error ? (
+          <Toast
+            bg={"Danger".toLowerCase()}
+            className={`${styles.toast} d-inline-block m-1`}
+          >
             <Toast.Body>Email Not Verified !</Toast.Body>
-          </Toast>:''}
+          </Toast>
+        ) : (
+          ""
+        )}
       </div>
     </Layout>
   );

@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 //css
@@ -8,13 +8,11 @@ import styles from "./letter.module.scss";
 //common
 import Button from "../../../../common/button";
 //apiHelper
-import { POSTAL_URL } from "../../../../apiHelper";
+import { LETTER_QUOTE_URL, POSTAL_URL } from "../../../../apiHelper";
 //models
 import { QuoteState } from "../../../../models/QuotesState";
 // store
 import { AppDispatch } from "../../../../redux/store";
-//reducers
-import { AddLetter } from "../../../../redux/reducers/quoteReducer/letterQuoteReducer";
 //validations
 import { letterValidationSchema } from "../../../../utils/Validation";
 
@@ -44,15 +42,31 @@ const Letter = () => {
     toProvince: "",
     toCountry: "",
   });
-
+  const navigate = useNavigate()
   const [postalFromError, setPostalFromError] = useState("");
   const [postalToError, setPostalToError] = useState("");
 
   const handleSubmit = (values: any) => {
     console.log("submitted");
-    const addLetter = dispatch(
-      AddLetter({ values, postalFrom, postalTo, token })
-    );
+      const combined = {
+        ...values,
+        ...postalFrom,
+        ...postalTo,
+      };
+      axios
+      .post(LETTER_QUOTE_URL, combined, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        navigate('/user/shipment')
+
+      })
+      .catch((er) => {
+        console.log(er, 'er')
+      });
+    
   };
 
   const handlePostalFrom = async () => {

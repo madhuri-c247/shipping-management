@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import { Form, Spinner, Toast } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
 //react-icons
@@ -22,7 +22,6 @@ import { SIGNUP_BASE_URL } from "../../apiHelper";
 import { signupValidationSchema } from "../../utils/Validation";
 
 const SignUp: React.FC = () => {
-  const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [spinner, setSpinner] = useState(false);
   const [Successful, setSuccessful] = useState(false);
@@ -37,26 +36,20 @@ const SignUp: React.FC = () => {
   };
 
   const handleSubmit = async (values: UserState) => {
-    try {
-      await axios
-        .post(SIGNUP_BASE_URL, values)
-        .then((response) => {
-          if (response.status === 200) {
-            setSpinner(true);
-            setInterval(() => {
-              setSuccessful(true);
-              setSpinner(false);
-            }, 2000);
-            setInterval(() => {
-              setSuccessful(false);
-              navigate("/");
-            }, 4000);
-          }
-        })
-        .catch((error) => {
-          setMessage(error.response.data.message);
-        });
-    } catch (error) {}
+    await axios
+      .post(SIGNUP_BASE_URL, values)
+      .then((response) => {
+        if (response.status === 200) {
+          setSpinner(true);
+          setInterval(() => {
+            setSuccessful(true);
+            setSpinner(false);
+          }, 4000);
+        }
+      })
+      .catch((error) => {
+        setMessage(error.response.data.message);
+      });
   };
 
   return (

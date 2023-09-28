@@ -9,28 +9,20 @@ const Verification = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const token = searchParams.get("token");
-  console.log(token, "token");
   useEffect(() => {
     const verifyToken = async () => {
-      console.log("done");
-      try {
-        await axios
-          .get(`${YOUR_VERIFICATION_ENDPOINT}${token}`)
-          .then((res) => {
-            console.log(res, "res");
-            if (res.status === 200) {
-              navigate(`/sign-in`);
-            }
-          })
-          .catch((err) => {
-            navigate("/home/letter-selection", {
-              state: { response: err.response.data },
-            });
-            console.log(err, "error");
+      await axios
+        .get(`${YOUR_VERIFICATION_ENDPOINT}${token}`)
+        .then((res) => {
+          if (res.status === 200) {
+            navigate(`/login`);
+          }
+        })
+        .catch((err) => {
+          navigate("/home/letter-selection", {
+            state: { response: err.response.data },
           });
-      } catch (error) {
-        console.error(error);
-      }
+        });
     };
 
     verifyToken();

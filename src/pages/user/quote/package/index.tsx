@@ -14,7 +14,7 @@ import { QuoteState } from "../../../../models/QuotesState";
 // store
 import { AppDispatch } from "../../../../redux/store";
 //reducers
-import { AddLetter } from "../../../../redux/reducers/quoteReducer/letterQuoteReducer";
+import { AddLetter, AddPackage } from "../../../../redux/reducers/quoteReducer/letterQuoteReducer";
 //validations
 import { letterValidationSchema } from "../../../../utils/Validation";
 
@@ -50,8 +50,8 @@ const Package = () => {
 
   const handleSubmit = (values: any) => {
     console.log("submitted");
-    const addLetter = dispatch(
-      AddLetter({ values, postalFrom, postalTo, token })
+    const addPackage = dispatch(
+      AddPackage({ values, postalFrom, postalTo, token })
     );
   };
 

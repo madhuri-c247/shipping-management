@@ -1,9 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { Formik, Field, ErrorMessage } from "formik";
 import { Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
-import * as Yup from "yup";
+import axios from "axios";
+import { useEffect, useState } from "react";
 //CSS
 import styles from "./login.module.scss";
 //models
@@ -13,38 +12,42 @@ import Button from "../../common/button";
 //layouts
 import Layout from "../../layout/NavLayout";
 import { Particle } from "../../layout/particles";
-//store
-import { AppDispatch } from "../../redux/store";
-//reducer
-import { handleLogin } from "../../redux/reducers/userReducer";
+//validations
+import { loginValidationSchema } from "../../utils/Validation";
+//apiHelper
+import { LOGIN_BASE_URL } from "../../apiHelper";
 
 const Login: React.FC = () => {
+  const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
-  const useAppDispatch: () => AppDispatch = useDispatch;
-  const dispatch = useAppDispatch();
   const [message, setMessage] = useState("");
   const initialValues = {
     email: "",
     password: "",
   };
 
-  const validationSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Email is required"),
-    password: Yup.string()
-      .required("Password is required")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special symbol, and be at least 8-16 characters long"
-      ),
+  useEffect(() => {
+    if (token) {
+      navigate("/user/quote/letter");
+    }
   });
 
   const handleSubmit = async (values: UserState) => {
-    const login = dispatch(handleLogin(values));
-    console.log(login, 'login')   
+    axios
+      .post(LOGIN_BASE_URL, values)
+      .then((response) => {
+        if (response.status === 200) {
+          setMessage("");
+          sessionStorage.setItem("token", response.data.token);
+          navigate("/user/quote/letter");
+        }
+      })
+      .catch((err) => {
+        setMessage(err.response.data.message);
+      });
   };
 
   const forgetPassword = () => {
-    console.log("forget");
     navigate("/forgot-password");
   };
 
@@ -54,7 +57,7 @@ const Login: React.FC = () => {
         <div className={`${styles.container}  `}>
           <Formik<UserState>
             initialValues={initialValues}
-            validationSchema={validationSchema}
+            validationSchema={loginValidationSchema}
             onSubmit={handleSubmit}
           >
             {(formik) => (
@@ -65,7 +68,7 @@ const Login: React.FC = () => {
                 <>
                   <h1 className="m-1">Login</h1>
                   <div className={`${styles.formContent}`}>
-                    <label>E-mail</label>
+                    <label htmlFor="email">E-mail</label>
                     <Field name="email" type="email" />
                     <ErrorMessage
                       name="email"
@@ -75,7 +78,7 @@ const Login: React.FC = () => {
                   </div>
 
                   <div className={`${styles.formContent}`}>
-                    <label>Password</label>
+                    <label htmlFor="password">Password</label>
                     <Field name="password" type="password" />
                     <ErrorMessage
                       name="password"

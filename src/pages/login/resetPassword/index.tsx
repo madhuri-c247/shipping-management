@@ -4,52 +4,43 @@ import { Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import * as Yup from "yup";
+import axios from "axios";
 //CSS
 import styles from "../login.module.scss";
 //models
 import { UserState } from "../../../models/UserState";
 //common
 import Button from "../../../common/button/index";
-//store
-import { AppDispatch } from "../../../redux/store";
-//reducer
-import {
-   handleReset,
-} from "../../../redux/reducers/userReducer/index";
+//apiHelper
 import { RESET_PASSWORD_URL } from "../../../apiHelper";
+import { resetValidationSchema } from "../../../utils/Validation";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const useAppDispatch: () => AppDispatch = useDispatch;
-  const dispatch = useAppDispatch();
   const [message, setMessage] = useState("");
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const token = searchParams.get("token");
 
   const initialValues = {
     password: "",
     confirmPassword: "",
   };
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const token = searchParams.get("token");
-  const validationSchema = Yup.object().shape({
-    password: Yup.string()
-      .required("Password is required")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special symbol, and be at least 8-16 characters long"
-      ),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password")], "Passwords must match")
-      .required("Confirm Password is required"),
-  });
 
   const handleSubmit = async (values: UserState) => {
     const url = RESET_PASSWORD_URL;
-    const reset = dispatch(handleReset({ values, token, url }));
-    if (reset) {
-      navigate("/sign-in");
-    } else {
-      setMessage('something is wrong!')
+    try {
+      axios
+        .put(`${url}${token}`, {
+          confirmPassword: values.confirmPassword,
+          password: values.password,
+        })
+        .then((res) => {
+          navigate("/login");
+        });
+    } catch (error) {
+      // setMessage(error.response.data[0].error)
+      console.log(error);
     }
   };
 
@@ -57,7 +48,7 @@ const Login: React.FC = () => {
     <div className={`${styles.container}  `}>
       <Formik<UserState>
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={resetValidationSchema}
         onSubmit={handleSubmit}
       >
         {(formik) => (

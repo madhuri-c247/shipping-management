@@ -6,3 +6,7 @@ export const YOUR_VERIFICATION_ENDPOINT = `${apiUrl}/mail/account-verification-m
 export const RESET_PASSWORD_URL = `${apiUrl}/login/reset-password-verification?token=`;
 export const POSTAL_URL = `${apiUrl}/postal/postalCode`;
 export const LETTER_QUOTE_URL = `${apiUrl}/quote/new-letter`;
+export const PACKAGE_QUOTE_URL = `${apiUrl}/quote/new-package`;
+export const MY_SHIPMENT_URL = `${apiUrl}/quote/myShipping`;
+export const SAVED_QUOTE_URL = `${apiUrl}/quote/saveQuote`;
+export const STATUS_URL = `${apiUrl}/quote/status`;
