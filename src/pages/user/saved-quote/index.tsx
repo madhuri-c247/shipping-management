@@ -1,9 +1,72 @@
-import React from 'react'
+import Table from 'react-bootstrap/Table';
+import {useEffect, useState} from 'react'
+import axios from 'axios';
+import { MY_SHIPMENT_URL, SAVED_QUOTE_URL } from '../../../apiHelper';
+import styles from './saved-quote.module.scss'
+import Button from '../../../common/button';
+function Shipment() {
+const token = sessionStorage.getItem('token')
+const [quotes, setQuotes] = useState([])
+const [message, setMessage] = useState('')
+  useEffect(()=>{
+    axios.get(SAVED_QUOTE_URL,{
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    }).then((res)=>{
+      console.log(res,'res')
+      setQuotes(res.data)
+    }).catch((error)=>{
+      console.log(error, 'error')
+      setMessage(error)
 
-const SavedQuote = () => {
+    })
+  },[])
+
   return (
-    <div>SavedQuote</div>
-  )
+    <div className={`${styles.container} p-2`}>
+    <h5>Saved Quotes</h5>
+    <div className={`${styles.tableContainer}`}>
+
+    <Table className={`${styles.table}`} responsive>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Quote Date</th>
+          <th>Company Name</th>
+          <th>Service Name</th>
+          <th>From Postal</th>
+          <th>From City</th>
+          <th>To Postal</th>
+          <th>To City</th>
+          <th>Insurance</th>
+          <th></th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        {quotes? quotes.map((item: any,index)=>{
+          return <>
+             <tr>
+              <td>{++index}</td>
+          <td>{item.quoteDate}</td>
+          <td>{item.companyName}</td>
+          <td>{item.serviceName}</td>
+          <td>{item.fromPostal}</td>
+          <td>{item.fromCity}</td>
+          <td>{item.toPostal}</td>
+          <td>{item.toCity}</td>
+          <td>{item.insuranceAmount}</td>
+          <td><Button value='Pay Now' className={`${styles.button}`}/></td>
+        </tr>
+          </>
+        }):''}
+
+      </tbody>
+    </Table>
+    </div>
+          </div>
+  );
 }
 
-export default SavedQuote
+export default Shipment;

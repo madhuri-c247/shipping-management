@@ -2,6 +2,10 @@
   display: flex;
   flex-direction: row;
 }
+.d-flex-col{
+  display: flex;
+  flex-direction: column;
+}
 button,
 a,
 input[type="submit"] {
@@ -17,4 +21,15 @@ input {
 }
 label {
   margin: 5px 0px;
+}
+.form{
+  background-color: white;
+}
+.error{
+  color: red;
+  font-size: 10px;
+  text-transform: capitalize;
+}
+.spinner{
+  
 }

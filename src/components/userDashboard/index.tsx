@@ -1,17 +1,28 @@
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Button, Spinner } from "react-bootstrap";
 //react-icons
 import { TfiMenuAlt } from "react-icons/tfi";
 import { LuFolder } from "react-icons/lu";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import {
   MdOutlineLocalShipping,
-  MdOutlineNotificationsActive,
 } from "react-icons/md";
 import { FiSettings } from "react-icons/fi";
 //CSS
 import styles from "./userDashboard.module.scss";
 
 const UserDashboard = () => {
+  const [spinner, setSpinner] = useState(false);
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('token')
+    setSpinner(true)
+    setInterval(() => {
+      navigate('/login')
+    }, 1000)
+  }
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -19,7 +30,7 @@ const UserDashboard = () => {
         <ul>
           <NavLink
             className={({ isActive }) => (isActive ? styles.active : "")}
-            to={"/user/quote"}
+            to={"/user/quote/letter"}
           >
             <TfiMenuAlt className={styles.icon} />
             Quote
@@ -44,18 +55,14 @@ const UserDashboard = () => {
             <FiSettings className={styles.icon} />
             Account Setting
           </NavLink>
-          <NavLink
-            className={({ isActive }) => (isActive ? styles.active : "")}
-            to={"/user/notification"}
-          >
-            <MdOutlineNotificationsActive className={styles.icon} />
-            Notifications
-          </NavLink>
         </ul>
       </div>
-      <NavLink className={styles.logout} to={"/login"}>
+      {spinner ?
+        <span className={`spinner`}><Spinner animation="border" variant="dark" /></span>
+        : ''}
+      <Button className={styles.logout} onClick={handleLogout}>
         <RiLogoutCircleLine /> Logout
-      </NavLink>
+      </Button>
     </div>
   );
 };
