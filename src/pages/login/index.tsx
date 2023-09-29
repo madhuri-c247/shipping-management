@@ -33,18 +33,22 @@ const Login: React.FC = () => {
   });
 
   const handleSubmit = async (values: UserState) => {
-    axios
-      .post(LOGIN_BASE_URL, values)
-      .then((response) => {
-        if (response.status === 200) {
-          setMessage("");
-          sessionStorage.setItem("token", response.data.token);
-          navigate("/user/quote/letter");
-        }
-      })
-      .catch((err) => {
-        setMessage(err.response.data.message);
-      });
+    try {
+      axios
+        .post(LOGIN_BASE_URL, values)
+        .then((response) => {
+          if (response.status === 200) {
+            setMessage("");
+            sessionStorage.setItem("token", response.data.token);
+            navigate("/user/quote/letter");
+          }
+        })
+        .catch((err) => {
+          setMessage(err.response.data.message);
+        });
+    } catch (error) {
+      setMessage("something is wrong!");
+    }
   };
 
   const forgetPassword = () => {
@@ -68,7 +72,7 @@ const Login: React.FC = () => {
                 <>
                   <h1 className="m-1">Login</h1>
                   <div className={`${styles.formContent}`}>
-                    <label htmlFor="email">E-mail</label>
+                    <label>E-mail</label>
                     <Field name="email" type="email" />
                     <ErrorMessage
                       name="email"
@@ -78,7 +82,7 @@ const Login: React.FC = () => {
                   </div>
 
                   <div className={`${styles.formContent}`}>
-                    <label htmlFor="password">Password</label>
+                    <label>Password</label>
                     <Field name="password" type="password" />
                     <ErrorMessage
                       name="password"

@@ -1,7 +1,6 @@
 import { ErrorMessage, Field, Formik } from "formik";
 import { useState } from "react";
-import { Form } from "react-bootstrap";
-import * as Yup from "yup";
+import { Form, Toast } from "react-bootstrap";
 import axios from "axios";
 //common
 import Button from "../../../common/button";
@@ -16,6 +15,7 @@ import { emailValidationSchema } from "../../../utils/Validation";
 
 export const ForgotPassword = () => {
   const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState("");
   const initialValues = {
     email: "",
   };
@@ -26,7 +26,7 @@ export const ForgotPassword = () => {
         email: values.email,
       })
       .then((res) => {
-        setMessage("Please Check Your Mail");
+        setSuccess(res.data.email);
       })
       .catch((error) => {
         setMessage(error.response.data[0].errors);
@@ -54,6 +54,11 @@ export const ForgotPassword = () => {
             <div className={`${styles.submit}`}>
               {message ? (
                 <h6 className={`${styles.message} error`}>{message}</h6>
+              ) : (
+                ""
+              )}
+              {success ? (
+                <h6 className={`${styles.message} success`}>{success}</h6>
               ) : (
                 ""
               )}

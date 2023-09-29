@@ -1,7 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import axios from "axios";
 //css
 import styles from "./letter.module.scss";
@@ -11,14 +10,11 @@ import Button from "../../../../common/button";
 import { LETTER_QUOTE_URL, POSTAL_URL } from "../../../../apiHelper";
 //models
 import { QuoteState } from "../../../../models/QuotesState";
-// store
-import { AppDispatch } from "../../../../redux/store";
 //validations
 import { letterValidationSchema } from "../../../../utils/Validation";
 
 const Letter = () => {
-  const useAppDispatch: () => AppDispatch = useDispatch;
-  const dispatch = useAppDispatch();
+  const [message, setMessage] = useState("");
   const token = sessionStorage.getItem("token");
   const initialValues = {
     weight: 1,
@@ -28,6 +24,10 @@ const Letter = () => {
     agreeTerms: false,
   };
   const [postalCheck, setPostalCheck] = useState("");
+  const [dropDown, setDropDown] = useState({
+    unit: "",
+    currency: "",
+  });
 
   const [postalFrom, setPostalFrom] = useState({
     fromPostal: "",
@@ -42,31 +42,30 @@ const Letter = () => {
     toProvince: "",
     toCountry: "",
   });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [postalFromError, setPostalFromError] = useState("");
   const [postalToError, setPostalToError] = useState("");
 
   const handleSubmit = (values: any) => {
     console.log("submitted");
-      const combined = {
-        ...values,
-        ...postalFrom,
-        ...postalTo,
-      };
-      axios
+    const combined = {
+      ...values,
+      ...postalFrom,
+      ...postalTo,
+      ...dropDown,
+    };
+    axios
       .post(LETTER_QUOTE_URL, combined, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        navigate('/user/shipment')
-
+        navigate("/user/saved-quotes");
       })
       .catch((er) => {
-        console.log(er, 'er')
+        setMessage("Fields Are required");
       });
-    
   };
 
   const handlePostalFrom = async () => {
@@ -142,6 +141,14 @@ const Letter = () => {
     }
   }
 
+  const handleDropdown = (event: ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = event.target;
+    setDropDown({
+      ...dropDown,
+      [name]: value,
+    });
+  };
+
   useEffect(() => {
     if (postalCheck === "from") {
       handlePostalFrom();
@@ -178,11 +185,9 @@ const Letter = () => {
                   />
                 </div>
                 <div className={`${styles.portalContent}  d-flex-r`}>
-
                   <Field
                     type="text"
                     name="fromCity"
-
                     placeholder="city"
                     value={postalFrom.fromCity}
                     onChange={handleChange}
@@ -191,7 +196,6 @@ const Letter = () => {
                   <Field
                     type="text"
                     name="fromProvince"
-
                     onChange={handleChange}
                     value={postalFrom.fromProvince}
                     placeholder="Province"
@@ -200,20 +204,23 @@ const Letter = () => {
                   <Field
                     type="text"
                     name="fromCountry"
-
                     placeholder="Country"
                     value={postalFrom.fromCountry}
                     onChange={handleChange}
                   />
-
                 </div>
               </div>
               <div className={`${styles.packageContainer} `}>
-                <h6 >Package Details</h6>
+                <h6>Package Details</h6>
                 <div className={`${styles.innerPackage}  d-flex-r`}>
                   <div className={`w-50 d-flex-col`}>
-                    <label  >Weight</label>
-                    <Field className="w-100" name="weight" type="number" />
+                    <label htmlFor="weight">Weight</label>
+                    <Field
+                      className="w-100"
+                      name="weight"
+                      type="number"
+                      id="weight"
+                    />
                     <ErrorMessage
                       name="weight"
                       component="div"
@@ -221,12 +228,18 @@ const Letter = () => {
                     />
                   </div>
                   <div className={`${styles.unitDiv}  d-flex-col`}>
-                    <label >Unit</label>
-                    <select className={`w-100 d-flex-col`} name="unit" id="" >
+                    <label htmlFor="unit">Unit</label>
+                    <select
+                      className={`w-100 d-flex-col`}
+                      name="unit"
+                      onChange={handleDropdown}
+                      value={dropDown.unit}
+                      id="unit"
+                    >
                       <option value="kg">kg</option>
                       <option value="LBS">LBS</option>
-                      <option value="kg">kg</option>
-                      <option value="kg">kg</option>
+                      <option value="gm">g</option>
+                      <option value="mg">mg</option>
                     </select>
                     <ErrorMessage
                       name="unit"
@@ -240,7 +253,6 @@ const Letter = () => {
             <div>
               <div className={`${styles.innerContainer} d-flex-col w-100`}>
                 <div className={`${styles.fromDiv} d-flex-col`}>
-
                   <h6 className="mb-3"> Shipping To</h6>
                   {postalToError ? (
                     <h6 className="error">{postalToError}</h6>
@@ -258,7 +270,6 @@ const Letter = () => {
                     />
                   </div>
                   <div className={`${styles.portalContent}  d-flex-r`}>
-
                     <Field
                       type="text"
                       name="toCity"
@@ -266,7 +277,6 @@ const Letter = () => {
                       value={postalTo.toCity}
                       onChange={handleChange}
                     />
-
                     <Field
                       type="text"
                       name="toProvince"
@@ -274,7 +284,6 @@ const Letter = () => {
                       value={postalTo.toProvince}
                       onChange={handleChange}
                     />
-
                     <Field
                       type="text"
                       name="toCountry"
@@ -282,17 +291,17 @@ const Letter = () => {
                       value={postalTo.toCountry}
                       onChange={handleChange}
                     />
-
                   </div>
                 </div>
                 <div>
                   <div className={`${styles.insuranceContainer}  d-flex-r`}>
                     <div className={`${styles.currency} w-25  d-flex-col`}>
-                      <label htmlFor="">Insurance</label>
+                      <label htmlFor="insurance">Insurance</label>
                       <Field
                         type="number"
                         name="insuranceAmount"
                         placeholder="Enter Amount"
+                        id="insurance"
                       />
                       <ErrorMessage
                         name="insuranceAmount"
@@ -301,12 +310,17 @@ const Letter = () => {
                       />
                     </div>
                     <div className={`${styles.currency} w-25  d-flex-col`}>
-                      <label htmlFor="">Currency</label>
-                      <select name="currency" id="">
+                      <label htmlFor="currency">Currency</label>
+                      <select
+                        name="currency"
+                        onChange={handleDropdown}
+                        value={dropDown.currency}
+                        id="currency"
+                      >
                         <option value="CAD">CAD</option>
-                        <option value="LBS">LBS</option>
-                        <option value="kg">kg</option>
-                        <option value="kg">kg</option>
+                        <option value="INR">INR</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
                       </select>
                       <ErrorMessage
                         name="currency"
@@ -314,11 +328,22 @@ const Letter = () => {
                         className={`${styles.error} error`}
                       />
                     </div>
-                    <div className={`${styles.currency, styles.checkbox} mt-4  d-flex-r`}>
-                      <Field className={`${styles.check} m-2`} type="checkbox" name="agreeTerms" />
+                    <div
+                      className={`${
+                        (styles.currency, styles.checkbox)
+                      } mt-4  d-flex-r`}
+                    >
+                      <Field
+                        className={`${styles.check} m-2`}
+                        type="checkbox"
+                        name="agreeTerms"
+                        id="terms"
+                      />
 
                       <span className="d-flex-col">
-                        <label htmlFor="">I have read and agree with the</label>
+                        <label htmlFor="terms">
+                          I have read and agree with the
+                        </label>
                         <NavLink to={""}> terms and conditions</NavLink>
                         <ErrorMessage
                           name="agreeTerms"
@@ -333,7 +358,9 @@ const Letter = () => {
             </div>
             <Button className={`${styles.submitBtn}`} value="Get Quote" />
           </div>
-
+          <div className="errorContainer">
+            {message ? <h6 className="error">{message}</h6> : ""}
+          </div>
         </Form>
       )}
     </Formik>

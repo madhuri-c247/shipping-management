@@ -1,16 +1,19 @@
 import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { MY_SHIPMENT_URL, STATUS_URL } from "../../../apiHelper";
-import styles from "./shipment.module.scss";
 import { Spinner } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-function Shipment() {
+//apiHelper
+import { MY_SHIPMENT_URL, STATUS_URL } from "../../../apiHelper";
+//css
+import styles from "./shipment.module.scss";
+
+const Shipment = () => {
   const token = sessionStorage.getItem("token");
   const [quotes, setQuotes] = useState([]);
   const [message, setMessage] = useState("");
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
-  
+
   useEffect(() => {
     const shipment = async () => {
       await axios
@@ -23,10 +26,9 @@ function Shipment() {
           setQuotes(res.data);
         })
         .catch((error) => {
-          setMessage(error)
+          setMessage(error);
         });
     };
-
     shipment();
   }, []);
 
@@ -53,11 +55,9 @@ function Shipment() {
         }
       )
       .then((res) => {
-        console.log(res);
         setMessage("");
       })
       .catch((error) => {
-        console.log(error.response.data.errors[0].message);
         setMessage(error.response.data.errors[0].message);
       });
   };
@@ -66,6 +66,7 @@ function Shipment() {
     <div className={`${styles.container} p-2`}>
       <h5>My Shipment</h5>
       <div className={`${styles.tableContainer}`}>
+        {message ? <h5>{message}</h5> : ""}
         <Table className={`${styles.table}`} responsive>
           <thead>
             <tr>
@@ -86,7 +87,9 @@ function Shipment() {
                   <>
                     <tr>
                       <td>{++index}</td>
-                      <td><NavLink to={''}>{item.orderId}</NavLink></td>
+                      <td>
+                        <NavLink to={""}>{item.orderId}</NavLink>
+                      </td>
                       <td>{item.customer}</td>
                       <td>{item.serviceName}</td>
                       <td>{item.fromCity}</td>
@@ -119,9 +122,9 @@ function Shipment() {
           </tbody>
         </Table>
       </div>
-      {message? <h6 className="error">{message}</h6> :''}
+      {message ? <h6 className="error">{message}</h6> : ""}
     </div>
   );
-}
+};
 
 export default Shipment;

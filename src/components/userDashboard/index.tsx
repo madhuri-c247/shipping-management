@@ -30,7 +30,7 @@ const UserDashboard = () => {
         <ul>
           <NavLink
             className={({ isActive }) => (isActive ? styles.active : "")}
-            to={"/user/quote/letter"}
+            to={"/user/quote"}
           >
             <TfiMenuAlt className={styles.icon} />
             Quote

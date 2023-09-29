@@ -192,7 +192,7 @@ const SignUp: React.FC = () => {
           {Successful ? (
             <Toast
               bg={"Success".toLowerCase()}
-              className={`${styles.toast} d-inline-block m-1`}
+              className={`toast d-inline-block m-1`}
             >
               <Toast.Body>
                 Account Created, Please Verify Your email !!

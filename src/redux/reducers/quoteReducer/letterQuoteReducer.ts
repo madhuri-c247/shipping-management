@@ -37,12 +37,13 @@ const letterReducer = createSlice({
         });
     },
     AddPackage: (state, actions) => {
-      const { values, postalFrom, postalTo, token } = actions.payload;
+      const { values, postalFrom, postalTo, dropDown, token } = actions.payload;
       console.log(values, postalFrom, postalTo);
       const combined = {
         ...values,
         ...postalFrom,
         ...postalTo,
+        ...dropDown
       };
       axios
         .post(PACKAGE_QUOTE_URL, combined, {

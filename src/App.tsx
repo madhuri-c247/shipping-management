@@ -31,17 +31,13 @@ function App() {
           <Route
             path="/home"
             element={
-              <Auth>
                 <Home />
-              </Auth>
             }
           />
           <Route
             path="/"
             element={
-              <Auth>
                 <Home />
-              </Auth>
             }
           >
             <Route
@@ -61,9 +57,9 @@ function App() {
           <Route
             path="/user"
             element={
-               <Auth>
-                 <User />
-               </Auth>
+              <Auth>
+                <User />
+              </Auth>
             }
           >
             <Route path="/user/quote" element={<Quote />}>
@@ -76,7 +72,10 @@ function App() {
           </Route>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/login/reset-password-verification" element={<ResetPassword />} />
+          <Route
+            path="/login/reset-password-verification"
+            element={<ResetPassword />}
+          />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="*" element={<Error />} />
         </Routes>

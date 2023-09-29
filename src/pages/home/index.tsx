@@ -1,4 +1,6 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Toast } from "react-bootstrap";
 //css
 import styles from "./home.module.scss";
 //assets
@@ -8,8 +10,6 @@ import { BsEnvelope } from "react-icons/bs";
 import { LuPackage2 } from "react-icons/lu";
 //nav-layout
 import Layout from "../../layout/NavLayout";
-import { useEffect, useState } from "react";
-import { Toast } from "react-bootstrap";
 
 const Home = () => {
   const [error, setError] = useState(false);

@@ -1,9 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Formik, Field, ErrorMessage } from "formik";
 import { Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 import { useState } from "react";
-import * as Yup from "yup";
 import axios from "axios";
 //CSS
 import styles from "../login.module.scss";
@@ -13,6 +11,7 @@ import { UserState } from "../../../models/UserState";
 import Button from "../../../common/button/index";
 //apiHelper
 import { RESET_PASSWORD_URL } from "../../../apiHelper";
+//validations
 import { resetValidationSchema } from "../../../utils/Validation";
 
 const Login: React.FC = () => {
@@ -29,19 +28,18 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (values: UserState) => {
     const url = RESET_PASSWORD_URL;
-    try {
-      axios
-        .put(`${url}${token}`, {
-          confirmPassword: values.confirmPassword,
-          password: values.password,
-        })
-        .then((res) => {
-          navigate("/login");
-        });
-    } catch (error) {
-      // setMessage(error.response.data[0].error)
-      console.log(error);
-    }
+
+    axios
+      .put(`${url}${token}`, {
+        confirmPassword: values.confirmPassword,
+        password: values.password,
+      })
+      .then((res) => {
+        navigate("/login");
+      })
+      .catch((error) => {
+        setMessage(error.response.error);
+      });
   };
 
   return (

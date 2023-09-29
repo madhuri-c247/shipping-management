@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
+import { Spinner } from "react-bootstrap";
 //apiHelper
 import { YOUR_VERIFICATION_ENDPOINT } from "../../../apiHelper";
 
@@ -28,7 +29,14 @@ const Verification = () => {
     verifyToken();
   }, [token]);
 
-  return <h3> verifying </h3>;
+  return (
+    <>
+      <div className="spinner">
+        <h5>Please Wait! Verifying Your Email..</h5>
+        <Spinner animation="grow" variant="info" />
+      </div>
+    </>
+  );
 };
 
 export default Verification;

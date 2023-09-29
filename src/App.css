@@ -25,11 +25,33 @@ label {
 .form{
   background-color: white;
 }
+.errorContainer{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .error{
   color: red;
   font-size: 10px;
   text-transform: capitalize;
 }
+.success{
+  color: green;
+  font-size: 10px;
+  text-transform: capitalize;
+}
+.toast {
+  color: white;
+  z-index: 9999;
+  position: absolute;
+  text-transform: capitalize;
+  bottom: 1%;
+  right: 2%;
+  width: 20%;
+}
 .spinner{
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
