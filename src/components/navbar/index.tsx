@@ -26,12 +26,7 @@ const Navbar = () => {
           >
             Login
           </NavLink>
-          <NavLink
-            className={({ isActive }) => (isActive ? styles.active : "")}
-            to={"/home/contact"}
-          >
-            Contact US
-          </NavLink>
+         
         </ul>
       </nav>
     </>

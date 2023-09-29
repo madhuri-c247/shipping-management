@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, Formik } from "formik";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Form, Toast } from "react-bootstrap";
 import axios from "axios";
 //common
@@ -20,6 +20,7 @@ export const ForgotPassword = () => {
     email: "",
   };
 
+
   const handleSubmit = (values: UserState) => {
     axios
       .put(FORGOT_PASSWORD_URL, {
@@ -29,7 +30,9 @@ export const ForgotPassword = () => {
         setSuccess(res.data.email);
       })
       .catch((error) => {
-        setMessage(error.response.data[0].errors);
+        setMessage("")
+        setMessage(error.response.data.message);
+        
       });
   };
   return (

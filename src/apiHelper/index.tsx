@@ -10,3 +10,5 @@ export const PACKAGE_QUOTE_URL = `${apiUrl}/quote/new-package`;
 export const MY_SHIPMENT_URL = `${apiUrl}/quote/myShipping`;
 export const SAVED_QUOTE_URL = `${apiUrl}/quote/saveQuote`;
 export const STATUS_URL = `${apiUrl}/quote/status`;
+export const GUEST_LETTER_QUOTE_URL = `${apiUrl}/quote/guest-letter`;
+export const GUEST_PACKAGE_QUOTE_URL = `${apiUrl}/quote/guest-package`;

@@ -80,7 +80,10 @@ const Login: React.FC = () => {
                 ) : (
                   ""
                 )}
-                <Button value="Reset" className="login-btn" />
+               
+
+                <Button value="Reset" className="reset-btn" />
+                
               </div>
             </>
           </Form>
