@@ -42,58 +42,58 @@ export const PackageSelectionGuest = () => {
   return (
     <form onSubmit={handleSubmit} className={`${styles.container}`}>
       <div className={`${styles.content}`}>
-        <label >From</label>
+        <label >From City <span className="required-asterisk" aria-label="required">*</span></label>
         <input
           type="text"
           name="fromCity"
           onChange={handleChange}
-          placeholder="from"
+          placeholder="From City "
           value={info.fromCity}
           required
         />
       </div>
       <div className={`${styles.content}`}>
-        <label >To</label>
+        <label >To City <span className="required-asterisk" aria-label="required">*</span></label>
         <input
           type="text"
           name="toCity"
           onChange={handleChange}
-          placeholder="to"
+          placeholder="To City"
           value={info.toCity}
           required
         />
       </div>
       <div className={`${styles.content}`}>
-        <label >Packages</label>
+        <label >Packages <span className="required-asterisk" aria-label="required">*</span></label>
         <input
           type="number"
           name="package"
           onChange={handleChange}
-          placeholder="package"
+          placeholder="Package"
           value={info.package}
           required
         />
       </div>
       <div className={`${styles.content}`}>
-        <label >Total Weight</label>
+        <label >Total Weight <span className="required-asterisk" aria-label="required">*</span></label>
         <input
           type="text"
           name="totalWeight"
           onChange={handleChange}
-          placeholder="weight"
+          placeholder="Weight"
           value={info.totalWeight}
           required
         />
       </div>
       <div className={`${styles.contactContainer} `}>
-        <label>Contact Information</label>
+        <label>Contact Information <span className="required-asterisk" aria-label="required">*</span></label>
         <div className={`${styles.contactContent} d-flex-r`}>
           <input
             className={`${styles.contactInput}`}
             type="text"
             name="name"
             onChange={handleChange}
-            placeholder="name"
+            placeholder="Enter Name"
             value={info.name}
             required
           />
@@ -102,7 +102,7 @@ export const PackageSelectionGuest = () => {
             type="text"
             name="phone"
             onChange={handleChange}
-            placeholder="phone"
+            placeholder="Enter Phone Number"
             value={info.phone}
             required
           />
@@ -111,7 +111,7 @@ export const PackageSelectionGuest = () => {
             type="text"
             name="email"
             onChange={handleChange}
-            placeholder="email"
+            placeholder="Enter Email"
             value={info.email}
             required
           />

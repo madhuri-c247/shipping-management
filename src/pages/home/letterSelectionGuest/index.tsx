@@ -40,7 +40,7 @@ export const LetterSelectionGuest = () => {
   return (
     <form onSubmit={handleSubmit} className={`${styles.container}`}>
       <div className={`${styles.content}`}>
-        <label>From City</label>
+        <label>From City <span className="required-asterisk" aria-label="required">*</span></label>
         <input
           type="text"
           name="fromCity"
@@ -51,7 +51,7 @@ export const LetterSelectionGuest = () => {
         />
       </div>
       <div className={`${styles.content}`}>
-        <label> To City</label>
+        <label> To City <span className="required-asterisk" aria-label="required">*</span></label>
         <input
           type="text"
           name="toCity"
@@ -62,7 +62,7 @@ export const LetterSelectionGuest = () => {
         />
       </div>
       <div className={`${styles.contactContainer} `}>
-        <label >Contact Information</label>
+        <label >Contact Information <span className="required-asterisk" aria-label="required">*</span></label>
         <div className={`${styles.contactContent} d-flex-r`}>
           <input
             className={`${styles.contactInput}`}

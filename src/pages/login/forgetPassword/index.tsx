@@ -20,7 +20,6 @@ export const ForgotPassword = () => {
     email: "",
   };
 
-
   const handleSubmit = (values: UserState) => {
     axios
       .put(FORGOT_PASSWORD_URL, {

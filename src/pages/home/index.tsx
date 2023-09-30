@@ -30,7 +30,7 @@ const Home = () => {
         <div className={`${styles.overlay}`}></div>
         <div className={`${styles.shipmentContainer}`}>
           <div className={`${styles.heading}`}>
-            <h1>Book a shipment instantly</h1>
+            <h3>Book a shipment instantly</h3>
             <pre>
               The fast and easy shipping solution for your business. Get your
               quote in seconds today

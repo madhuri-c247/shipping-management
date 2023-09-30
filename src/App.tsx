@@ -33,6 +33,7 @@ function App() {
             element={
                 <Home />
             }
+            
           />
           <Route
             path="/"

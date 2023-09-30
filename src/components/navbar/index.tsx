@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <>
       <nav className={`${styles.container} d-flex-r`}>
-        <h1 className={`${styles.heading}`}>ShipNow</h1>
+        <h3 className={`${styles.heading}`}>Ship Now</h3>
         <ul className={`${styles.menuContainer} d-flex-r`}>
           <NavLink
             className={({ isActive }) => (isActive ? styles.active : "")}

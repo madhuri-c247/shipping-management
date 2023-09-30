@@ -93,8 +93,8 @@ const SignUp: React.FC = () => {
                   <h1 className="m-3">Sign Up</h1>
                   <div>
                     <div className={`${styles.formContent}`}>
-                      <label>Company Name</label>
-                      <Field type="text" name="companyName" />
+                      <label>Company Name <span className="required-asterisk" aria-label="required">*</span></label>
+                      <Field type="text" name="companyName" placeholder="Company Name"/>
                       <ErrorMessage
                         name="companyName"
                         component="div"
@@ -104,8 +104,8 @@ const SignUp: React.FC = () => {
                   </div>
                   <div className={`${styles.input}`}>
                     <div className={`${styles.formContent}`}>
-                      <label>First Name</label>
-                      <Field name="firstName" type="text" />
+                      <label>First Name <span className="required-asterisk" aria-label="required">*</span></label>
+                      <Field name="firstName" type="text" placeholder="First Name"/>
                       <ErrorMessage
                         name="firstName"
                         component="div"
@@ -114,8 +114,8 @@ const SignUp: React.FC = () => {
                     </div>
 
                     <div className={`${styles.formContent}`}>
-                      <label>Last Name</label>
-                      <Field name="lastName" type="text" />
+                      <label>Last Name <span className="required-asterisk" aria-label="required">*</span></label>
+                      <Field name="lastName" type="text" placeholder="Last Name"/>
                       <ErrorMessage
                         name="lastName"
                         component="div"
@@ -125,8 +125,8 @@ const SignUp: React.FC = () => {
                   </div>
                   <div className={` ${styles.input}`}>
                     <div className={`${styles.formContent}`}>
-                      <label>Number</label>
-                      <Field name="number" type="tel" />
+                      <label>Phone Number <span className="required-asterisk" aria-label="required">*</span></label>
+                      <Field name="number" type="tel" placeholder="Phone Number"/>
                       <ErrorMessage
                         name="number"
                         component="div"
@@ -135,8 +135,8 @@ const SignUp: React.FC = () => {
                     </div>
 
                     <div className={`${styles.formContent}`}>
-                      <label>E-mail Address</label>
-                      <Field name="email" type="email" />
+                      <label>E-mail Address <span className="required-asterisk" aria-label="required">*</span></label>
+                      <Field name="email" type="email" placeholder="Email Address"/>
                       <ErrorMessage
                         name="email"
                         component="div"
@@ -146,8 +146,8 @@ const SignUp: React.FC = () => {
                   </div>
                   <div className={`  ${styles.input}`}>
                     <div className={`${styles.formContent}`}>
-                      <label>Password</label>
-                      <Field name="password" type="password" />
+                      <label>Password <span className="required-asterisk" aria-label="required">*</span></label>
+                      <Field name="password" type="password" placeholder="Password"/>
                       <ErrorMessage
                         name="password"
                         component="div"
@@ -156,8 +156,8 @@ const SignUp: React.FC = () => {
                     </div>
 
                     <div className={`${styles.formContent}`}>
-                      <label>Confirm Password</label>
-                      <Field name="confirmPassword" type="password" />
+                      <label>Confirm Password <span className="required-asterisk" aria-label="required">*</span></label>
+                      <Field name="confirmPassword" type="password" placeholder="Confirm Password"/>
                       <ErrorMessage
                         name="confirmPassword"
                         component="div"
