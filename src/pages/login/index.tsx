@@ -89,9 +89,9 @@ const Login: React.FC = () => {
                       component="div"
                       className={`${styles.error} error`}
                     />
-                    <button type="button" onClick={forgetPassword}>
+                    <a type="button" onClick={forgetPassword}>
                       Forget Password ?
-                    </button>
+                    </a>
                   </div>
                   <div className={`${styles.submit}`}>
                     {message ? (

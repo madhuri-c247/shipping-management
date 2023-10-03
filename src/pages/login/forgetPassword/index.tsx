@@ -43,10 +43,12 @@ export const ForgotPassword = () => {
       >
         {(formik) => (
           <Form className={` ${styles.form} `} onSubmit={formik.handleSubmit}>
-            <h4 className="m-1">Forgot Password</h4>
+            <h4 className="m-1">Reset Password</h4>
+            <p className={` ${styles.para} m-2`}>Enter Your email address and we will send you instructions to reset your password.</p>
+             
             <div className={`${styles.formContent}`}>
-              <label>Email </label>
-              <Field name="email" type="email" />
+              <label>Email <span className="required-asterisk" aria-label="required">*</span></label>
+              <Field name="email" type="email" placeholder="Enter Email"/>
               <ErrorMessage
                 name="email"
                 component="div"
@@ -66,7 +68,7 @@ export const ForgotPassword = () => {
               )}
               <Button
                 className={`${styles.forgotBtn}`}
-                value={"Send Reset Link"}
+                value={"Continue"}
               />
             </div>
           </Form>

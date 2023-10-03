@@ -4,7 +4,7 @@ import { Form } from "react-bootstrap";
 import { useState } from "react";
 import axios from "axios";
 //CSS
-import styles from "../login.module.scss";
+import styles from "./reset.module.scss";
 //models
 import { UserState } from "../../../models/UserState";
 //common
@@ -54,8 +54,8 @@ const Login: React.FC = () => {
             <>
               <h3 className="m-1">Reset Password</h3>
               <div className={`${styles.formContent}`}>
-                <label>Password</label>
-                <Field name="password" type="password" />
+                <label> Create Password <span className="required-asterisk" aria-label="required">*</span></label>
+                <Field name="password" type="password" placeholder="Create Password" />
                 <ErrorMessage
                   name="password"
                   component="div"
@@ -64,8 +64,8 @@ const Login: React.FC = () => {
               </div>
 
               <div className={`${styles.formContent}`}>
-                <label>Confirm Password</label>
-                <Field name="confirmPassword" type="password" />
+                <label>Confirm Password <span className="required-asterisk" aria-label="required">*</span></label>
+                <Field name="confirmPassword" type="password" placeholder="Confirm Password"/>
                 <ErrorMessage
                   name="confirmPassword"
                   component="div"
@@ -80,10 +80,7 @@ const Login: React.FC = () => {
                 ) : (
                   ""
                 )}
-               
-
-                <Button value="Reset" className="reset-btn" />
-                
+                <Button value="Reset password" className={`${styles.resetBtn}`} />
               </div>
             </>
           </Form>

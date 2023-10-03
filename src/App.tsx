@@ -18,10 +18,17 @@ import Shipment from "./pages/user/shipment";
 import Setting from "./pages/user/accountSetting";
 import Letter from "./pages/user/quote/letter";
 import Package from "./pages/user/quote/package";
+//admin-pages
+import Admin from "./pages/admin";
+import AdminSavedQuote from "./pages/admin/savedQuotes";
 import Verification from "./pages/signup/verification";
 import Auth from "./Auth";
 import { ForgotPassword } from "./pages/login/forgetPassword";
 import ResetPassword from "./pages/login/resetPassword";
+import AdminSetting from "./pages/admin/setting";
+import AllUsers from "./pages/admin/user";
+import Reports from "./pages/admin/reports";
+import AllShipment from "./pages/admin/shipment";
 
 function App() {
   return (
@@ -58,9 +65,9 @@ function App() {
           <Route
             path="/user"
             element={
-              <Auth>
+              // <Auth>
+              // </Auth>
                 <User />
-              </Auth>
             }
           >
             <Route path="/user/quote" element={<Quote />}>
@@ -70,6 +77,14 @@ function App() {
             <Route path="/user/saved-quotes" element={<SavedQuote />} />
             <Route path="/user/shipment" element={<Shipment />} />
             <Route path="/user/setting" element={<Setting />} />
+          </Route>
+          <Route path="/admin" element={<Admin/>}>
+            <Route path="/admin/saved-quotes" element={<AdminSavedQuote/>}/>
+            <Route path="/admin/admin-setting" element={<AdminSetting/>}/>
+            <Route path="/admin/all-users" element={<AllUsers/>}/>
+            <Route path="/admin/report" element={<Reports/>}/>
+            <Route path="/admin/all-shipment" element={<AllShipment/>}/>
+
           </Route>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />

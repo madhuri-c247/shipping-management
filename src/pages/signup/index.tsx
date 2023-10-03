@@ -59,24 +59,13 @@ const SignUp: React.FC = () => {
           <div className={`${styles.childContainer} d-flex-r`}>
             <div className={` ${styles.container1} `}>
               <img
-                className={`${styles.image}`}
+                className={`${styles.image} `}
                 src={signupBgImage}
                 alt="group-of-people"
               />
               <div className={`${styles.content}`}>
                 <h3>Get Started absolutely Free.</h3>
-                <span className={`d-flex-r `}>
-                  <IoMdCheckmarkCircle />
-                  Instant Pricing for LTL and small packages
-                </span>
-                <span className={`d-flex-r `}>
-                  <IoMdCheckmarkCircle />
-                  Instant Pricing for LTL and small packages
-                </span>
-                <span className={`d-flex-r `}>
-                  <IoMdCheckmarkCircle />
-                  Instant Pricing for LTL and small packages
-                </span>
+                
               </div>
             </div>
 
@@ -92,9 +81,9 @@ const SignUp: React.FC = () => {
                 >
                   <h1 className="m-3">Sign Up</h1>
                   <div>
-                    <div className={`${styles.formContent}`}>
-                      <label>Company Name <span className="required-asterisk" aria-label="required">*</span></label>
-                      <Field type="text" name="companyName" placeholder="Company Name"/>
+                    <div className={`${styles.formContent} w-100`} >
+                      <label className="" >Company Name <span className="required-asterisk" aria-label="required">*</span></label>
+                      <Field className="" type="text" name="companyName" placeholder="Company Name"/>
                       <ErrorMessage
                         name="companyName"
                         component="div"
