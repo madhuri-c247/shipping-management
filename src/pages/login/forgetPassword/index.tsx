@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Formik } from "formik";
-import { useState, useEffect } from "react";
-import { Form, Toast } from "react-bootstrap";
+import { useState } from "react";
+import { Form } from "react-bootstrap";
 import axios from "axios";
 //common
 import Button from "../../../common/button";
@@ -29,9 +29,8 @@ export const ForgotPassword = () => {
         setSuccess(res.data.email);
       })
       .catch((error) => {
-        setMessage("")
+        setMessage("");
         setMessage(error.response.data.message);
-        
       });
   };
   return (
@@ -44,11 +43,19 @@ export const ForgotPassword = () => {
         {(formik) => (
           <Form className={` ${styles.form} `} onSubmit={formik.handleSubmit}>
             <h4 className="m-1">Reset Password</h4>
-            <p className={` ${styles.para} m-2`}>Enter Your email address and we will send you instructions to reset your password.</p>
-             
+            <p className={` ${styles.para} m-2`}>
+              Enter Your email address and we will send you instructions to
+              reset your password.
+            </p>
+
             <div className={`${styles.formContent}`}>
-              <label>Email <span className="required-asterisk" aria-label="required">*</span></label>
-              <Field name="email" type="email" placeholder="Enter Email"/>
+              <label>
+                Email{" "}
+                <span className="required-asterisk" aria-label="required">
+                  *
+                </span>
+              </label>
+              <Field name="email" type="email" placeholder="Enter Email" />
               <ErrorMessage
                 name="email"
                 component="div"
@@ -66,10 +73,7 @@ export const ForgotPassword = () => {
               ) : (
                 ""
               )}
-              <Button
-                className={`${styles.forgotBtn}`}
-                value={"Continue"}
-              />
+              <Button className={`${styles.forgotBtn}`} value={"Continue"} />
             </div>
           </Form>
         )}

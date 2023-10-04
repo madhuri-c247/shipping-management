@@ -7,7 +7,7 @@ import styles from "./admin.module.scss";
 const Admin = () => {
   return (
     <div className={styles.container}>
-      <AdminDashboard/>
+      <AdminDashboard />
       <div className={styles.content}>
         <div className={styles.header}>
           <pre>

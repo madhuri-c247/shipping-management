@@ -54,8 +54,18 @@ const Login: React.FC = () => {
             <>
               <h3 className="m-1">Reset Password</h3>
               <div className={`${styles.formContent}`}>
-                <label> Create Password <span className="required-asterisk" aria-label="required">*</span></label>
-                <Field name="password" type="password" placeholder="Create Password" />
+                <label>
+                  {" "}
+                  Create Password{" "}
+                  <span className="required-asterisk" aria-label="required">
+                    *
+                  </span>
+                </label>
+                <Field
+                  name="password"
+                  type="password"
+                  placeholder="Create Password"
+                />
                 <ErrorMessage
                   name="password"
                   component="div"
@@ -64,8 +74,17 @@ const Login: React.FC = () => {
               </div>
 
               <div className={`${styles.formContent}`}>
-                <label>Confirm Password <span className="required-asterisk" aria-label="required">*</span></label>
-                <Field name="confirmPassword" type="password" placeholder="Confirm Password"/>
+                <label>
+                  Confirm Password{" "}
+                  <span className="required-asterisk" aria-label="required">
+                    *
+                  </span>
+                </label>
+                <Field
+                  name="confirmPassword"
+                  type="password"
+                  placeholder="Confirm Password"
+                />
                 <ErrorMessage
                   name="confirmPassword"
                   component="div"
@@ -80,7 +99,10 @@ const Login: React.FC = () => {
                 ) : (
                   ""
                 )}
-                <Button value="Reset password" className={`${styles.resetBtn}`} />
+                <Button
+                  value="Reset password"
+                  className={`${styles.resetBtn}`}
+                />
               </div>
             </>
           </Form>

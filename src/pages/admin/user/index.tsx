@@ -13,12 +13,12 @@ const AllUser = () => {
   const [quotes, setQuotes] = useState([]);
   const [message, setMessage] = useState("");
   useEffect(() => {
-    axios.get(ADMIN_SAVED_QUOTES_URL).then((res)=>{
-      console.log(res, 'res')
-    }).catch((error)=>{
-
-    })
-     
+    axios
+      .get(ADMIN_SAVED_QUOTES_URL)
+      .then((res) => {
+        console.log(res, "res");
+      })
+      .catch((error) => {});
   }, []);
 
   return (

@@ -1,5 +1,4 @@
 export interface QuoteState {
-  
   fromCity?: string;
   fromProvince?: string;
   fromCountry?: string;
@@ -15,8 +14,8 @@ export interface QuoteState {
   unit?: string;
 }
 
-export interface Quote{
-  quotes: QuoteState,
-  error: string,
-  success: string
+export interface Quote {
+  quotes: QuoteState;
+  error: string;
+  success: string;
 }

@@ -35,19 +35,8 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/home"
-            element={
-                <LetterSelectionGuest />
-            }
-            
-          />
-          <Route
-            path="/"
-            element={
-                <Home />
-            }
-          >
+          <Route path="/home" element={<LetterSelectionGuest />} />
+          <Route path="/" element={<Home />}>
             <Route
               path="/home/letter-selection"
               element={<LetterSelectionGuest />}
@@ -78,13 +67,12 @@ function App() {
             <Route path="/user/shipment" element={<Shipment />} />
             <Route path="/user/setting" element={<Setting />} />
           </Route>
-          <Route path="/admin" element={<Admin/>}>
-            <Route path="/admin/saved-quotes" element={<AdminSavedQuote/>}/>
-            <Route path="/admin/admin-setting" element={<AdminSetting/>}/>
-            <Route path="/admin/all-users" element={<AllUsers/>}/>
-            <Route path="/admin/report" element={<Reports/>}/>
-            <Route path="/admin/all-shipment" element={<AllShipment/>}/>
-
+          <Route path="/admin" element={<Admin />}>
+            <Route path="/admin/saved-quotes" element={<AdminSavedQuote />} />
+            <Route path="/admin/admin-setting" element={<AdminSetting />} />
+            <Route path="/admin/all-users" element={<AllUsers />} />
+            <Route path="/admin/report" element={<Reports />} />
+            <Route path="/admin/all-shipment" element={<AllShipment />} />
           </Route>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />

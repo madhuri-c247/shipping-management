@@ -44,19 +44,19 @@ const SignUp: React.FC = () => {
           setInterval(() => {
             setSuccessful(true);
             setSpinner(false);
-            setMessage(response.data.message)
-            values.companyName=''
-            values.firstName=''
-            values.lastName=''
-            values.number=''
-            values.email=''
-            values.password=''
-            values.confirmPassword=''
+            setMessage(response.data.message);
+            values.companyName = "";
+            values.firstName = "";
+            values.lastName = "";
+            values.number = "";
+            values.email = "";
+            values.password = "";
+            values.confirmPassword = "";
           }, 2000);
         }
       })
       .catch((error) => {
-        setSuccessful(false)
+        setSuccessful(false);
         setMessage(error.response.data.message);
       });
   };
@@ -74,7 +74,6 @@ const SignUp: React.FC = () => {
               />
               <div className={`${styles.content}`}>
                 <h3>Get Started absolutely Free.</h3>
-                
               </div>
             </div>
 
@@ -90,9 +89,22 @@ const SignUp: React.FC = () => {
                 >
                   <h1 className="m-3">Sign Up</h1>
                   <div>
-                    <div className={`${styles.formContent} w-100`} >
-                      <label className="" >Company Name <span className="required-asterisk" aria-label="required">*</span></label>
-                      <Field className="" type="text" name="companyName" placeholder="Company Name"/>
+                    <div className={`${styles.formContent} w-100`}>
+                      <label className="">
+                        Company Name{" "}
+                        <span
+                          className="required-asterisk"
+                          aria-label="required"
+                        >
+                          *
+                        </span>
+                      </label>
+                      <Field
+                        className=""
+                        type="text"
+                        name="companyName"
+                        placeholder="Company Name"
+                      />
                       <ErrorMessage
                         name="companyName"
                         component="div"
@@ -102,8 +114,20 @@ const SignUp: React.FC = () => {
                   </div>
                   <div className={`${styles.input}`}>
                     <div className={`${styles.formContent}`}>
-                      <label>First Name <span className="required-asterisk" aria-label="required">*</span></label>
-                      <Field name="firstName" type="text" placeholder="First Name"/>
+                      <label>
+                        First Name{" "}
+                        <span
+                          className="required-asterisk"
+                          aria-label="required"
+                        >
+                          *
+                        </span>
+                      </label>
+                      <Field
+                        name="firstName"
+                        type="text"
+                        placeholder="First Name"
+                      />
                       <ErrorMessage
                         name="firstName"
                         component="div"
@@ -112,8 +136,20 @@ const SignUp: React.FC = () => {
                     </div>
 
                     <div className={`${styles.formContent}`}>
-                      <label>Last Name <span className="required-asterisk" aria-label="required">*</span></label>
-                      <Field name="lastName" type="text" placeholder="Last Name"/>
+                      <label>
+                        Last Name{" "}
+                        <span
+                          className="required-asterisk"
+                          aria-label="required"
+                        >
+                          *
+                        </span>
+                      </label>
+                      <Field
+                        name="lastName"
+                        type="text"
+                        placeholder="Last Name"
+                      />
                       <ErrorMessage
                         name="lastName"
                         component="div"
@@ -123,8 +159,20 @@ const SignUp: React.FC = () => {
                   </div>
                   <div className={` ${styles.input}`}>
                     <div className={`${styles.formContent}`}>
-                      <label>Phone Number <span className="required-asterisk" aria-label="required">*</span></label>
-                      <Field name="number" type="tel" placeholder="Phone Number"/>
+                      <label>
+                        Phone Number{" "}
+                        <span
+                          className="required-asterisk"
+                          aria-label="required"
+                        >
+                          *
+                        </span>
+                      </label>
+                      <Field
+                        name="number"
+                        type="tel"
+                        placeholder="Phone Number"
+                      />
                       <ErrorMessage
                         name="number"
                         component="div"
@@ -133,8 +181,20 @@ const SignUp: React.FC = () => {
                     </div>
 
                     <div className={`${styles.formContent}`}>
-                      <label>E-mail Address <span className="required-asterisk" aria-label="required">*</span></label>
-                      <Field name="email" type="email" placeholder="Email Address"/>
+                      <label>
+                        E-mail Address{" "}
+                        <span
+                          className="required-asterisk"
+                          aria-label="required"
+                        >
+                          *
+                        </span>
+                      </label>
+                      <Field
+                        name="email"
+                        type="email"
+                        placeholder="Email Address"
+                      />
                       <ErrorMessage
                         name="email"
                         component="div"
@@ -144,8 +204,20 @@ const SignUp: React.FC = () => {
                   </div>
                   <div className={`  ${styles.input}`}>
                     <div className={`${styles.formContent}`}>
-                      <label>Password <span className="required-asterisk" aria-label="required">*</span></label>
-                      <Field name="password" type="password" placeholder="Password"/>
+                      <label>
+                        Password{" "}
+                        <span
+                          className="required-asterisk"
+                          aria-label="required"
+                        >
+                          *
+                        </span>
+                      </label>
+                      <Field
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                      />
                       <ErrorMessage
                         name="password"
                         component="div"
@@ -154,8 +226,20 @@ const SignUp: React.FC = () => {
                     </div>
 
                     <div className={`${styles.formContent}`}>
-                      <label>Confirm Password <span className="required-asterisk" aria-label="required">*</span></label>
-                      <Field name="confirmPassword" type="password" placeholder="Confirm Password"/>
+                      <label>
+                        Confirm Password{" "}
+                        <span
+                          className="required-asterisk"
+                          aria-label="required"
+                        >
+                          *
+                        </span>
+                      </label>
+                      <Field
+                        name="confirmPassword"
+                        type="password"
+                        placeholder="Confirm Password"
+                      />
                       <ErrorMessage
                         name="confirmPassword"
                         component="div"
@@ -164,10 +248,11 @@ const SignUp: React.FC = () => {
                     </div>
                   </div>
                   {Successful ? (
-                    <h6 className={`${styles.message} success m-1`}>{message}</h6>
-                    ) : (
-                      
-                      <h6 className={`${styles.message} error m-1`}>{message}</h6>
+                    <h6 className={`${styles.message} success m-1`}>
+                      {message}
+                    </h6>
+                  ) : (
+                    <h6 className={`${styles.message} error m-1`}>{message}</h6>
                   )}
                   <div className={`${styles.submit}`}>
                     {spinner ? (

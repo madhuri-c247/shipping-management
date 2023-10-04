@@ -1,3 +1,5 @@
+import axios from "axios";
+import { ErrorMessage, Field, Formik } from "formik";
 import { useState } from "react";
 //css
 import styles from "./letterSelectionGuest.module.scss";
@@ -5,9 +7,9 @@ import styles from "./letterSelectionGuest.module.scss";
 import Button from "../../../common/button/index";
 //models
 import { GuestState } from "../../../models/GuestState";
-import axios from "axios";
+//apiHelper
 import { GUEST_PACKAGE_QUOTE_URL } from "../../../apiHelper";
-import { ErrorMessage, Field, Formik } from "formik";
+//validations
 import { GuestLetterValidationSchema } from "../../../utils/Validation";
 
 export const LetterSelectionGuest = () => {
@@ -28,11 +30,11 @@ export const LetterSelectionGuest = () => {
       })
       .then((res) => {
         setMessage(res.data.message);
-        values.fromCity=''
-        values.toCity=''
-        values.name=''
-        values.phone=''
-        values.email=''
+        values.fromCity = "";
+        values.toCity = "";
+        values.name = "";
+        values.phone = "";
+        values.email = "";
       })
       .catch((error) => {
         setMessage("Something is Wrong!" + error);

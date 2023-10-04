@@ -72,8 +72,17 @@ const Login: React.FC = () => {
                 <>
                   <h1 className="m-1">Login</h1>
                   <div className={`${styles.formContent}`}>
-                    <label>E-mail <span className="required-asterisk" aria-label="required">*</span></label>
-                    <Field name="email" type="email" placeholder="Enter Email"/>
+                    <label>
+                      E-mail{" "}
+                      <span className="required-asterisk" aria-label="required">
+                        *
+                      </span>
+                    </label>
+                    <Field
+                      name="email"
+                      type="email"
+                      placeholder="Enter Email"
+                    />
                     <ErrorMessage
                       name="email"
                       component="div"
@@ -82,8 +91,17 @@ const Login: React.FC = () => {
                   </div>
 
                   <div className={`${styles.formContent}`}>
-                    <label>Password <span className="required-asterisk" aria-label="required">*</span></label>
-                    <Field name="password" type="password" placeholder="Enter Password"/>
+                    <label>
+                      Password{" "}
+                      <span className="required-asterisk" aria-label="required">
+                        *
+                      </span>
+                    </label>
+                    <Field
+                      name="password"
+                      type="password"
+                      placeholder="Enter Password"
+                    />
                     <ErrorMessage
                       name="password"
                       component="div"

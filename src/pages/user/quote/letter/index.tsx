@@ -168,7 +168,12 @@ const Letter = () => {
           <div className={`${styles.container} m-2 d-flex-r`}>
             <div className={`${styles.innerContainer} d-flex-col w-50 `}>
               <div className={`${styles.fromDiv} d-flex-col `}>
-                <h6 className="mb-3">Shipping From <span className="required-asterisk" aria-label="required">*</span></h6>
+                <h6 className="mb-3">
+                  Shipping From{" "}
+                  <span className="required-asterisk" aria-label="required">
+                    *
+                  </span>
+                </h6>
                 <div className="d-flex-col">
                   <input
                     className="w-100"
@@ -178,12 +183,12 @@ const Letter = () => {
                     id="fromPostal"
                     value={postalFrom.fromPostal}
                     onChange={(e) => handleChange(e, "fromPostal")}
-                    />
-                    {postalFromError ? (
-                      <h6 className="error">{postalFromError}</h6>
-                    ) : (
-                      ""
-                    )}
+                  />
+                  {postalFromError ? (
+                    <h6 className="error">{postalFromError}</h6>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <div className={`${styles.portalContent}  d-flex-r`}>
                   <Field
@@ -215,10 +220,20 @@ const Letter = () => {
                 </div>
               </div>
               <div className={`${styles.packageContainer} `}>
-                <h6>Package Details <span className="required-asterisk" aria-label="required">*</span></h6>
+                <h6>
+                  Package Details{" "}
+                  <span className="required-asterisk" aria-label="required">
+                    *
+                  </span>
+                </h6>
                 <div className={`${styles.innerPackage}  d-flex-r`}>
                   <div className={`w-50 d-flex-col`}>
-                    <label htmlFor="weight">Weight <span className="required-asterisk" aria-label="required">*</span></label>
+                    <label htmlFor="weight">
+                      Weight{" "}
+                      <span className="required-asterisk" aria-label="required">
+                        *
+                      </span>
+                    </label>
                     <Field
                       className="w-100"
                       name="weight"
@@ -232,7 +247,12 @@ const Letter = () => {
                     />
                   </div>
                   <div className={`${styles.unitDiv}  d-flex-col`}>
-                    <label htmlFor="unit">Unit <span className="required-asterisk" aria-label="required">*</span></label>
+                    <label htmlFor="unit">
+                      Unit{" "}
+                      <span className="required-asterisk" aria-label="required">
+                        *
+                      </span>
+                    </label>
                     <select
                       className={`w-100 d-flex-col`}
                       name="unit"
@@ -257,7 +277,13 @@ const Letter = () => {
             <div>
               <div className={`${styles.innerContainer} d-flex-col w-100`}>
                 <div className={`${styles.fromDiv} d-flex-col`}>
-                  <h6 className="mb-3"> Shipping To <span className="required-asterisk" aria-label="required">*</span></h6>
+                  <h6 className="mb-3">
+                    {" "}
+                    Shipping To{" "}
+                    <span className="required-asterisk" aria-label="required">
+                      *
+                    </span>
+                  </h6>
                   <div className="d-flex-col">
                     <input
                       className="w-100"
@@ -266,12 +292,12 @@ const Letter = () => {
                       placeholder=" Postal Code"
                       value={postalTo.toPostal}
                       onChange={(e) => handleChange(e, "toPostal")}
-                      />
-                      {postalToError ? (
-                        <h6 className="error">{postalToError}</h6>
-                      ) : (
-                        ""
-                      )}
+                    />
+                    {postalToError ? (
+                      <h6 className="error">{postalToError}</h6>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className={`${styles.portalContent}  d-flex-r`}>
                     <Field
@@ -303,7 +329,15 @@ const Letter = () => {
                 <div>
                   <div className={`${styles.insuranceContainer}  d-flex-r`}>
                     <div className={`${styles.currency} w-25  d-flex-col`}>
-                      <label htmlFor="insurance">Insurance <span className="required-asterisk" aria-label="required">*</span></label>
+                      <label htmlFor="insurance">
+                        Insurance{" "}
+                        <span
+                          className="required-asterisk"
+                          aria-label="required"
+                        >
+                          *
+                        </span>
+                      </label>
                       <Field
                         type="number"
                         name="insuranceAmount"
@@ -317,7 +351,15 @@ const Letter = () => {
                       />
                     </div>
                     <div className={`${styles.currency} w-25  d-flex-col`}>
-                      <label htmlFor="currency">Currency <span className="required-asterisk" aria-label="required">*</span></label>
+                      <label htmlFor="currency">
+                        Currency{" "}
+                        <span
+                          className="required-asterisk"
+                          aria-label="required"
+                        >
+                          *
+                        </span>
+                      </label>
                       <select
                         name="currency"
                         onChange={handleDropdown}

@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: row;
 }
-.d-flex-col{
+.d-flex-col {
   display: flex;
   flex-direction: column;
 }
@@ -23,23 +23,23 @@ input {
 label {
   margin: 5px 0px;
 }
-.form{
+.form {
   background-color: white;
 }
-.errorContainer{
+.errorContainer {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.error{
+.error {
   color: red;
   font-size: 10px;
   margin: 1%;
   width: 100%;
   text-transform: capitalize;
 }
-.success{
+.success {
   color: green;
   font-size: 12px;
   margin-top: 2%;
@@ -55,18 +55,18 @@ label {
   right: 2%;
   width: 20%;
 }
-.spinner{
+.spinner {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.reset-btn{
+.reset-btn {
   width: 100%;
 }
-.submit{
+.submit {
   width: 100%;
   border: 1px solid red;
 }
-.required-asterisk{
+.required-asterisk {
   color: red;
 }

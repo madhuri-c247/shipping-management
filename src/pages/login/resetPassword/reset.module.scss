@@ -26,12 +26,10 @@
         margin: 1% 0px;
         font-size: 14px;
       }
-      input{
+      input {
         width: 100%;
       }
     }
-
-
     .submit {
       display: flex;
       flex-direction: column;
@@ -41,14 +39,12 @@
       justify-content: space-around;
       align-items: center;
       .message {
-        // border: 1px solid red;
         font-size: 12px;
         margin-top: 2%;
       }
-      .resetBtn{
+      .resetBtn {
         width: 90%;
       }
-    
     }
   }
 }
