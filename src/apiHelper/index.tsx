@@ -12,3 +12,6 @@ export const SAVED_QUOTE_URL = `${apiUrl}/quote/saveQuote`;
 export const STATUS_URL = `${apiUrl}/quote/status`;
 export const GUEST_LETTER_QUOTE_URL = `${apiUrl}/quote/guest-letter`;
 export const GUEST_PACKAGE_QUOTE_URL = `${apiUrl}/quote/guest-package`;
+export const ADMIN_SAVED_QUOTES_URL = `${apiUrl}/admin/all-save-quote`;
+export const ADMIN_ALL_USER_URL = `${apiUrl}/admin/allUser?search=&page=1&limit=2`;
+export const ADMIN_ALL_SHIPMENT_URL = `${apiUrl}/admin/all-shipment-details`;

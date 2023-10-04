@@ -172,7 +172,7 @@ const Package = () => {
             <div className={`${styles.container} m-2 d-flex-r`}>
               <div className={`${styles.innerContainer} d-flex-col w-50 `}>
                 <div className={`${styles.fromDiv} d-flex-col `}>
-                  <h6 className="mb-3">Shipping From</h6>
+                  <h6 className="mb-3">Shipping From <span className="required-asterisk" aria-label="required">*</span></h6>
                   {postalFromError ? (
                     <h6 className="error">{postalFromError}</h6>
                   ) : (
@@ -192,7 +192,7 @@ const Package = () => {
                     <Field
                       type="text"
                       name="fromCity"
-                      placeholder="city"
+                      placeholder="City"
                       value={postalFrom.fromCity}
                       onChange={handleChange}
                     />
@@ -213,10 +213,10 @@ const Package = () => {
                   </div>
                 </div>
                 <div className={`${styles.packageContainer} `}>
-                  <h6>Package Details</h6>
+                  <h6>Package Details <span className="required-asterisk" aria-label="required">*</span></h6>
                   <div className={`${styles.innerPackage}  d-flex-r`}>
                     <div className={`w-50 d-flex-col`}>
-                      <label>Weight</label>
+                      <label>Weight <span className="required-asterisk" aria-label="required">*</span></label>
                       <Field className="w-100" name="weight" type="number" />
                       <ErrorMessage
                         name="weight"
@@ -225,7 +225,7 @@ const Package = () => {
                       />
                     </div>
                     <div className={`${styles.unitDiv}  d-flex-col`}>
-                      <label htmlFor="measurement">Measurement</label>
+                      <label htmlFor="measurement">Measurement <span className="required-asterisk" aria-label="required">*</span></label>
                       <select
                         className={`w-100 d-flex-col`}
                         name="measurement"
@@ -244,7 +244,7 @@ const Package = () => {
                       />
                     </div>
                     <div className={`${styles.unitDiv}  d-flex-col`}>
-                      <label htmlFor="unit">Unit</label>
+                      <label htmlFor="unit">Unit <span className="required-asterisk" aria-label="required">*</span></label>
                       <select
                         className={`w-100 d-flex-col`}
                         name="unit"
@@ -268,7 +268,7 @@ const Package = () => {
               <div>
                 <div className={`${styles.innerContainer} d-flex-col w-100`}>
                   <div className={`${styles.fromDiv} d-flex-col`}>
-                    <h6 className="mb-3"> Shipping To</h6>
+                    <h6 className="mb-3"> Shipping To <span className="required-asterisk" aria-label="required">*</span></h6>
                     {postalToError ? (
                       <h6 className="error">{postalToError}</h6>
                     ) : (
@@ -288,7 +288,7 @@ const Package = () => {
                       <Field
                         type="text"
                         name="toCity"
-                        placeholder="city"
+                        placeholder="City"
                         value={postalTo.toCity}
                         onChange={handleChange}
                       />
@@ -311,7 +311,7 @@ const Package = () => {
                   <div>
                     <div className={`${styles.insuranceContainer}  d-flex-r`}>
                       <div className={`${styles.currency} w-25  d-flex-col`}>
-                        <label>Insurance</label>
+                        <label>Insurance <span className="required-asterisk" aria-label="required">*</span></label>
                         <Field
                           type="number"
                           name="insuranceAmount"
@@ -324,7 +324,7 @@ const Package = () => {
                         />
                       </div>
                       <div className={`${styles.currency} w-25  d-flex-col`}>
-                        <label htmlFor="currency">Currency</label>
+                        <label htmlFor="currency">Currency <span className="required-asterisk" aria-label="required">*</span></label>
                         <select
                           name="currency"
                           id="currency"

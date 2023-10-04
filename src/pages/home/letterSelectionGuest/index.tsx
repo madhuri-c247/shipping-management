@@ -7,6 +7,7 @@ import Button from "../../../common/button/index";
 import { GuestState } from "../../../models/GuestState";
 import axios from "axios";
 import { GUEST_PACKAGE_QUOTE_URL } from "../../../apiHelper";
+import { Formik } from "formik";
 
 export const LetterSelectionGuest = () => {
   const [message, setMessage] = useState('')
@@ -18,6 +19,13 @@ export const LetterSelectionGuest = () => {
     email: "",
   });
 
+  const initialValues = {
+    fromCity: "",
+    toCity: "",
+    name: "",
+    phone: "",
+    email: "",
+  };
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInfo({
@@ -37,7 +45,13 @@ export const LetterSelectionGuest = () => {
     })
   };
 
+
   return (
+    <Formik
+    initialValues={initialValues}
+    validationSchema={loginValidationSchema}
+    onSubmit={handleSubmit}
+  >
     <form onSubmit={handleSubmit} className={`${styles.container}`}>
       <div className={`${styles.content}`}>
         <label>From City <span className="required-asterisk" aria-label="required">*</span></label>
@@ -96,5 +110,6 @@ export const LetterSelectionGuest = () => {
       <Button className={styles.homeSelectionButton} value="get Quote" />
       {message? <h5 className="success">{message}</h5>:''}
     </form>
+    </Formik>
   );
 };
