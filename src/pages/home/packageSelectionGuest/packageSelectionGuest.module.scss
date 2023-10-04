@@ -1,5 +1,5 @@
 .container {
-  height: 30vh;
+  height: 35vh;
   flex-wrap: wrap;
   display: flex;
   flex-direction: row;
@@ -20,8 +20,8 @@
     .contactContent {
       width: 97%;
       justify-content: space-between;
-      input {
-        width: 27%;
+      .contactInput {
+        width: 100%;
       }
     }
   }
@@ -29,6 +29,6 @@
     width: 97%;
     height: 5vh;
     position: absolute;
-    bottom: 4vh;
+    bottom: 2vh;
   }
 }

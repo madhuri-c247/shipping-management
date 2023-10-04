@@ -70,3 +70,35 @@ export const resetValidationSchema = Yup.object().shape({
     .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Confirm Password is required"),
 });
+
+export const GuestLetterValidationSchema = Yup.object().shape({
+  fromCity: Yup.string().required('From City is required'),
+  toCity: Yup.string().required('To City is required'),
+  name: Yup.string()
+  .required("Name is required")
+  .matches(
+    /^[A-Za-z]+$/,
+    "First Name must contain only alphabetic characters"
+  ),
+  phone: Yup.string()
+  .min(10, "Number must be greater than or equal to 10")
+  .required("Phone Number is required"),
+  email: Yup.string().email('Invalid email').required('Email is required'),
+});
+export const GuestPackageValidationSchema = Yup.object().shape({
+  fromCity: Yup.string().required('From City is required'),
+  toCity: Yup.string().required('To City is required'),
+  name: Yup.string()
+  .required("Name is required")
+  .matches(
+    /^[A-Za-z]+$/,
+    "First Name must contain only alphabetic characters"
+  ),
+  package: Yup.number().min(0, 'Package must be a positive number').required('Package is required'),
+  totalWeight: Yup.string().required('Total Weight is required'),
+  phone: Yup.string()
+  .min(10, "Number must be greater than or equal to 10")
+  .required("Phone Number is required"),
+  email: Yup.string().email('Invalid email').required('Email is required'),
+});
+

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Form, Spinner, Toast } from "react-bootstrap";
+import { Form, Spinner } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
 //react-icons
 import { IoMdCheckmarkCircle } from "react-icons/io";
@@ -44,10 +44,19 @@ const SignUp: React.FC = () => {
           setInterval(() => {
             setSuccessful(true);
             setSpinner(false);
-          }, 4000);
+            setMessage(response.data.message)
+            values.companyName=''
+            values.firstName=''
+            values.lastName=''
+            values.number=''
+            values.email=''
+            values.password=''
+            values.confirmPassword=''
+          }, 2000);
         }
       })
       .catch((error) => {
+        setSuccessful(false)
         setMessage(error.response.data.message);
       });
   };
@@ -154,10 +163,11 @@ const SignUp: React.FC = () => {
                       />
                     </div>
                   </div>
-                  {message ? (
-                    <h6 className={`${styles.message} error m-1`}>{message}</h6>
-                  ) : (
-                    ""
+                  {Successful ? (
+                    <h6 className={`${styles.message} success m-1`}>{message}</h6>
+                    ) : (
+                      
+                      <h6 className={`${styles.message} error m-1`}>{message}</h6>
                   )}
                   <div className={`${styles.submit}`}>
                     {spinner ? (
@@ -178,18 +188,6 @@ const SignUp: React.FC = () => {
               )}
             </Formik>
           </div>
-          {Successful ? (
-            <Toast
-              bg={"Success".toLowerCase()}
-              className={`toast d-inline-block m-1`}
-            >
-              <Toast.Body>
-                Account Created, Please Verify Your email !!
-              </Toast.Body>
-            </Toast>
-          ) : (
-            ""
-          )}
         </div>
       </Particle>
     </Layout>

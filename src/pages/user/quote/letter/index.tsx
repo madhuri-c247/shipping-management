@@ -169,20 +169,21 @@ const Letter = () => {
             <div className={`${styles.innerContainer} d-flex-col w-50 `}>
               <div className={`${styles.fromDiv} d-flex-col `}>
                 <h6 className="mb-3">Shipping From <span className="required-asterisk" aria-label="required">*</span></h6>
-                {postalFromError ? (
-                  <h6 className="error">{postalFromError}</h6>
-                ) : (
-                  ""
-                )}
                 <div className="d-flex-col">
                   <input
                     className="w-100"
                     type="number"
                     name="fromPostal"
                     placeholder="Postal Code"
+                    id="fromPostal"
                     value={postalFrom.fromPostal}
                     onChange={(e) => handleChange(e, "fromPostal")}
-                  />
+                    />
+                    {postalFromError ? (
+                      <h6 className="error">{postalFromError}</h6>
+                    ) : (
+                      ""
+                    )}
                 </div>
                 <div className={`${styles.portalContent}  d-flex-r`}>
                   <Field
@@ -191,6 +192,7 @@ const Letter = () => {
                     placeholder="City"
                     value={postalFrom.fromCity}
                     onChange={handleChange}
+                    id="PostalFromCity"
                   />
 
                   <Field
@@ -199,6 +201,7 @@ const Letter = () => {
                     onChange={handleChange}
                     value={postalFrom.fromProvince}
                     placeholder="Province"
+                    id="PostalFromProvince"
                   />
 
                   <Field
@@ -207,6 +210,7 @@ const Letter = () => {
                     placeholder="Country"
                     value={postalFrom.fromCountry}
                     onChange={handleChange}
+                    id="PostalFromCountry"
                   />
                 </div>
               </div>
@@ -254,11 +258,6 @@ const Letter = () => {
               <div className={`${styles.innerContainer} d-flex-col w-100`}>
                 <div className={`${styles.fromDiv} d-flex-col`}>
                   <h6 className="mb-3"> Shipping To <span className="required-asterisk" aria-label="required">*</span></h6>
-                  {postalToError ? (
-                    <h6 className="error">{postalToError}</h6>
-                  ) : (
-                    ""
-                  )}
                   <div className="d-flex-col">
                     <input
                       className="w-100"
@@ -267,7 +266,12 @@ const Letter = () => {
                       placeholder=" Postal Code"
                       value={postalTo.toPostal}
                       onChange={(e) => handleChange(e, "toPostal")}
-                    />
+                      />
+                      {postalToError ? (
+                        <h6 className="error">{postalToError}</h6>
+                      ) : (
+                        ""
+                      )}
                   </div>
                   <div className={`${styles.portalContent}  d-flex-r`}>
                     <Field
@@ -276,6 +280,7 @@ const Letter = () => {
                       placeholder="City"
                       value={postalTo.toCity}
                       onChange={handleChange}
+                      id="postalToCity"
                     />
                     <Field
                       type="text"
@@ -283,6 +288,7 @@ const Letter = () => {
                       placeholder="Province"
                       value={postalTo.toProvince}
                       onChange={handleChange}
+                      id="postalToProvince"
                     />
                     <Field
                       type="text"
@@ -290,6 +296,7 @@ const Letter = () => {
                       placeholder="Country"
                       value={postalTo.toCountry}
                       onChange={handleChange}
+                      id="postalToCountry"
                     />
                   </div>
                 </div>

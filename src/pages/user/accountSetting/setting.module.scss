@@ -1,0 +1,47 @@
+@import'../../../color.scss';
+.container{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(218, 216, 216, 0.288);
+    height: 93vh;
+    font-size: 14px;
+    .content{
+        width: 80%;
+        border: 1px solid pink;
+        .profile{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            img{
+                width: 10%;
+                height: 10vh;
+            }
+            h6{
+                margin: 1%;
+                font-size: 12px;
+                cursor: pointer;
+            }
+        }
+
+        .password{
+            button{
+                width: max-content;
+                border: none;
+                font-size: 12px;
+            }
+        }
+    }
+    .formContent{
+        position: relative;
+        
+        .edit{
+            cursor: pointer;
+            position: absolute;
+            right: 0;
+        }
+    }
+}

@@ -38,7 +38,7 @@ function App() {
           <Route
             path="/home"
             element={
-                <Home />
+                <LetterSelectionGuest />
             }
             
           />
@@ -65,9 +65,9 @@ function App() {
           <Route
             path="/user"
             element={
-              // <Auth>
-              // </Auth>
+              <Auth>
                 <User />
+              </Auth>
             }
           >
             <Route path="/user/quote" element={<Quote />}>

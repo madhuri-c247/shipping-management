@@ -15,7 +15,7 @@ const Navbar = () => {
             HOME
           </NavLink>
           <NavLink
-            className={({ isActive }) => (isActive ? styles.active : "")}
+            className={({ isActive }) => (isActive ? styles.active : "") }
             to={"/signup"}
           >
             SignUp

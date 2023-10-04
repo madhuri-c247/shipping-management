@@ -36,11 +36,14 @@ label {
   color: red;
   font-size: 10px;
   margin: 1%;
+  width: 100%;
   text-transform: capitalize;
 }
 .success{
   color: green;
-  font-size: 10px;
+  font-size: 12px;
+  margin-top: 2%;
+  width: 100%;
   text-transform: capitalize;
 }
 .toast {
