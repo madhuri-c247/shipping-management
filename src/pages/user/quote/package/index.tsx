@@ -183,6 +183,7 @@ const Package = () => {
                       className="w-100"
                       type="number"
                       name="fromPostal"
+                      id="fromPostal"
                       placeholder="Postal Code"
                       value={postalFrom.fromPostal}
                       onChange={(e) => handleChange(e, "fromPostal")}
@@ -198,12 +199,14 @@ const Package = () => {
                       type="text"
                       name="fromCity"
                       placeholder="City"
+                      id="fromCity"
                       value={postalFrom.fromCity}
                       onChange={handleChange}
                     />
                     <Field
                       type="text"
                       name="fromProvince"
+                      id="fromProvince"
                       onChange={handleChange}
                       value={postalFrom.fromProvince}
                       placeholder="Province"
@@ -211,6 +214,7 @@ const Package = () => {
                     <Field
                       type="text"
                       name="fromCountry"
+                      id="fromCountry"
                       placeholder="Country"
                       value={postalFrom.fromCountry}
                       onChange={handleChange}
@@ -226,7 +230,7 @@ const Package = () => {
                   </h6>
                   <div className={`${styles.innerPackage}  d-flex-r`}>
                     <div className={`w-50 d-flex-col`}>
-                      <label>
+                      <label htmlFor="weight">
                         Weight{" "}
                         <span
                           className="required-asterisk"
@@ -235,7 +239,12 @@ const Package = () => {
                           *
                         </span>
                       </label>
-                      <Field className="w-100" name="weight" type="number" />
+                      <Field
+                        className="w-100"
+                        name="weight"
+                        type="number"
+                        id="weight"
+                      />
                       <ErrorMessage
                         name="weight"
                         component="div"
@@ -314,6 +323,7 @@ const Package = () => {
                         className="w-100"
                         type="number"
                         name="toPostal"
+                        id="toPostal"
                         placeholder=" Postal Code"
                         value={postalTo.toPostal}
                         onChange={(e) => handleChange(e, "toPostal")}
@@ -328,6 +338,7 @@ const Package = () => {
                       <Field
                         type="text"
                         name="toCity"
+                        id="toCity"
                         placeholder="City"
                         value={postalTo.toCity}
                         onChange={handleChange}
@@ -335,6 +346,7 @@ const Package = () => {
                       <Field
                         type="text"
                         name="toProvince"
+                        id="toProvince"
                         placeholder="Province"
                         value={postalTo.toProvince}
                         onChange={handleChange}
@@ -343,6 +355,7 @@ const Package = () => {
                         type="text"
                         name="toCountry"
                         placeholder="Country"
+                        id="toCountry"
                         value={postalTo.toCountry}
                         onChange={handleChange}
                       />
@@ -351,7 +364,7 @@ const Package = () => {
                   <div>
                     <div className={`${styles.insuranceContainer}  d-flex-r`}>
                       <div className={`${styles.currency} w-25  d-flex-col`}>
-                        <label>
+                        <label htmlFor="insurance">
                           Insurance{" "}
                           <span
                             className="required-asterisk"
@@ -364,6 +377,7 @@ const Package = () => {
                           type="number"
                           name="insuranceAmount"
                           placeholder="Enter Amount"
+                          id="insurance"
                         />
                         <ErrorMessage
                           name="insuranceAmount"
@@ -406,10 +420,13 @@ const Package = () => {
                           className={`${styles.check} m-2`}
                           type="checkbox"
                           name="agreeTerms"
+                          id="terms"
                         />
 
                         <span className="d-flex-col">
-                          <label>I have read and agree with the</label>
+                          <label htmlFor="terms">
+                            I have read and agree with the
+                          </label>
                           <NavLink to={""}> terms and conditions</NavLink>
                           <ErrorMessage
                             name="agreeTerms"

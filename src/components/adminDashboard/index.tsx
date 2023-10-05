@@ -8,7 +8,7 @@ import { RiLogoutCircleLine } from "react-icons/ri";
 import {
   MdOutlineLocalShipping,
 } from "react-icons/md";
-import { FiSettings } from "react-icons/fi";
+import {GoReport} from 'react-icons/go'
 //CSS
 import styles from "../userDashboard/userDashboard.module.scss";
 
@@ -52,7 +52,7 @@ const AdminDashboard = () => {
             className={({ isActive }) => (isActive ? styles.active : "")}
             to={"/admin/report"}
           >
-            <MdOutlineLocalShipping className={styles.icon} />
+            <GoReport className={styles.icon} />
            Report
           </NavLink>
          

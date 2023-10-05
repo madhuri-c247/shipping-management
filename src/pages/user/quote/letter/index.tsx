@@ -221,7 +221,7 @@ const Letter = () => {
               </div>
               <div className={`${styles.packageContainer} `}>
                 <h6>
-                  Package Details{" "}
+                  Package Details
                   <span className="required-asterisk" aria-label="required">
                     *
                   </span>
@@ -229,7 +229,7 @@ const Letter = () => {
                 <div className={`${styles.innerPackage}  d-flex-r`}>
                   <div className={`w-50 d-flex-col`}>
                     <label htmlFor="weight">
-                      Weight{" "}
+                      Weight
                       <span className="required-asterisk" aria-label="required">
                         *
                       </span>
@@ -248,7 +248,7 @@ const Letter = () => {
                   </div>
                   <div className={`${styles.unitDiv}  d-flex-col`}>
                     <label htmlFor="unit">
-                      Unit{" "}
+                      Unit
                       <span className="required-asterisk" aria-label="required">
                         *
                       </span>
@@ -292,6 +292,7 @@ const Letter = () => {
                       placeholder=" Postal Code"
                       value={postalTo.toPostal}
                       onChange={(e) => handleChange(e, "toPostal")}
+                      id="toPostal"
                     />
                     {postalToError ? (
                       <h6 className="error">{postalToError}</h6>

@@ -74,7 +74,7 @@ function App() {
             />
             <Route path="/mail/delete-verification-mail" element={<DeleteUser />} />
 
-          <Route path="/admin" element={<Admin />}>
+          <Route path="/admin" element={<Auth><Admin/></Auth>}>
             <Route path="/admin/saved-quotes" element={<AdminSavedQuote />} />
             <Route path="/admin/all-users" element={<AllUsers />} />
             <Route path="/admin/report" element={<Reports />} />
