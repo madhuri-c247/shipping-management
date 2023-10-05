@@ -38,12 +38,18 @@ const Login: React.FC = () => {
         .post(LOGIN_BASE_URL, values)
         .then((response) => {
           if (response.status === 200) {
+            console.log(response, "response");
             setMessage("");
             sessionStorage.setItem("token", response.data.token);
-            navigate("/user/quote/letter");
+            if (response.data.role === "admin") {
+              navigate("/admin/saved-quotes");
+            } else {
+              navigate("/user/quote/letter");
+            }
           }
         })
         .catch((err) => {
+          console.log(err);
           setMessage(err.response.data.message);
         });
     } catch (error) {

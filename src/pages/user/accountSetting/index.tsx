@@ -1,17 +1,19 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
-//assests
+//assets
 import emptyProfile from "../../../assets/emptyProfile.webp";
 //CSS
 import styles from "./setting.module.scss";
 //common
 import Button from "../../../common/button";
 //apiHelper
-import { USER_UPDATE_URL, USER_URL } from "../../../apiHelper";
+import { USER_PROFILE_URL, USER_UPDATE_URL, USER_URL } from "../../../apiHelper";
+import { useNavigate } from "react-router-dom";
 
 const Setting: React.FC = () => {
   const [message, setMessage] = useState("");
+  const [image, setImage] = useState<File | null>(null)
   const [Successful, setSuccessful] = useState(false);
   const [input, setInput] = useState({
     email: "",
@@ -22,6 +24,7 @@ const Setting: React.FC = () => {
   });
 
   const token = sessionStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     try {
@@ -35,7 +38,7 @@ const Setting: React.FC = () => {
           setInput({ ...res.data });
         })
         .catch((err) => {
-          setMessage(err.data.response.error)
+          setMessage(err.data.response.error);
         });
     } catch (error) {
       setMessage("Something is wrong!");
@@ -58,7 +61,6 @@ const Setting: React.FC = () => {
         }
       )
       .then((res) => {
-        console.log(res.data.message);
         setSuccessful(true);
         setMessage(res.data.message);
       })
@@ -76,7 +78,39 @@ const Setting: React.FC = () => {
   };
 
   const changePassword = () => {};
+  const handleDelete = () => {
+    navigate("/users/delete-verification");
+  };
 
+  const handleImageChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
+    const files = e.target.files;
+    if (files) {      
+       setImage(files[0]);
+     
+    }
+  }
+  const handleUpload = ()=>{
+    const formData = new FormData();
+    if(image){
+
+      formData.append(
+        "avatar",
+        image
+    );
+    }
+    axios.post(USER_PROFILE_URL,formData,{
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    }).then((res)=>{
+      setSuccessful(true)
+      setMessage(res.data.uploaded)
+    }).catch((error)=>{
+       setMessage(error.response.data.error)
+    })
+
+
+  }
   return (
     <div className={`${styles.container}`}>
       <form className={`${styles.content} d-flex-r `} onSubmit={handleSubmit}>
@@ -165,16 +199,17 @@ const Setting: React.FC = () => {
           </div>
         </div>
         <div className={`${styles.profile} mt-5`}>
-          <img src={emptyProfile} alt="empty Profile" />
-          <h6>
-            Upload Image{" "}
+          {/* <img src={emptyProfile} alt="empty Profile" /> */}
+          <input type="file" onChange={handleImageChange} />
+          <h6 onClick={handleUpload}>
+            Upload Image
             <span>
               <FaEdit />
             </span>
           </h6>
 
           <div className={`${styles.delete}`}>
-            <a>Delete Your Account</a>
+            <a onClick={handleDelete}>Delete Your Account</a>
             <p>
               Deleting Your Account will Loss all your data. Check Your data
               before deleting Your account.

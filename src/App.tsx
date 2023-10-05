@@ -25,10 +25,11 @@ import Verification from "./pages/signup/verification";
 import Auth from "./Auth";
 import { ForgotPassword } from "./pages/login/forgetPassword";
 import ResetPassword from "./pages/login/resetPassword";
-import AdminSetting from "./pages/admin/setting";
 import AllUsers from "./pages/admin/user";
 import Reports from "./pages/admin/reports";
 import AllShipment from "./pages/admin/shipment";
+import DeleteUser from "./pages/user/accountSetting/deleteUser";
+import VerifyDeletingUser from "./pages/user/accountSetting/deleteUser/verification";
 
 function App() {
   return (
@@ -67,9 +68,14 @@ function App() {
             <Route path="/user/shipment" element={<Shipment />} />
             <Route path="/user/setting" element={<Setting />} />
           </Route>
+            <Route
+              path="/users/delete-verification"
+              element={<VerifyDeletingUser />}
+            />
+            <Route path="/mail/delete-verification-mail" element={<DeleteUser />} />
+
           <Route path="/admin" element={<Admin />}>
             <Route path="/admin/saved-quotes" element={<AdminSavedQuote />} />
-            <Route path="/admin/admin-setting" element={<AdminSetting />} />
             <Route path="/admin/all-users" element={<AllUsers />} />
             <Route path="/admin/report" element={<Reports />} />
             <Route path="/admin/all-shipment" element={<AllShipment />} />

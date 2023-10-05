@@ -7,7 +7,10 @@ export const RESET_PASSWORD_URL = `${apiUrl}/login/reset-password-verification?t
 export const POSTAL_URL = `${apiUrl}/postal/postalCode`;
 export const LETTER_QUOTE_URL = `${apiUrl}/quote/new-letter`;
 export const USER_URL = `${apiUrl}/user/yourData`;
+export const USER_PROFILE_URL = `${apiUrl}/user/profile`;
 export const USER_UPDATE_URL = `${apiUrl}/user/user-settings`;
+export const USER_DELETE_URL = `${apiUrl}/user/delete-user?token=`;
+export const USER_DELETE_VERIFY_URL = `${apiUrl}/user/delete-verification`;
 export const PACKAGE_QUOTE_URL = `${apiUrl}/quote/new-package`;
 export const MY_SHIPMENT_URL = `${apiUrl}/quote/myShipping`;
 export const SAVED_QUOTE_URL = `${apiUrl}/quote/saveQuote`;
@@ -17,3 +20,5 @@ export const GUEST_PACKAGE_QUOTE_URL = `${apiUrl}/quote/guest-package`;
 export const ADMIN_SAVED_QUOTES_URL = `${apiUrl}/admin/all-save-quote`;
 export const ADMIN_ALL_USER_URL = `${apiUrl}/admin/allUser?search=&page=1&limit=2`;
 export const ADMIN_ALL_SHIPMENT_URL = `${apiUrl}/admin/all-shipment-details`;
+export const ADMIN_USER_UPDATE_URL = `${apiUrl}/admin/admin-update-user`;
+export const ADMIN_USER_DELETE_URL = `${apiUrl}/admin/admin-delete-user`;

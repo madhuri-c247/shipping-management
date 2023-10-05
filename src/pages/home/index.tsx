@@ -56,16 +56,7 @@ const Home = () => {
             <Outlet />
           </div>
         </div>
-        {error ? (
-          <Toast
-            bg={"Danger".toLowerCase()}
-            className={`${styles.toast} d-inline-block m-1`}
-          >
-            <Toast.Body>Email Not Verified !</Toast.Body>
-          </Toast>
-        ) : (
-          ""
-        )}
+      
       </div>
     </Layout>
   );

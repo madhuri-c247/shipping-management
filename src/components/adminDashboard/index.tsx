@@ -55,13 +55,7 @@ const AdminDashboard = () => {
             <MdOutlineLocalShipping className={styles.icon} />
            Report
           </NavLink>
-          <NavLink
-            className={({ isActive }) => (isActive ? styles.active : "")}
-            to={"/admin/admin-setting"}
-          >
-            <FiSettings className={styles.icon} />
-             Setting
-          </NavLink>
+         
         </ul>
       </div>
       {spinner ?
