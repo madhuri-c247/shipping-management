@@ -15,23 +15,29 @@ import { emailValidationSchema } from "../../../utils/Validation";
 
 export const ForgotPassword = () => {
   const [message, setMessage] = useState("");
-  const [success, setSuccess] = useState("");
+  const [success, setSuccess] = useState(false);
   const initialValues = {
     email: "",
   };
 
-  const handleSubmit = (values: UserState) => {
-    axios
-      .put(FORGOT_PASSWORD_URL, {
-        email: values.email,
-      })
-      .then((res) => {
-        setSuccess(res.data.email);
-      })
-      .catch((error) => {
-        setMessage("");
-        setMessage(error.response.data.message);
-      });
+  const handleSubmit = async (values: UserState) => {
+    try {
+      await axios
+        .put(FORGOT_PASSWORD_URL, {
+          email: values.email,
+        })
+        .then((res) => {
+          setSuccess(true);
+          setMessage(res.data.email);
+        })
+        .catch((error) => {
+          setSuccess(false);
+          setMessage(error.response.data.message);
+        });
+    } catch (error) {
+      setSuccess(false);
+      setMessage("Something is Wrong!");
+    }
   };
   return (
     <div className={`${styles.container} `}>
@@ -47,15 +53,20 @@ export const ForgotPassword = () => {
               Enter Your email address and we will send you instructions to
               reset your password.
             </p>
-
             <div className={`${styles.formContent}`}>
-              <label>
-                Email{" "}
+              <label htmlFor="email">
+                Email
                 <span className="required-asterisk" aria-label="required">
                   *
                 </span>
               </label>
-              <Field name="email" type="email" placeholder="Enter Email" />
+              <Field
+                name="email"
+                type="email"
+                placeholder="Enter Email"
+                id="email"
+                autoComplete="off"
+              />
               <ErrorMessage
                 name="email"
                 component="div"
@@ -63,15 +74,10 @@ export const ForgotPassword = () => {
               />
             </div>
             <div className={`${styles.submit}`}>
-              {message ? (
-                <h6 className={`${styles.message} error`}>{message}</h6>
-              ) : (
-                ""
-              )}
               {success ? (
-                <h6 className={`${styles.message} success`}>{success}</h6>
+                <h6 className={`${styles.message} success`}>{message}</h6>
               ) : (
-                ""
+                <h6 className={`${styles.error} error`}>{message}</h6>
               )}
               <Button className={`${styles.forgotBtn}`} value={"Continue"} />
             </div>

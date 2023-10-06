@@ -7,6 +7,7 @@ export interface UserState {
   password?: string;
   confirmPassword?: string;
   newPassword?: string;
+  oldPassword?: string;
 }
 
 export interface User {

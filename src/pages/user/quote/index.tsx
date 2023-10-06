@@ -2,8 +2,7 @@ import { NavLink, Outlet } from "react-router-dom";
 //css
 import styles from "./quote.module.scss";
 
-const Quote = () => {
-  return (
+const Quote = () =>  (
     <div className={styles.container}>
       <div className={styles.content}>
         <ul className={styles.menuContainer}>
@@ -24,6 +23,6 @@ const Quote = () => {
       <Outlet />
     </div>
   );
-};
+
 
 export default Quote;

@@ -27,19 +27,21 @@ const Login: React.FC = () => {
   };
 
   const handleSubmit = async (values: UserState) => {
-    const url = RESET_PASSWORD_URL;
-
-    axios
-      .put(`${url}${token}`, {
-        confirmPassword: values.confirmPassword,
-        password: values.password,
-      })
-      .then((res) => {
-        navigate("/login");
-      })
-      .catch((error) => {
-        setMessage(error.response.error);
-      });
+    try {
+      await axios
+        .put(`${RESET_PASSWORD_URL}${token}`, {
+          confirmPassword: values.confirmPassword,
+          password: values.password,
+        })
+        .then((res) => {
+          navigate("/login");
+        })
+        .catch((error) => {
+          setMessage(error.response.error);
+        });
+    } catch (error) {
+      setMessage("Something is wrong!");
+    }
   };
 
   return (
@@ -54,9 +56,8 @@ const Login: React.FC = () => {
             <>
               <h3 className="m-1">Reset Password</h3>
               <div className={`${styles.formContent}`}>
-                <label>
-                  {" "}
-                  Create Password{" "}
+                <label htmlFor="createPassword">
+                  Create Password
                   <span className="required-asterisk" aria-label="required">
                     *
                   </span>
@@ -64,6 +65,7 @@ const Login: React.FC = () => {
                 <Field
                   name="password"
                   type="password"
+                  id="createPassword"
                   placeholder="Create Password"
                 />
                 <ErrorMessage
@@ -74,8 +76,8 @@ const Login: React.FC = () => {
               </div>
 
               <div className={`${styles.formContent}`}>
-                <label>
-                  Confirm Password{" "}
+                <label htmlFor="confirmPassword">
+                  Confirm Password
                   <span className="required-asterisk" aria-label="required">
                     *
                   </span>
@@ -83,6 +85,7 @@ const Login: React.FC = () => {
                 <Field
                   name="confirmPassword"
                   type="password"
+                  id="confirmPassword"
                   placeholder="Confirm Password"
                 />
                 <ErrorMessage

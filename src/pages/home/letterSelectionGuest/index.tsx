@@ -13,6 +13,7 @@ import { GUEST_PACKAGE_QUOTE_URL } from "../../../apiHelper";
 import { GuestLetterValidationSchema } from "../../../utils/Validation";
 
 export const LetterSelectionGuest = () => {
+  const [Successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
 
   const initialValues = {
@@ -24,21 +25,28 @@ export const LetterSelectionGuest = () => {
   };
 
   const handleSubmit = async (values: GuestState) => {
-    axios
-      .post(GUEST_PACKAGE_QUOTE_URL, {
-        ...values,
-      })
-      .then((res) => {
-        setMessage(res.data.message);
-        values.fromCity = "";
-        values.toCity = "";
-        values.name = "";
-        values.phone = "";
-        values.email = "";
-      })
-      .catch((error) => {
-        setMessage("Something is Wrong!" + error);
-      });
+    try {
+      await axios
+        .post(GUEST_PACKAGE_QUOTE_URL, {
+          ...values,
+        })
+        .then((res) => {
+          setSuccessful(true);
+          setMessage(res.data.message);
+          values.fromCity = "";
+          values.toCity = "";
+          values.name = "";
+          values.phone = "";
+          values.email = "";
+        })
+        .catch((error) => {
+          setSuccessful(false);
+          setMessage("Something is Wrong!" + error);
+        });
+    } catch (error) {
+      setSuccessful(false);
+      setMessage("Something is wrong!");
+    }
   };
 
   return (
@@ -50,58 +58,71 @@ export const LetterSelectionGuest = () => {
       {(formik) => (
         <form onSubmit={formik.handleSubmit} className={`${styles.container}`}>
           <div className={`${styles.content}`}>
-            <label>
-              From City{" "}
-              <span className="required-asterisk" aria-label="required">
-                *
-              </span>
-            </label>
-            <Field
-              className={`${styles.input}`}
-              type="text"
-              name="fromCity"
-              placeholder="From City"
-            />
-            <ErrorMessage
-              name="fromCity"
-              component="div"
-              className={`${styles.error} error`}
-            />
+            <div className={`${styles.innerContent}`}>
+              <label htmlFor="fromCity">
+                From City
+                <span className="required-asterisk" aria-label="required">
+                  *
+                </span>
+              </label>
+
+              <Field
+                className={`${styles.input} input`}
+                type="text"
+                name="fromCity"
+                placeholder="From City"
+                id="fromCity"
+              />
+              <ErrorMessage
+                name="fromCity"
+                component="div"
+                className={`${styles.error} error`}
+              />
+            </div>
           </div>
           <div className={`${styles.content}`}>
-            <label>
-              {" "}
-              To City{" "}
-              <span className="required-asterisk" aria-label="required">
-                *
-              </span>
-            </label>
-            <Field
-              type="text"
-              className={`${styles.input}`}
-              name="toCity"
-              placeholder="To City"
-            />
-            <ErrorMessage
-              name="toCity"
-              component="div"
-              className={`${styles.error} error`}
-            />
+            <div className={`${styles.innerContent}`}>
+              <label htmlFor="toCity">
+                To City
+                <span className="required-asterisk" aria-label="required">
+                  *
+                </span>
+              </label>
+
+              <Field
+                type="text"
+                className={`${styles.input} input`}
+                name="toCity"
+                placeholder="To City"
+                id="toCity"
+              />
+              <ErrorMessage
+                name="toCity"
+                component="div"
+                className={`${styles.error} error`}
+              />
+            </div>
           </div>
-          <div className={`${styles.contactContainer} `}>
-            <label>
-              Contact Information{" "}
+          <div
+            role="group"
+            aria-labelledby="contact"
+            className={`${styles.contactContainer} `}
+          >
+            <label id="contact">
+              Contact Information
               <span className="required-asterisk" aria-label="required">
                 *
               </span>
             </label>
             <div className={`${styles.contactContent} d-flex-r`}>
-              <div>
+              <div className={`${styles.inputContainer}`}>
                 <Field
-                  className={`${styles.contactInput}`}
+                  className={`${styles.contactInput} input`}
                   type="text"
                   name="name"
                   placeholder="Name"
+                  id="name"
+                  autoComplete="off"
                 />
                 <ErrorMessage
                   name="name"
@@ -109,12 +130,14 @@ export const LetterSelectionGuest = () => {
                   className={`${styles.error} error`}
                 />
               </div>
-              <div>
+              <div className={`${styles.inputContainer}`}>
                 <Field
-                  className={`${styles.contactInput}`}
+                  className={`${styles.contactInput} input`}
                   type="text"
                   name="phone"
                   placeholder="Phone Number"
+                  id="phoneNumber"
+                  autoComplete="off"
                 />
                 <ErrorMessage
                   name="phone"
@@ -122,12 +145,14 @@ export const LetterSelectionGuest = () => {
                   className={`${styles.error} error`}
                 />
               </div>
-              <div>
+              <div className={`${styles.inputContainer}`}>
                 <Field
-                  className={`${styles.contactInput}`}
+                  className={`${styles.contactInput} input`}
                   type="text"
                   name="email"
                   placeholder="Email"
+                  id="email"
+                  autoComplete="off"
                 />
                 <ErrorMessage
                   name="email"
@@ -138,7 +163,11 @@ export const LetterSelectionGuest = () => {
             </div>
           </div>
           <Button className={styles.homeSelectionButton} value="get Quote" />
-          {message ? <h5 className="success">{message}</h5> : ""}
+          {Successful ? (
+            <h5 className="success">{message}</h5>
+          ) : (
+            <h5 className="error">{message}</h5>
+          )}
         </form>
       )}
     </Formik>

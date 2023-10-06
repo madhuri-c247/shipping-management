@@ -18,7 +18,6 @@ const AllShipment = () => {
         },
       })
       .then((res) => {
-        console.log(res, "res");
         setShipment(res.data);
       })
       .catch((error) => {
@@ -34,7 +33,6 @@ const AllShipment = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th>id</th>
               <th>Order Id</th>
               <th>From City</th>
               <th>from Postal</th>
@@ -50,8 +48,7 @@ const AllShipment = () => {
                     <>
                       <tr>
                         <td>{++index}</td>
-                        <td>{item._id}</td>
-                        <td>{item.orderId}</td>
+                        <td><a href="">{item.orderId}</a></td>
                         <td>{item.fromCity}</td>
                         <td>{item.fromPostal}</td>
                         <td>{item.serviceName}</td>

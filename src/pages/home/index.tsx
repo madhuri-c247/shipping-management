@@ -1,6 +1,5 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Toast } from "react-bootstrap";
 //css
 import styles from "./home.module.scss";
 //assets
@@ -12,13 +11,13 @@ import { LuPackage2 } from "react-icons/lu";
 import Layout from "../../layout/NavLayout";
 
 const Home = () => {
-  const [error, setError] = useState(false);
+  const [message, setMessage] = useState("");
   const { state } = useLocation();
 
   useEffect(() => {
     if (state) {
       const { response } = state;
-      setError(response);
+      setMessage(response);
     }
   }, [state]);
   return (
@@ -36,6 +35,7 @@ const Home = () => {
               quote in seconds today
             </pre>
           </div>
+          {message ? <h5 className="error">{message}</h5> : ""}
           <div className={`${styles.shipmentForm}`}>
             <ul>
               <NavLink
@@ -56,7 +56,6 @@ const Home = () => {
             <Outlet />
           </div>
         </div>
-      
       </div>
     </Layout>
   );

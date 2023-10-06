@@ -3,8 +3,6 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Form, Spinner } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
-//react-icons
-import { IoMdCheckmarkCircle } from "react-icons/io";
 //CSS
 import styles from "./signup.module.scss";
 //assets
@@ -36,29 +34,34 @@ const SignUp: React.FC = () => {
   };
 
   const handleSubmit = async (values: UserState) => {
-    await axios
+    try {
+      await axios
       .post(SIGNUP_BASE_URL, values)
       .then((response) => {
-        if (response.status === 200) {
-          setSpinner(true);
-          setInterval(() => {
-            setSuccessful(true);
-            setSpinner(false);
-            setMessage(response.data.message);
-            values.companyName = "";
-            values.firstName = "";
-            values.lastName = "";
-            values.number = "";
-            values.email = "";
-            values.password = "";
-            values.confirmPassword = "";
-          }, 2000);
-        }
+        setSpinner(true);
+        setInterval(() => {
+          setSuccessful(true);
+          setSpinner(false);
+          setMessage(response.data.message);
+          values.companyName = "";
+          values.firstName = "";
+          values.lastName = "";
+          values.number = "";
+          values.email = "";
+          values.password = "";
+          values.confirmPassword = "";
+        }, 2000);
       })
       .catch((error) => {
         setSuccessful(false);
         setMessage(error.response.data.message);
       });
+    } catch (error) {
+      
+      setSuccessful(false);
+      setMessage("Something is Wrong");
+    }
+ 
   };
 
   return (
@@ -76,7 +79,6 @@ const SignUp: React.FC = () => {
                 <h3>Get Started absolutely Free.</h3>
               </div>
             </div>
-
             <Formik<UserState>
               initialValues={initialValues}
               validationSchema={signupValidationSchema}
@@ -90,8 +92,8 @@ const SignUp: React.FC = () => {
                   <h1 className="m-3">Sign Up</h1>
                   <div>
                     <div className={`${styles.formContent} w-100`}>
-                      <label className="">
-                        Company Name{" "}
+                      <label htmlFor="companyName">
+                        Company Name
                         <span
                           className="required-asterisk"
                           aria-label="required"
@@ -100,7 +102,7 @@ const SignUp: React.FC = () => {
                         </span>
                       </label>
                       <Field
-                        className=""
+                        id="companyName"
                         type="text"
                         name="companyName"
                         placeholder="Company Name"
@@ -114,8 +116,8 @@ const SignUp: React.FC = () => {
                   </div>
                   <div className={`${styles.input}`}>
                     <div className={`${styles.formContent}`}>
-                      <label>
-                        First Name{" "}
+                      <label htmlFor="firstName">
+                        First Name
                         <span
                           className="required-asterisk"
                           aria-label="required"
@@ -124,6 +126,7 @@ const SignUp: React.FC = () => {
                         </span>
                       </label>
                       <Field
+                        id="firstName"
                         name="firstName"
                         type="text"
                         placeholder="First Name"
@@ -136,8 +139,8 @@ const SignUp: React.FC = () => {
                     </div>
 
                     <div className={`${styles.formContent}`}>
-                      <label>
-                        Last Name{" "}
+                      <label htmlFor="lastName">
+                        Last Name
                         <span
                           className="required-asterisk"
                           aria-label="required"
@@ -148,6 +151,7 @@ const SignUp: React.FC = () => {
                       <Field
                         name="lastName"
                         type="text"
+                        id="lastName"
                         placeholder="Last Name"
                       />
                       <ErrorMessage
@@ -159,8 +163,8 @@ const SignUp: React.FC = () => {
                   </div>
                   <div className={` ${styles.input}`}>
                     <div className={`${styles.formContent}`}>
-                      <label>
-                        Phone Number{" "}
+                      <label htmlFor="phoneNumber">
+                        Phone Number
                         <span
                           className="required-asterisk"
                           aria-label="required"
@@ -170,6 +174,7 @@ const SignUp: React.FC = () => {
                       </label>
                       <Field
                         name="number"
+                        id="phoneNumber"
                         type="tel"
                         placeholder="Phone Number"
                       />
@@ -181,8 +186,8 @@ const SignUp: React.FC = () => {
                     </div>
 
                     <div className={`${styles.formContent}`}>
-                      <label>
-                        E-mail Address{" "}
+                      <label htmlFor="email">
+                        E-mail Address
                         <span
                           className="required-asterisk"
                           aria-label="required"
@@ -193,7 +198,9 @@ const SignUp: React.FC = () => {
                       <Field
                         name="email"
                         type="email"
+                        id="email"
                         placeholder="Email Address"
+                        autoComplete="off"
                       />
                       <ErrorMessage
                         name="email"
@@ -204,8 +211,8 @@ const SignUp: React.FC = () => {
                   </div>
                   <div className={`  ${styles.input}`}>
                     <div className={`${styles.formContent}`}>
-                      <label>
-                        Password{" "}
+                      <label htmlFor="password">
+                        Password
                         <span
                           className="required-asterisk"
                           aria-label="required"
@@ -217,6 +224,7 @@ const SignUp: React.FC = () => {
                         name="password"
                         type="password"
                         placeholder="Password"
+                        id="password"
                       />
                       <ErrorMessage
                         name="password"
@@ -226,8 +234,8 @@ const SignUp: React.FC = () => {
                     </div>
 
                     <div className={`${styles.formContent}`}>
-                      <label>
-                        Confirm Password{" "}
+                      <label htmlFor="confirmPassword">
+                        Confirm Password
                         <span
                           className="required-asterisk"
                           aria-label="required"
@@ -237,6 +245,7 @@ const SignUp: React.FC = () => {
                       </label>
                       <Field
                         name="confirmPassword"
+                        id="confirmPassword"
                         type="password"
                         placeholder="Confirm Password"
                       />

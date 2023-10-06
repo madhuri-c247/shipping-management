@@ -12,18 +12,20 @@ const Verification = () => {
   const token = searchParams.get("token");
   useEffect(() => {
     const verifyToken = async () => {
-      await axios
-        .get(`${YOUR_VERIFICATION_ENDPOINT}${token}`)
-        .then((res) => {
-          if (res.status === 200) {
-            navigate(`/login`);
-          }
-        })
-        .catch((err) => {
-          navigate("/home/letter-selection", {
-            state: { response: err.response.data },
+      try {
+        await axios
+          .get(`${YOUR_VERIFICATION_ENDPOINT}${token}`)
+          .then((res) => {
+            if (res.status === 200) {
+              navigate(`/login`);
+            }
+          })
+          .catch((err) => {
+            navigate("/home/letter-selection", {
+              state: { response: err.response.data },
+            });
           });
-        });
+      } catch (error) {}
     };
 
     verifyToken();

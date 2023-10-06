@@ -19,7 +19,7 @@ const UserDashboard = () => {
   const handleLogout = () => {
     sessionStorage.removeItem('token')
     setSpinner(true)
-    setInterval(() => {
+    setTimeout(() => {
       navigate('/login')
     }, 1000)
   }
@@ -30,7 +30,7 @@ const UserDashboard = () => {
         <ul>
           <NavLink
             className={({ isActive }) => (isActive ? styles.active : "")}
-            to={"/user/quote"}
+            to={"/user/quote/letter"}
           >
             <TfiMenuAlt className={styles.icon} />
             Quote
@@ -53,7 +53,7 @@ const UserDashboard = () => {
             to={"/user/setting"}
           >
             <FiSettings className={styles.icon} />
-            Account Setting
+            Setting
           </NavLink>
         </ul>
       </div>

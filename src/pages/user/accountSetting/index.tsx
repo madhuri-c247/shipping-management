@@ -8,12 +8,16 @@ import styles from "./setting.module.scss";
 //common
 import Button from "../../../common/button";
 //apiHelper
-import { USER_PROFILE_URL, USER_UPDATE_URL, USER_URL } from "../../../apiHelper";
+import {
+  USER_PROFILE_URL,
+  USER_UPDATE_URL,
+  USER_URL,
+} from "../../../apiHelper";
 import { useNavigate } from "react-router-dom";
 
 const Setting: React.FC = () => {
   const [message, setMessage] = useState("");
-  const [image, setImage] = useState<File | null>(null)
+  const [image, setImage] = useState<File | null>(null);
   const [Successful, setSuccessful] = useState(false);
   const [input, setInput] = useState({
     email: "",
@@ -47,7 +51,6 @@ const Setting: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("update");
     axios
       .put(
         USER_UPDATE_URL,
@@ -77,40 +80,39 @@ const Setting: React.FC = () => {
     });
   };
 
-  const changePassword = () => {};
+  const changePassword = () => {
+    console.log("change Password");
+    navigate('/user/change-password')
+  };
   const handleDelete = () => {
     navigate("/users/delete-verification");
   };
 
-  const handleImageChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (files) {      
-       setImage(files[0]);
-     
+    if (files) {
+      setImage(files[0]);
     }
-  }
-  const handleUpload = ()=>{
+  };
+  const handleUpload = () => {
     const formData = new FormData();
-    if(image){
-
-      formData.append(
-        "avatar",
-        image
-    );
+    if (image) {
+      formData.append("avatar", image);
     }
-    axios.post(USER_PROFILE_URL,formData,{
-      headers:{
-        Authorization: `Bearer ${token}`
-      }
-    }).then((res)=>{
-      setSuccessful(true)
-      setMessage(res.data.uploaded)
-    }).catch((error)=>{
-       setMessage(error.response.data.error)
-    })
-
-
-  }
+    axios
+      .post(USER_PROFILE_URL, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setSuccessful(true);
+        setMessage(res.data.uploaded);
+      })
+      .catch((error) => {
+        setMessage(error.response.data.error);
+      });
+  };
   return (
     <div className={`${styles.container}`}>
       <form className={`${styles.content} d-flex-r `} onSubmit={handleSubmit}>
@@ -131,8 +133,7 @@ const Setting: React.FC = () => {
 
             <div className={`${styles.password} d-flex-col`}>
               <label>Password </label>
-              <button name="password" onClick={changePassword}>
-                {" "}
+              <button onClick={changePassword}>
                 Change Your Password
               </button>
             </div>

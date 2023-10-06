@@ -34,29 +34,23 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (values: UserState) => {
     try {
-      axios
+      await axios
         .post(LOGIN_BASE_URL, values)
         .then((response) => {
-          if (response.status === 200) {
-            console.log(response,'response')
-            setMessage("");
-            sessionStorage.setItem("token", response.data.token);
-            if(response.data.role==='admin'){
-              navigate("/admin/saved-quotes");
-            }else{
-               navigate("/user/quote/letter");
-            }
+          sessionStorage.setItem("token", response.data.token);
+          if (response.data.role === "admin") {
+            navigate("/admin/saved-quotes");
+          } else {
+            navigate("/user/quote/letter");
           }
         })
         .catch((err) => {
-          console.log(err)
           setMessage(err.response.data.message);
         });
     } catch (error) {
       setMessage("something is wrong!");
     }
   };
-
   const forgetPassword = () => {
     navigate("/forgot-password");
   };
@@ -78,8 +72,8 @@ const Login: React.FC = () => {
                 <>
                   <h1 className="m-1">Login</h1>
                   <div className={`${styles.formContent}`}>
-                    <label>
-                      E-mail{" "}
+                    <label htmlFor="email">
+                      E-mail
                       <span className="required-asterisk" aria-label="required">
                         *
                       </span>
@@ -87,6 +81,7 @@ const Login: React.FC = () => {
                     <Field
                       name="email"
                       type="email"
+                      id="email"
                       placeholder="Enter Email"
                     />
                     <ErrorMessage
@@ -97,8 +92,8 @@ const Login: React.FC = () => {
                   </div>
 
                   <div className={`${styles.formContent}`}>
-                    <label>
-                      Password{" "}
+                    <label htmlFor="password">
+                      Password
                       <span className="required-asterisk" aria-label="required">
                         *
                       </span>
@@ -106,6 +101,7 @@ const Login: React.FC = () => {
                     <Field
                       name="password"
                       type="password"
+                      id="password"
                       placeholder="Enter Password"
                     />
                     <ErrorMessage

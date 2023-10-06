@@ -69,56 +69,64 @@ const Letter = () => {
   };
 
   const handlePostalFrom = async () => {
-    await axios
-      .post(POSTAL_URL, {
-        code: postalFrom.fromPostal,
-      })
-      .then((res) => {
-        const { city, country, province } = res.data;
-        setPostalFromError("");
-        setPostalFrom((prevState) => ({
-          ...prevState,
-          fromCity: city,
-          fromCountry: country,
-          fromProvince: province,
-        }));
-      })
-      .catch((err) => {
-        const message = err.response.data.error;
-        setPostalFromError(message);
-        setPostalFrom((prevState) => ({
-          ...prevState,
-          fromCity: "",
-          fromCountry: "",
-          fromProvince: "",
-        }));
-      });
+    try {
+      await axios
+        .post(POSTAL_URL, {
+          code: postalFrom.fromPostal,
+        })
+        .then((res) => {
+          const { city, country, province } = res.data;
+          setPostalFromError("");
+          setPostalFrom((prevState) => ({
+            ...prevState,
+            fromCity: city,
+            fromCountry: country,
+            fromProvince: province,
+          }));
+        })
+        .catch((err) => {
+          const message = err.response.data.error;
+          setPostalFromError(message);
+          setPostalFrom((prevState) => ({
+            ...prevState,
+            fromCity: "",
+            fromCountry: "",
+            fromProvince: "",
+          }));
+        });
+    } catch (error) {
+      setMessage("Something is wrong !");
+    }
   };
   const handlePostalTo = async () => {
-    await axios
-      .post(POSTAL_URL, {
-        code: postalTo.toPostal,
-      })
-      .then((res) => {
-        const { city, country, province } = res.data;
-        setPostalToError("");
-        setPostalTo((prevState) => ({
-          ...prevState,
-          toCity: city,
-          toCountry: country,
-          toProvince: province,
-        }));
-      })
-      .catch((err) => {
-        const message = err.response.data.error;
-        setPostalToError(message);
-        setPostalTo((prevState) => ({
-          ...prevState,
-          toCity: "",
-          toCountry: "",
-          toProvince: "",
-        }));
-      });
+    try {
+      await axios
+        .post(POSTAL_URL, {
+          code: postalTo.toPostal,
+        })
+        .then((res) => {
+          const { city, country, province } = res.data;
+          setPostalToError("");
+          setPostalTo((prevState) => ({
+            ...prevState,
+            toCity: city,
+            toCountry: country,
+            toProvince: province,
+          }));
+        })
+        .catch((err) => {
+          const message = err.response.data.error;
+          setPostalToError(message);
+          setPostalTo((prevState) => ({
+            ...prevState,
+            toCity: "",
+            toCountry: "",
+            toProvince: "",
+          }));
+        });
+    } catch (error) {
+      setMessage("Something is Wrong!");
+    }
   };
 
   function handleChange(
@@ -169,14 +177,14 @@ const Letter = () => {
             <div className={`${styles.innerContainer} d-flex-col w-50 `}>
               <div className={`${styles.fromDiv} d-flex-col `}>
                 <h6 className="mb-3">
-                  Shipping From{" "}
+                  Shipping From
                   <span className="required-asterisk" aria-label="required">
                     *
                   </span>
                 </h6>
                 <div className="d-flex-col">
                   <input
-                    className="w-100"
+                    className="w-100 input"
                     type="number"
                     name="fromPostal"
                     placeholder="Postal Code"
@@ -192,6 +200,7 @@ const Letter = () => {
                 </div>
                 <div className={`${styles.portalContent}  d-flex-r`}>
                   <Field
+                    className="input"
                     type="text"
                     name="fromCity"
                     placeholder="City"
@@ -201,6 +210,7 @@ const Letter = () => {
                   />
 
                   <Field
+                    className="input"
                     type="text"
                     name="fromProvince"
                     onChange={handleChange}
@@ -210,6 +220,7 @@ const Letter = () => {
                   />
 
                   <Field
+                    className="input"
                     type="text"
                     name="fromCountry"
                     placeholder="Country"
@@ -235,10 +246,11 @@ const Letter = () => {
                       </span>
                     </label>
                     <Field
-                      className="w-100"
+                      className="w-100 input"
                       name="weight"
                       type="number"
                       id="weight"
+                      min="1"
                     />
                     <ErrorMessage
                       name="weight"
@@ -254,7 +266,7 @@ const Letter = () => {
                       </span>
                     </label>
                     <select
-                      className={`w-100 d-flex-col`}
+                      className={`w-100 d-flex-col `}
                       name="unit"
                       onChange={handleDropdown}
                       value={dropDown.unit}
@@ -278,15 +290,14 @@ const Letter = () => {
               <div className={`${styles.innerContainer} d-flex-col w-100`}>
                 <div className={`${styles.fromDiv} d-flex-col`}>
                   <h6 className="mb-3">
-                    {" "}
-                    Shipping To{" "}
+                    Shipping To
                     <span className="required-asterisk" aria-label="required">
                       *
                     </span>
                   </h6>
                   <div className="d-flex-col">
                     <input
-                      className="w-100"
+                      className="w-100 input"
                       type="number"
                       name="toPostal"
                       placeholder=" Postal Code"
@@ -303,6 +314,7 @@ const Letter = () => {
                   <div className={`${styles.portalContent}  d-flex-r`}>
                     <Field
                       type="text"
+                      className="input"
                       name="toCity"
                       placeholder="City"
                       value={postalTo.toCity}
@@ -313,6 +325,7 @@ const Letter = () => {
                       type="text"
                       name="toProvince"
                       placeholder="Province"
+                      className="input"
                       value={postalTo.toProvince}
                       onChange={handleChange}
                       id="postalToProvince"
@@ -320,6 +333,7 @@ const Letter = () => {
                     <Field
                       type="text"
                       name="toCountry"
+                      className="input"
                       placeholder="Country"
                       value={postalTo.toCountry}
                       onChange={handleChange}
@@ -331,7 +345,7 @@ const Letter = () => {
                   <div className={`${styles.insuranceContainer}  d-flex-r`}>
                     <div className={`${styles.currency} w-25  d-flex-col`}>
                       <label htmlFor="insurance">
-                        Insurance{" "}
+                        Insurance
                         <span
                           className="required-asterisk"
                           aria-label="required"
@@ -342,8 +356,10 @@ const Letter = () => {
                       <Field
                         type="number"
                         name="insuranceAmount"
+                        className="input"
                         placeholder="Enter Amount"
                         id="insurance"
+                        min="0"
                       />
                       <ErrorMessage
                         name="insuranceAmount"
@@ -353,7 +369,7 @@ const Letter = () => {
                     </div>
                     <div className={`${styles.currency} w-25  d-flex-col`}>
                       <label htmlFor="currency">
-                        Currency{" "}
+                        Currency
                         <span
                           className="required-asterisk"
                           aria-label="required"
@@ -366,6 +382,7 @@ const Letter = () => {
                         onChange={handleDropdown}
                         value={dropDown.currency}
                         id="currency"
+                        className="select"
                       >
                         <option value="CAD">CAD</option>
                         <option value="INR">INR</option>

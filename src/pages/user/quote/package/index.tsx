@@ -48,25 +48,29 @@ const Package = () => {
   const [postalFromError, setPostalFromError] = useState("");
   const [postalToError, setPostalToError] = useState("");
 
-  const handleSubmit = (values: any) => {
+  const handleSubmit = async (values: any) => {
     const combined = {
       ...values,
       ...postalFrom,
       ...postalTo,
       ...dropDown,
     };
-    axios
-      .post(PACKAGE_QUOTE_URL, combined, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        navigate("/user/saved-quotes");
-      })
-      .catch((er) => {
-        setMessage("All Fields Are Required");
-      });
+    try {
+      await axios
+        .post(PACKAGE_QUOTE_URL, combined, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          navigate("/user/saved-quotes");
+        })
+        .catch((er) => {
+          setMessage("All Fields Are Required");
+        });
+    } catch (error) {
+      setMessage("Something is Wrong !");
+    }
   };
 
   const handleDrop = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -77,56 +81,64 @@ const Package = () => {
     });
   };
   const handlePostalFrom = async () => {
-    await axios
-      .post(POSTAL_URL, {
-        code: postalFrom.fromPostal,
-      })
-      .then((res) => {
-        const { city, country, province } = res.data;
-        setPostalFromError("");
-        setPostalFrom((prevState) => ({
-          ...prevState,
-          fromCity: city,
-          fromCountry: country,
-          fromProvince: province,
-        }));
-      })
-      .catch((err) => {
-        const message = err.response.data.error;
-        setPostalFromError(message);
-        setPostalFrom((prevState) => ({
-          ...prevState,
-          fromCity: "",
-          fromCountry: "",
-          fromProvince: "",
-        }));
-      });
+    try {
+      await axios
+        .post(POSTAL_URL, {
+          code: postalFrom.fromPostal,
+        })
+        .then((res) => {
+          const { city, country, province } = res.data;
+          setPostalFromError("");
+          setPostalFrom((prevState) => ({
+            ...prevState,
+            fromCity: city,
+            fromCountry: country,
+            fromProvince: province,
+          }));
+        })
+        .catch((err) => {
+          const message = err.response.data.error;
+          setPostalFromError(message);
+          setPostalFrom((prevState) => ({
+            ...prevState,
+            fromCity: "",
+            fromCountry: "",
+            fromProvince: "",
+          }));
+        });
+    } catch (error) {
+      setMessage("Something is Wrong !");
+    }
   };
   const handlePostalTo = async () => {
-    await axios
-      .post(POSTAL_URL, {
-        code: postalTo.toPostal,
-      })
-      .then((res) => {
-        const { city, country, province } = res.data;
-        setPostalToError("");
-        setPostalTo((prevState) => ({
-          ...prevState,
-          toCity: city,
-          toCountry: country,
-          toProvince: province,
-        }));
-      })
-      .catch((err) => {
-        const message = err.response.data.error;
-        setPostalToError(message);
-        setPostalTo((prevState) => ({
-          ...prevState,
-          toCity: "",
-          toCountry: "",
-          toProvince: "",
-        }));
-      });
+    try {
+      await axios
+        .post(POSTAL_URL, {
+          code: postalTo.toPostal,
+        })
+        .then((res) => {
+          const { city, country, province } = res.data;
+          setPostalToError("");
+          setPostalTo((prevState) => ({
+            ...prevState,
+            toCity: city,
+            toCountry: country,
+            toProvince: province,
+          }));
+        })
+        .catch((err) => {
+          const message = err.response.data.error;
+          setPostalToError(message);
+          setPostalTo((prevState) => ({
+            ...prevState,
+            toCity: "",
+            toCountry: "",
+            toProvince: "",
+          }));
+        });
+    } catch (error) {
+      setMessage("Something is wrong !");
+    }
   };
 
   function handleChange(
@@ -173,14 +185,14 @@ const Package = () => {
               <div className={`${styles.innerContainer} d-flex-col w-50 `}>
                 <div className={`${styles.fromDiv} d-flex-col `}>
                   <h6 className="mb-3">
-                    Shipping From{" "}
+                    Shipping From
                     <span className="required-asterisk" aria-label="required">
                       *
                     </span>
                   </h6>
                   <div className="d-flex-col">
                     <input
-                      className="w-100"
+                      className="w-100 input"
                       type="number"
                       name="fromPostal"
                       id="fromPostal"
@@ -196,6 +208,7 @@ const Package = () => {
                   </div>
                   <div className={`${styles.portalContent}  d-flex-r`}>
                     <Field
+                      className="input"
                       type="text"
                       name="fromCity"
                       placeholder="City"
@@ -204,6 +217,7 @@ const Package = () => {
                       onChange={handleChange}
                     />
                     <Field
+                      className="input"
                       type="text"
                       name="fromProvince"
                       id="fromProvince"
@@ -212,6 +226,7 @@ const Package = () => {
                       placeholder="Province"
                     />
                     <Field
+                      className="input"
                       type="text"
                       name="fromCountry"
                       id="fromCountry"
@@ -223,7 +238,7 @@ const Package = () => {
                 </div>
                 <div className={`${styles.packageContainer} `}>
                   <h6>
-                    Package Details{" "}
+                    Package Details
                     <span className="required-asterisk" aria-label="required">
                       *
                     </span>
@@ -231,7 +246,7 @@ const Package = () => {
                   <div className={`${styles.innerPackage}  d-flex-r`}>
                     <div className={`w-50 d-flex-col`}>
                       <label htmlFor="weight">
-                        Weight{" "}
+                        Weight
                         <span
                           className="required-asterisk"
                           aria-label="required"
@@ -240,7 +255,7 @@ const Package = () => {
                         </span>
                       </label>
                       <Field
-                        className="w-100"
+                        className="w-100 input"
                         name="weight"
                         type="number"
                         id="weight"
@@ -253,7 +268,7 @@ const Package = () => {
                     </div>
                     <div className={`${styles.unitDiv}  d-flex-col`}>
                       <label htmlFor="measurement">
-                        Measurement{" "}
+                        Measurement
                         <span
                           className="required-asterisk"
                           aria-label="required"
@@ -262,7 +277,7 @@ const Package = () => {
                         </span>
                       </label>
                       <select
-                        className={`w-100 d-flex-col`}
+                        className={`w-100 d-flex-col select`}
                         name="measurement"
                         id="measurement"
                         onChange={handleDrop}
@@ -280,7 +295,7 @@ const Package = () => {
                     </div>
                     <div className={`${styles.unitDiv}  d-flex-col`}>
                       <label htmlFor="unit">
-                        Unit{" "}
+                        Unit
                         <span
                           className="required-asterisk"
                           aria-label="required"
@@ -289,7 +304,7 @@ const Package = () => {
                         </span>
                       </label>
                       <select
-                        className={`w-100 d-flex-col`}
+                        className={`w-100 d-flex-col select`}
                         name="unit"
                         id="unit"
                         onChange={handleDrop}
@@ -312,15 +327,14 @@ const Package = () => {
                 <div className={`${styles.innerContainer} d-flex-col w-100`}>
                   <div className={`${styles.fromDiv} d-flex-col`}>
                     <h6 className="mb-3">
-                      {" "}
-                      Shipping To{" "}
+                      Shipping To
                       <span className="required-asterisk" aria-label="required">
                         *
                       </span>
                     </h6>
                     <div className="d-flex-col">
                       <input
-                        className="w-100"
+                        className="w-100 input"
                         type="number"
                         name="toPostal"
                         id="toPostal"
@@ -334,8 +348,9 @@ const Package = () => {
                         ""
                       )}
                     </div>
-                    <div className={`${styles.portalContent}   d-flex-r`}>
+                    <div className={`${styles.portalContent} d-flex-r`}>
                       <Field
+                        className="input"
                         type="text"
                         name="toCity"
                         id="toCity"
@@ -344,6 +359,7 @@ const Package = () => {
                         onChange={handleChange}
                       />
                       <Field
+                        className="input"
                         type="text"
                         name="toProvince"
                         id="toProvince"
@@ -352,6 +368,7 @@ const Package = () => {
                         onChange={handleChange}
                       />
                       <Field
+                        className="input"
                         type="text"
                         name="toCountry"
                         placeholder="Country"
@@ -365,7 +382,7 @@ const Package = () => {
                     <div className={`${styles.insuranceContainer}  d-flex-r`}>
                       <div className={`${styles.currency} w-25  d-flex-col`}>
                         <label htmlFor="insurance">
-                          Insurance{" "}
+                          Insurance
                           <span
                             className="required-asterisk"
                             aria-label="required"
@@ -374,6 +391,7 @@ const Package = () => {
                           </span>
                         </label>
                         <Field
+                          className="input"
                           type="number"
                           name="insuranceAmount"
                           placeholder="Enter Amount"
@@ -387,7 +405,7 @@ const Package = () => {
                       </div>
                       <div className={`${styles.currency} w-25  d-flex-col`}>
                         <label htmlFor="currency">
-                          Currency{" "}
+                          Currency
                           <span
                             className="required-asterisk"
                             aria-label="required"
@@ -396,6 +414,7 @@ const Package = () => {
                           </span>
                         </label>
                         <select
+                          className="select"
                           name="currency"
                           id="currency"
                           onChange={handleDrop}
@@ -417,7 +436,7 @@ const Package = () => {
                         } mt-4  d-flex-r`}
                       >
                         <Field
-                          className={`${styles.check} m-2`}
+                          className={`${styles.check} m-2 input`}
                           type="checkbox"
                           name="agreeTerms"
                           id="terms"

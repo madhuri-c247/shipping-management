@@ -4,7 +4,6 @@ import styles from "./navbar.module.scss";
 
 const Navbar = () => {
   return (
-    <>
       <nav className={`${styles.container} d-flex-r`}>
         <h3 className={`${styles.heading}`}>Ship Now</h3>
         <ul className={`${styles.menuContainer} d-flex-r`}>
@@ -29,7 +28,6 @@ const Navbar = () => {
          
         </ul>
       </nav>
-    </>
   );
 };
 

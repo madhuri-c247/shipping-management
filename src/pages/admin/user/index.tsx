@@ -2,7 +2,7 @@ import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
 import axios from "axios";
 //apiHelper
-import { ADMIN_ALL_USER_URL, ADMIN_USER_UPDATE_URL } from "../../../apiHelper";
+import { ADMIN_ALL_USER_URL, ADMIN_USER_DELETE_URL, ADMIN_USER_UPDATE_URL } from "../../../apiHelper";
 //css
 import styles from "../../user/saved-quote/saved-quote.module.scss";
 
@@ -18,11 +18,13 @@ const AllUser = () => {
         },
       })
       .then((res) => {
-        setUsers(res.data.docs);
+        console.log(res)
+        setUsers(res.data);
       })
       .catch((error) => {
         setMessage("Something is Wrong!");
       });
+      console.log(user,'user')
   }, []);
 
   const handleUpdate = (id: string, number: number) => {
@@ -42,7 +44,19 @@ const AllUser = () => {
       .then((res) => console.log(res))
       .catch((error) => console.log(error));
   };
-  const handleDelete = () => {};
+  const handleDelete = (id:string) => {
+    try {
+      axios.delete(ADMIN_USER_DELETE_URL,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((res)=>{
+        console.log(res)
+      }).catch((error)=> console.log(error))
+    } catch (error) {
+      
+    }
+  };
 
   return (
     <div className={`${styles.container} p-2`}>
@@ -51,12 +65,13 @@ const AllUser = () => {
         <Table className={`${styles.table}`} responsive>
           <thead>
             <tr>
-              <th>created At</th>
+              <th>User Id</th>
               <th>Email</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Phone Number</th>
               <th>Verification</th>
+              <th>created At</th>
               <th>Last logged In</th>
               <th></th>
               <th></th>
@@ -66,14 +81,15 @@ const AllUser = () => {
             {user
               ? user.map((item: any, index) => {
                   return (
-                    <>
-                      <tr>
-                        <td>{item.createdAt}</td>
+                    
+                      <tr key={item._id}>
+                        <td><a href="">{item._id}</a></td>
                         <td>{item.email}</td>
                         <td>{item.firstName}</td>
                         <td>{item.lastName}</td>
                         <td>{item.number}</td>
                         <td>{item.verification}</td>
+                        <td>{item.createdAt}</td>
                         <td>{item.lastLoggedIn}</td>
                         <td>
                           <button
@@ -86,13 +102,13 @@ const AllUser = () => {
                         <td>
                           <button
                             className={`${styles.delete}`}
-                            onClick={handleDelete}
+                            onClick={()=>handleDelete(item.id)}
                           >
                             Delete
                           </button>
                         </td>
                       </tr>
-                    </>
+                    
                   );
                 })
               : ""}

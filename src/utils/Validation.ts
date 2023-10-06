@@ -71,6 +71,25 @@ export const resetValidationSchema = Yup.object().shape({
     .required("Confirm Password is required"),
 });
 
+export const changePasswordValidationSchema = Yup.object().shape({
+
+  oldPassword: Yup.string()
+    .required("Password is required")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special symbol, and be at least 8-16 characters long"
+    ),
+  newPassword: Yup.string()
+    .required("Password is required")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special symbol, and be at least 8-16 characters long"
+    ),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("newPassword")], "Passwords must match")
+    .required("Confirm Password is required"),
+});
+
 export const GuestLetterValidationSchema = Yup.object().shape({
   fromCity: Yup.string().required('From City is required'),
   toCity: Yup.string().required('To City is required'),
@@ -94,7 +113,7 @@ export const GuestPackageValidationSchema = Yup.object().shape({
     /^[A-Za-z]+$/,
     "First Name must contain only alphabetic characters"
   ),
-  package: Yup.number().min(0, 'Package must be a positive number').required('Package is required'),
+  package: Yup.number().min(1, 'Package can not be zero').required('Package is required'),
   totalWeight: Yup.string().required('Total Weight is required'),
   phone: Yup.string()
   .min(10, "Number must be greater than or equal to 10")
