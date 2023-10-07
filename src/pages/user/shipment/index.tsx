@@ -2,7 +2,7 @@ import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Spinner } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 //apiHelper
 import { MY_SHIPMENT_URL, STATUS_URL } from "../../../apiHelper";
 //css
@@ -13,6 +13,7 @@ const Shipment = () => {
   const [quotes, setQuotes] = useState([]);
   const [message, setMessage] = useState("");
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const shipment = async () => {
@@ -32,6 +33,10 @@ const Shipment = () => {
     shipment();
   }, []);
 
+  const shipmentDetail = (id: string)=> {
+    alert('hell')
+    // navigate(`/admin/all-shipment/details/${id}`)   
+  }
   const handleChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
     index: number,
@@ -71,7 +76,7 @@ const Shipment = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th>Order Id</th>
+              <th>Id</th>
               <th>Customer</th>
               <th>Carrier Name</th>
               <th>From City</th>
@@ -88,7 +93,7 @@ const Shipment = () => {
                     <tr>
                       <td>{++index}</td>
                       <td>
-                        <NavLink to={""}>{item.orderId}</NavLink>
+                        <NavLink to={''}>{item._id}</NavLink>
                       </td>
                       <td>{item.customer}</td>
                       <td>{item.serviceName}</td>

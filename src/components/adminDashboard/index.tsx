@@ -13,15 +13,12 @@ import {GoReport} from 'react-icons/go'
 import styles from "../userDashboard/userDashboard.module.scss";
 
 const AdminDashboard = () => {
-  const [spinner, setSpinner] = useState(false);
   const navigate = useNavigate()
 
   const handleLogout = () => {
     sessionStorage.removeItem('token')
-    setSpinner(true)
-    setInterval(() => {
       navigate('/login')
-    }, 1000)
+
   }
   return (
     <div className={styles.container}>
@@ -58,9 +55,6 @@ const AdminDashboard = () => {
          
         </ul>
       </div>
-      {spinner ?
-        <span className={`spinner`}><Spinner animation="border" variant="dark" /></span>
-        : ''}
       <Button className={styles.logout} onClick={handleLogout}>
         <RiLogoutCircleLine /> Logout
       </Button>

@@ -5,53 +5,49 @@ import axios from "axios";
 import { ADMIN_ALL_USER_URL, ADMIN_USER_DELETE_URL, ADMIN_USER_UPDATE_URL } from "../../../apiHelper";
 //css
 import styles from "../../user/saved-quote/saved-quote.module.scss";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const AllUser = () => {
   const token = sessionStorage.getItem("token");
   const [user, setUsers] = useState([]);
   const [message, setMessage] = useState("");
-  useEffect(() => {
+  const [toggle, setToggle] = useState(true)
+  const navigate = useNavigate()
+  const fetchData = ()=>{
     axios
-      .get(ADMIN_ALL_USER_URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log(res)
-        setUsers(res.data);
-      })
-      .catch((error) => {
-        setMessage("Something is Wrong!");
-      });
-      console.log(user,'user')
+    .get(ADMIN_ALL_USER_URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      console.log(res)
+      setUsers(res.data);
+    })
+    .catch((error) => {
+      setMessage("Something is Wrong!");
+    });
+  }
+  useEffect(() => {   
+    fetchData()
   }, []);
 
   const handleUpdate = (id: string, number: number) => {
-    axios
-      .put(
-        ADMIN_USER_UPDATE_URL,
-        {
-          id: id,
-          number: number,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((res) => console.log(res))
-      .catch((error) => console.log(error));
+    navigate('/admin/all-users/update',{
+      state: {
+        id: id
+      }
+    })
   };
   const handleDelete = (id:string) => {
     try {
-      axios.delete(ADMIN_USER_DELETE_URL,{
+      axios.delete(`${ADMIN_USER_DELETE_URL}${id}`,{
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }).then((res)=>{
-        console.log(res)
+        fetchData();
+
       }).catch((error)=> console.log(error))
     } catch (error) {
       
@@ -69,6 +65,7 @@ const AllUser = () => {
               <th>Email</th>
               <th>First Name</th>
               <th>Last Name</th>
+              <th>Company Name</th>
               <th>Phone Number</th>
               <th>Verification</th>
               <th>created At</th>
@@ -80,6 +77,7 @@ const AllUser = () => {
           <tbody>
             {user
               ? user.map((item: any, index) => {
+                console.log(item.verification,'verify')
                   return (
                     
                       <tr key={item._id}>
@@ -87,8 +85,9 @@ const AllUser = () => {
                         <td>{item.email}</td>
                         <td>{item.firstName}</td>
                         <td>{item.lastName}</td>
+                        <td>{item.companyName}</td>
                         <td>{item.number}</td>
-                        <td>{item.verification}</td>
+                        <td>{item.verification?'yes':'no'}</td>
                         <td>{item.createdAt}</td>
                         <td>{item.lastLoggedIn}</td>
                         <td>
@@ -102,7 +101,7 @@ const AllUser = () => {
                         <td>
                           <button
                             className={`${styles.delete}`}
-                            onClick={()=>handleDelete(item.id)}
+                            onClick={()=>handleDelete(item._id)}
                           >
                             Delete
                           </button>
@@ -120,6 +119,7 @@ const AllUser = () => {
           )}
         </Table>
       </div>
+
     </div>
   );
 };

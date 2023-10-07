@@ -29,6 +29,8 @@ import VerifyDeletingUser from "./pages/user/accountSetting/deleteUser/verificat
 import ChangePassword from "./pages/user/accountSetting/changePassword";
 import { Route, Routes } from "react-router-dom";
 import { RouteConstant } from "./constants/routes";
+import UpdateUser from "./pages/admin/user/updateUser";
+import ShipmentDetail from "./pages/admin/shipment/shipmentDetail/shipment";
 
 export const AllRoutes = () => (
   <Routes>
@@ -73,9 +75,11 @@ export const AllRoutes = () => (
       }
     >
       <Route path="/admin/saved-quotes" element={<AdminSavedQuote />} />
-      <Route path="/admin/all-users" element={<AllUsers />}></Route>
+      <Route path="/admin/all-users" element={<AllUsers />}/>
+        <Route path="/admin/all-users/update" element={<UpdateUser/>}/>
       <Route path="/admin/report" element={<Reports />} />
       <Route path="/admin/all-shipment" element={<AllShipment />} />
+      <Route path="/admin/all-shipment/details/:id" element={<ShipmentDetail />} />
     </Route>
     <Route
       path="/login/reset-password-verification"

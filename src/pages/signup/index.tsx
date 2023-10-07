@@ -36,32 +36,30 @@ const SignUp: React.FC = () => {
   const handleSubmit = async (values: UserState) => {
     try {
       await axios
-      .post(SIGNUP_BASE_URL, values)
-      .then((response) => {
-        setSpinner(true);
-        setInterval(() => {
-          setSuccessful(true);
-          setSpinner(false);
-          setMessage(response.data.message);
-          values.companyName = "";
-          values.firstName = "";
-          values.lastName = "";
-          values.number = "";
-          values.email = "";
-          values.password = "";
-          values.confirmPassword = "";
-        }, 2000);
-      })
-      .catch((error) => {
-        setSuccessful(false);
-        setMessage(error.response.data.message);
-      });
+        .post(SIGNUP_BASE_URL, values)
+        .then((response) => {
+          setSpinner(true);
+          setInterval(() => {
+            setSuccessful(true);
+            setSpinner(false);
+            setMessage(response.data.message);
+            values.companyName = "";
+            values.firstName = "";
+            values.lastName = "";
+            values.number = "";
+            values.email = "";
+            values.password = "";
+            values.confirmPassword = "";
+          }, 2000);
+        })
+        .catch((error) => {
+          setSuccessful(false);
+          setMessage(error.response.data.message);
+        });
     } catch (error) {
-      
       setSuccessful(false);
       setMessage("Something is Wrong");
     }
- 
   };
 
   return (
@@ -175,7 +173,8 @@ const SignUp: React.FC = () => {
                       <Field
                         name="number"
                         id="phoneNumber"
-                        type="tel"
+                        type="number"
+                        min="1"
                         placeholder="Phone Number"
                       />
                       <ErrorMessage
