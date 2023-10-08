@@ -31,6 +31,7 @@ import { Route, Routes } from "react-router-dom";
 import { RouteConstant } from "./constants/routes";
 import UpdateUser from "./pages/admin/user/updateUser";
 import ShipmentDetail from "./pages/admin/shipment/shipmentDetail/shipment";
+import CheckoutPage from "./pages/user/saved-quote/checkOut/CheckOut";
 
 export const AllRoutes = () => (
   <Routes>
@@ -87,5 +88,8 @@ export const AllRoutes = () => (
     />
     <Route path="/forgot-password" element={<ForgotPassword />} />
     <Route path="*" element={<Error />} />
+    <Route path="/user/quotes/checkout/:id" element={<CheckoutPage/>}/>
   </Routes>
+
+  
 );

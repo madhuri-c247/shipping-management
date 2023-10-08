@@ -7,6 +7,7 @@ import { SAVED_QUOTE_URL } from "../../../apiHelper";
 import styles from "./saved-quote.module.scss";
 //common
 import Button from "../../../common/button";
+import { NavLink } from "react-router-dom";
 
 const Shipment = () => {
   const token = sessionStorage.getItem("token");
@@ -26,6 +27,7 @@ const Shipment = () => {
         setMessage(error);
       });
   }, []);
+
 
   return (
     <div className={`${styles.container} p-2`}>
@@ -63,10 +65,7 @@ const Shipment = () => {
                         <td>{item.toCity}</td>
                         <td>{item.insuranceAmount}</td>
                         <td>
-                          <Button
-                            value="Pay Now"
-                            className={`${styles.button}`}
-                          />
+                         <NavLink to={`/user/quote/checkout/${item.quoteDate}`}>Pay Now</NavLink>
                         </td>
                       </tr>
                     </>

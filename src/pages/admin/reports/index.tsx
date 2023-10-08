@@ -24,7 +24,7 @@ const Reports = () => {
     }).then((res)=>{
       console.log(res, 'res')
       setReport({
-        ...res.data.report
+        ...res.data.report 
       })
     }).catch((error)=>{
 
