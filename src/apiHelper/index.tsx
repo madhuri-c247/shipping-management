@@ -26,3 +26,4 @@ export const ADMIN_SINGLE_USER_URL = `${apiUrl}/admin/admin-get-user/`;
 export const ADMIN_USER_UPDATE_URL = `${apiUrl}/admin/admin-update-user/`;
 export const ADMIN_USER_DELETE_URL = `${apiUrl}/admin/admin-delete-user/`;
 export const ADMIN_REPORT = `${apiUrl}/admin/report`;
+export const PAYMENT_INTENT = `${apiUrl}/quote/payment-intents`;

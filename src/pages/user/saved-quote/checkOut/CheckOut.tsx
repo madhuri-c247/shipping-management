@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { Button, Form } from "react-bootstrap";
 import styles from "./checkOut.module.scss";
+import axios from "axios";
+import { PAYMENT_INTENT } from "../../../../apiHelper";
 
 const CheckoutPage: React.FC = () => {
   const stripe = useStripe();
@@ -9,6 +11,8 @@ const CheckoutPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [cardHolderName, setCardHolderName] = useState<string>("");
   const [validationError, setValidationError] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+  const adminToken = sessionStorage.getItem('token')
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -16,7 +20,7 @@ const CheckoutPage: React.FC = () => {
 
     if (!stripe || !elements) {
       setLoading(false);
-      console.error("Stripe.js has not loaded yet. Please try again.");
+      setMessage("Stripe.js has not loaded yet. Please try again.");
       return;
     }
 
@@ -24,7 +28,7 @@ const CheckoutPage: React.FC = () => {
 
     if (cardElement && !cardElement) {
       setLoading(false);
-      console.error("Please enter valid card details.");
+      setMessage("Please enter valid card details.");
       return;
     }
 
@@ -40,20 +44,30 @@ const CheckoutPage: React.FC = () => {
       });
 
       setLoading(false);
-      console.log("token  => ", token);
       if (error) {
-        console.error("Stripe error:", error);
+        setMessage("Stripe error:" + error);
       } else {
         onSubmit(token);
       }
     } catch (error) {
-      console.error("Error creating Stripe token:", error);
+      setMessage("Error creating Stripe token:" + error);
       setLoading(false);
     }
   };
 
   const onSubmit = (token: any) => {
     // Handle token submission
+    try {
+      axios.post(PAYMENT_INTENT, {
+        
+      },{
+        headers:{
+          Authorization: `Bearer ${adminToken}`
+        }
+      })
+    } catch (error) {
+      
+    }
   };
 
   return (

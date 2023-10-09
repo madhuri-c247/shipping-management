@@ -34,7 +34,7 @@ const Shipment = () => {
   }, []);
 
   const shipmentDetail = (id: string) => {
-    navigate(`/admin/all-shipment/details/${id}`)
+    navigate(`/admin/all-shipment/details/${id}`);
   };
   const handleChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
