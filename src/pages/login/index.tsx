@@ -1,6 +1,8 @@
-import { ChangeEvent, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { Formik, Field, ErrorMessage } from "formik";
 import { Form } from "react-bootstrap";
+import axios from "axios";
+import { useEffect, useState } from "react";
 //CSS
 import styles from "./login.module.scss";
 //models
@@ -8,71 +10,127 @@ import { UserState } from "../../models/UserState";
 //common
 import Button from "../../common/button";
 //layouts
-import Layout from "../../NavLayout";
-import { Particle } from "../../particles";
+import Layout from "../../layout/NavLayout";
+import { Particle } from "../../layout/particles";
+//validations
+import { loginValidationSchema } from "../../utils/Validation";
+//apiHelper
+import { LOGIN_BASE_URL } from "../../apiHelper";
 
 const Login: React.FC = () => {
+  const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
-  const [user, setUser] = useState<UserState>({
+  const [message, setMessage] = useState("");
+  const initialValues = {
     email: "",
     password: "",
+  };
+
+  useEffect(() => {
+    if (token) {
+      navigate("/user/quote/letter");
+    }
   });
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    navigate("/user/quote");
+  const handleSubmit = async (values: UserState) => {
+    try {
+      await axios
+        .post(LOGIN_BASE_URL, values)
+        .then((response) => {
+          sessionStorage.setItem("token", response.data.token);
+          if (response.data.role === "admin") {
+            navigate("/admin/saved-quotes");
+          } else {
+            navigate("/user/quote/letter");
+          }
+        })
+        .catch((err) => {
+          setMessage(err.response.data.message);
+        });
+    } catch (error) {
+      setMessage("something is wrong!");
+    }
+  };
+  const forgetPassword = () => {
+    navigate("/forgot-password");
   };
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setUser({
-      ...user,
-      [name]: value,
-    });
-  };
-
-  const forgotPassword = () => {
-    alert("forgot");
-  };
-
-  useEffect(() => {}, [user]);
   return (
     <Layout>
       <Particle>
         <div className={`${styles.container}  `}>
-          <Form className={` ${styles.form} `} onSubmit={handleSubmit}>
-            <h1 className="m-1">Login</h1>
+          <Formik<UserState>
+            initialValues={initialValues}
+            validationSchema={loginValidationSchema}
+            onSubmit={handleSubmit}
+          >
+            {(formik) => (
+              <Form
+                className={` ${styles.form} `}
+                onSubmit={formik.handleSubmit}
+              >
+                <>
+                  <h1 className="m-1">Login</h1>
+                  <div className={`${styles.formContent}`}>
+                    <label htmlFor="email">
+                      E-mail
+                      <span className="required-asterisk" aria-label="required">
+                        *
+                      </span>
+                    </label>
+                    <Field
+                      name="email"
+                      type="email"
+                      id="email"
+                      placeholder="Enter Email"
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className={`${styles.error} error`}
+                    />
+                  </div>
 
-            <div className={`${styles.formContent}`}>
-              <label>E-mail</label>
-              <input
-                name="email"
-                onChange={handleChange}
-                value={user.email}
-                type="email"
-                required
-              />
-            </div>
-
-            <div className={`${styles.formContent}`}>
-              <label>Password</label>
-              <input
-                name="password"
-                onChange={handleChange}
-                value={user.password}
-                type="password"
-                required
-              />
-              <button onClick={forgotPassword}>Forget Password ?</button> <br />
-            </div>
-
-            <div className={`${styles.submit}`}>
-              <Button value="Login" className="login-btn" />
-              <span>
-                Don't Have an account ?<NavLink to={"/signup"}>Sign Up</NavLink>
-              </span>
-            </div>
-          </Form>
+                  <div className={`${styles.formContent}`}>
+                    <label htmlFor="password">
+                      Password
+                      <span className="required-asterisk" aria-label="required">
+                        *
+                      </span>
+                    </label>
+                    <Field
+                      name="password"
+                      type="password"
+                      id="password"
+                      placeholder="Enter Password"
+                    />
+                    <ErrorMessage
+                      name="password"
+                      component="div"
+                      className={`${styles.error} error`}
+                    />
+                    <a type="button" onClick={forgetPassword}>
+                      Forget Password ?
+                    </a>
+                  </div>
+                  <div className={`${styles.submit}`}>
+                    {message ? (
+                      <h6 className={`${styles.message} error`}>
+                        Sorry! {message}
+                      </h6>
+                    ) : (
+                      ""
+                    )}
+                    <Button value="Login" className="login-btn" />
+                    <span>
+                      Don't Have an account ?
+                      <NavLink to={"/signup"}>Sign Up</NavLink>
+                    </span>
+                  </div>
+                </>
+              </Form>
+            )}
+          </Formik>
         </div>
       </Particle>
     </Layout>

@@ -15,32 +15,41 @@
     padding-top: 2rem;
     align-items: center;
     z-index: 55;
-    background-color: rgb(250, 246, 246);
+    background-color: white;
     .formContent {
       display: flex;
       flex-direction: column;
       width: 90%;
       margin: 1%;
+      position: relative;
       label {
         margin: 1% 0px;
         font-size: 14px;
       }
     }
-    button {
+    a {
       border: none;
       background-color: transparent;
       color: $blueColor;
       font-size: 11px;
-      bottom: 43%;
-      position: absolute;
+      padding: 1% 3px;
+      width: 35%;
     }
+
     .submit {
       display: flex;
       flex-direction: column;
       height: 14vh;
+      width: 100%;
+      margin-top: 2%;
       position: relative;
       justify-content: space-around;
       align-items: center;
+      .message {
+        font-size: 12px;
+        margin-top: 2%;
+        text-align: center;
+      }
       a {
         font-size: 14px;
         text-decoration: none;

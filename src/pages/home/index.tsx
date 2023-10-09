@@ -1,4 +1,5 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 //css
 import styles from "./home.module.scss";
 //assets
@@ -7,9 +8,18 @@ import background from "../../assets/homeBackground.jpg";
 import { BsEnvelope } from "react-icons/bs";
 import { LuPackage2 } from "react-icons/lu";
 //nav-layout
-import Layout from "../../NavLayout";
+import Layout from "../../layout/NavLayout";
 
 const Home = () => {
+  const [message, setMessage] = useState("");
+  const { state } = useLocation();
+
+  useEffect(() => {
+    if (state) {
+      const { response } = state;
+      setMessage(response);
+    }
+  }, [state]);
   return (
     <Layout>
       <div
@@ -19,12 +29,13 @@ const Home = () => {
         <div className={`${styles.overlay}`}></div>
         <div className={`${styles.shipmentContainer}`}>
           <div className={`${styles.heading}`}>
-            <h1>Book a shipment instantly</h1>
+            <h3>Book a shipment instantly</h3>
             <pre>
               The fast and easy shipping solution for your business. Get your
               quote in seconds today
             </pre>
           </div>
+          {message ? <h5 className="error">{message}</h5> : ""}
           <div className={`${styles.shipmentForm}`}>
             <ul>
               <NavLink
