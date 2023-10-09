@@ -1,8 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
-//assets
-import emptyProfile from "../../../assets/emptyProfile.webp";
 //CSS
 import styles from "./setting.module.scss";
 //common
@@ -68,7 +66,8 @@ const Setting: React.FC = () => {
         setMessage(res.data.message);
       })
       .catch((error) => {
-        console.log(error);
+        setSuccessful(false);
+        setMessage(error);
       });
   };
 
@@ -81,8 +80,7 @@ const Setting: React.FC = () => {
   };
 
   const changePassword = () => {
-    console.log("change Password");
-    navigate('/user/change-password')
+    navigate("/user/change-password");
   };
   const handleDelete = () => {
     navigate("/users/delete-verification");
@@ -110,6 +108,7 @@ const Setting: React.FC = () => {
         setMessage(res.data.uploaded);
       })
       .catch((error) => {
+        setSuccessful(false);
         setMessage(error.response.data.error);
       });
   };
@@ -133,9 +132,7 @@ const Setting: React.FC = () => {
 
             <div className={`${styles.password} d-flex-col`}>
               <label>Password </label>
-              <button onClick={changePassword}>
-                Change Your Password
-              </button>
+              <button onClick={changePassword}>Change Your Password</button>
             </div>
           </div>
           <h5 className="mt-5">Personal Info</h5>

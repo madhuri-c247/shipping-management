@@ -33,10 +33,9 @@ const Shipment = () => {
     shipment();
   }, []);
 
-  const shipmentDetail = (id: string)=> {
-    alert('hell')
-    // navigate(`/admin/all-shipment/details/${id}`)   
-  }
+  const shipmentDetail = (id: string) => {
+    navigate(`/admin/all-shipment/details/${id}`)
+  };
   const handleChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
     index: number,
@@ -93,7 +92,7 @@ const Shipment = () => {
                     <tr>
                       <td>{++index}</td>
                       <td>
-                        <NavLink to={''}>{item._id}</NavLink>
+                        <NavLink to={""}>{item._id}</NavLink>
                       </td>
                       <td>{item.customer}</td>
                       <td>{item.serviceName}</td>

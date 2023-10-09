@@ -1,18 +1,23 @@
-import React, { useState } from "react";
-import styles from "../../../login/forgetPassword/forgetPassword.module.scss";
+import { useState } from "react";
 import { ErrorMessage, Field, Formik } from "formik";
-import { UserState } from "../../../../models/UserState";
-import { changePasswordValidationSchema } from "../../../../utils/Validation";
-import Button from "../../../../common/button";
-import { USER_CHANGE_PASSWORD_URL } from "../../../../apiHelper";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+//models
+import { UserState } from "../../../../models/UserState";
+//validations
+import { changePasswordValidationSchema } from "../../../../utils/Validation";
+//common
+import Button from "../../../../common/button";
+//apiHelper
+import { USER_CHANGE_PASSWORD_URL } from "../../../../apiHelper";
+//css
+import styles from "../../../login/forgetPassword/forgetPassword.module.scss";
 
 const ChangePassword = () => {
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
-  const token = sessionStorage.getItem('token')
-  const navigate = useNavigate()
+  const token = sessionStorage.getItem("token");
+  const navigate = useNavigate();
 
   const initialValues = {
     oldPassword: "",
@@ -21,25 +26,32 @@ const ChangePassword = () => {
   };
 
   const handleSubmit = (values: UserState) => {
-    setMessage('')
+    setMessage("");
     try {
-        axios.put(USER_CHANGE_PASSWORD_URL,{
-            ...values
-        },{
-            headers:{
-                Authorization: `Bearer ${token}`
-            }
-        }).then((res)=>{
-            setSuccess(true)
-            setMessage(res.data.message)
-            navigate('/user/setting')
-        }).catch((error)=>{
-            setSuccess(false)
-            setMessage(error.response.data.message)
+      axios
+        .put(
+          USER_CHANGE_PASSWORD_URL,
+          {
+            ...values,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          setSuccess(true);
+          setMessage(res.data.message);
+          navigate("/user/setting");
         })
+        .catch((error) => {
+          setSuccess(false);
+          setMessage(error.response.data.message);
+        });
     } catch (error) {
-        console.log(error)
-        setMessage('Something is Wrong!')
+      console.log(error);
+      setMessage("Something is Wrong!");
     }
   };
 
@@ -117,11 +129,10 @@ const ChangePassword = () => {
             <div className={`${styles.submit}`}>
               {success ? (
                 <h6 className={`${styles.message} success`}>{message}</h6>
-               
               ) : (
                 <h6 className={`${styles.message} error`}>{message}</h6>
               )}
-           
+
               <Button className={`${styles.forgotBtn}`} value={"Continue"} />
             </div>
           </form>

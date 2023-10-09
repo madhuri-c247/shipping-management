@@ -1,57 +1,55 @@
 import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 //apiHelper
-import { ADMIN_ALL_USER_URL, ADMIN_USER_DELETE_URL, ADMIN_USER_UPDATE_URL } from "../../../apiHelper";
+import { ADMIN_ALL_USER_URL, ADMIN_USER_DELETE_URL } from "../../../apiHelper";
 //css
 import styles from "../../user/saved-quote/saved-quote.module.scss";
-import { Outlet, useNavigate } from "react-router-dom";
 
 const AllUser = () => {
   const token = sessionStorage.getItem("token");
   const [user, setUsers] = useState([]);
   const [message, setMessage] = useState("");
-  const [toggle, setToggle] = useState(true)
-  const navigate = useNavigate()
-  const fetchData = ()=>{
+  const navigate = useNavigate();
+  const fetchData = () => {
     axios
-    .get(ADMIN_ALL_USER_URL, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((res) => {
-      console.log(res)
-      setUsers(res.data);
-    })
-    .catch((error) => {
-      setMessage("Something is Wrong!");
-    });
-  }
-  useEffect(() => {   
-    fetchData()
-  }, []);
-
-  const handleUpdate = (id: string, number: number) => {
-    navigate('/admin/all-users/update',{
-      state: {
-        id: id
-      }
-    })
-  };
-  const handleDelete = (id:string) => {
-    try {
-      axios.delete(`${ADMIN_USER_DELETE_URL}${id}`,{
+      .get(ADMIN_ALL_USER_URL, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }).then((res)=>{
-        fetchData();
+      })
+      .then((res) => {
+        setUsers(res.data);
+      })
+      .catch((error) => {
+        setMessage("Something is Wrong!");
+      });
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-      }).catch((error)=> console.log(error))
-    } catch (error) {
-      
-    }
+  const handleUpdate = (id: string, number: number) => {
+    navigate("/admin/all-users/update", {
+      state: {
+        id: id,
+      },
+    });
+  };
+  const handleDelete = (id: string) => {
+    try {
+      axios
+        .delete(`${ADMIN_USER_DELETE_URL}${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          fetchData();
+        })
+        .catch((error) => {});
+    } catch (error) {}
   };
 
   return (
@@ -77,37 +75,37 @@ const AllUser = () => {
           <tbody>
             {user
               ? user.map((item: any, index) => {
-                console.log(item.verification,'verify')
+                  console.log(item.verification, "verify");
                   return (
-                    
-                      <tr key={item._id}>
-                        <td><a href="">{item._id}</a></td>
-                        <td>{item.email}</td>
-                        <td>{item.firstName}</td>
-                        <td>{item.lastName}</td>
-                        <td>{item.companyName}</td>
-                        <td>{item.number}</td>
-                        <td>{item.verification?'yes':'no'}</td>
-                        <td>{item.createdAt}</td>
-                        <td>{item.lastLoggedIn}</td>
-                        <td>
-                          <button
-                            className={`${styles.update}`}
-                            onClick={() => handleUpdate(item._id, item.number)}
-                          >
-                            Update
-                          </button>
-                        </td>
-                        <td>
-                          <button
-                            className={`${styles.delete}`}
-                            onClick={()=>handleDelete(item._id)}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    
+                    <tr key={item._id}>
+                      <td>
+                        <a href="">{item._id}</a>
+                      </td>
+                      <td>{item.email}</td>
+                      <td>{item.firstName}</td>
+                      <td>{item.lastName}</td>
+                      <td>{item.companyName}</td>
+                      <td>{item.number}</td>
+                      <td>{item.verification ? "yes" : "no"}</td>
+                      <td>{item.createdAt}</td>
+                      <td>{item.lastLoggedIn}</td>
+                      <td>
+                        <button
+                          className={`${styles.update}`}
+                          onClick={() => handleUpdate(item._id, item.number)}
+                        >
+                          Update
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          className={`${styles.delete}`}
+                          onClick={() => handleDelete(item._id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
                   );
                 })
               : ""}
@@ -119,7 +117,6 @@ const AllUser = () => {
           )}
         </Table>
       </div>
-
     </div>
   );
 };

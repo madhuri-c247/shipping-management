@@ -1,12 +1,10 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { ADMIN_SHIPMENT_DETAIL_URL } from "../../../../apiHelper";
 //CSS
 import styles from "../../../user/accountSetting/setting.module.scss";
-//common
-import Button from "../../../../common/button";
-
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
-import { ADMIN_SHIPMENT_DETAIL_URL } from "../../../../apiHelper";
+//apiHelper
 
 const ShipmentDetail: React.FC = () => {
   const [message, setMessage] = useState("");
@@ -19,9 +17,8 @@ const ShipmentDetail: React.FC = () => {
     payment: "",
     serviceName: "",
     status: "",
-    toCity:'',
-    toPostal:''
-
+    toCity: "",
+    toPostal: "",
   });
 
   const token = sessionStorage.getItem("token");
@@ -36,7 +33,7 @@ const ShipmentDetail: React.FC = () => {
           },
         })
         .then((res) => {
-          console.log(res)
+          console.log(res);
           setShipment({ ...res.data[0] });
         })
         .catch((err) => {
@@ -47,9 +44,7 @@ const ShipmentDetail: React.FC = () => {
     }
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    
-  };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {};
 
   return (
     <div className={`${styles.container}`}>
@@ -57,23 +52,23 @@ const ShipmentDetail: React.FC = () => {
         <div className={`${styles.info}`}>
           <h4>Update User</h4>
           {shipment && (
-        <div>
-          <p>From City: {shipment.fromCity}</p>
-          <p>From Postal: {shipment.fromPostal}</p>
-          <p>Payment: {shipment.payment}</p>
-          <p>Service Name: {shipment.serviceName}</p>
-          <p>Status: {shipment.status}</p>
-          <p>To Postal: {shipment.toCity}</p>
-          <p>To Postal: {shipment.toPostal}</p>
-        </div>
-      )}
+            <div>
+              <p>From City: {shipment.fromCity}</p>
+              <p>From Postal: {shipment.fromPostal}</p>
+              <p>Payment: {shipment.payment}</p>
+              <p>Service Name: {shipment.serviceName}</p>
+              <p>Status: {shipment.status}</p>
+              <p>To Postal: {shipment.toCity}</p>
+              <p>To Postal: {shipment.toPostal}</p>
+            </div>
+          )}
 
           {Successful ? (
             <h6 className={`${styles.message} success m-1`}>{message}</h6>
           ) : (
             <h6 className={`${styles.message} error m-1`}>{message}</h6>
           )}
-         <NavLink to={'/admin/all-shipment'}>View All Shipment</NavLink>
+          <NavLink to={"/admin/all-shipment"}>View All Shipment</NavLink>
         </div>
       </form>
     </div>

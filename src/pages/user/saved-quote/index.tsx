@@ -1,13 +1,11 @@
 import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import axios from "axios";
 //apiHelper
 import { SAVED_QUOTE_URL } from "../../../apiHelper";
 //css
 import styles from "./saved-quote.module.scss";
-//common
-import Button from "../../../common/button";
-import { NavLink } from "react-router-dom";
 
 const Shipment = () => {
   const token = sessionStorage.getItem("token");
@@ -27,7 +25,6 @@ const Shipment = () => {
         setMessage(error);
       });
   }, []);
-
 
   return (
     <div className={`${styles.container} p-2`}>
@@ -65,7 +62,11 @@ const Shipment = () => {
                         <td>{item.toCity}</td>
                         <td>{item.insuranceAmount}</td>
                         <td>
-                         <NavLink to={`/user/quote/checkout/${item.quoteDate}`}>Pay Now</NavLink>
+                          <NavLink
+                            to={`/user/quote/checkout/${item.quoteDate}`}
+                          >
+                            Pay Now
+                          </NavLink>
                         </td>
                       </tr>
                     </>

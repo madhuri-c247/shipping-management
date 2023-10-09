@@ -50,9 +50,9 @@ export const AllRoutes = () => (
     <Route
       path="/user"
       element={
-        // <Auth>
-        // </Auth>
+        <Auth>
           <User />
+        </Auth>
       }
     >
       <Route path="/user/quote" element={<Quote />}>
@@ -66,7 +66,7 @@ export const AllRoutes = () => (
     <Route path="/users/delete-verification" element={<VerifyDeletingUser />} />
     <Route path="/user/change-password" element={<ChangePassword />} />
     <Route path="/mail/delete-verification-mail" element={<DeleteUser />} />
-    <Route path="/user/quotes/checkout" element={<CheckoutPage />}/>
+    <Route path="/user/quotes/checkout" element={<CheckoutPage />} />
 
     <Route
       path="/admin"
@@ -77,11 +77,14 @@ export const AllRoutes = () => (
       }
     >
       <Route path="/admin/saved-quotes" element={<AdminSavedQuote />} />
-      <Route path="/admin/all-users" element={<AllUsers />}/>
-        <Route path="/admin/all-users/update" element={<UpdateUser/>}/>
+      <Route path="/admin/all-users" element={<AllUsers />} />
+      <Route path="/admin/all-users/update" element={<UpdateUser />} />
       <Route path="/admin/report" element={<Reports />} />
       <Route path="/admin/all-shipment" element={<AllShipment />} />
-      <Route path="/admin/all-shipment/details/:id" element={<ShipmentDetail />} />
+      <Route
+        path="/admin/all-shipment/details/:id"
+        element={<ShipmentDetail />}
+      />
     </Route>
     <Route
       path="/login/reset-password-verification"
@@ -89,8 +92,5 @@ export const AllRoutes = () => (
     />
     <Route path="/forgot-password" element={<ForgotPassword />} />
     <Route path="*" element={<Error />} />
-   
   </Routes>
-
-  
 );

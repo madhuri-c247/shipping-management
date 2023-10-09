@@ -16,8 +16,7 @@ const DeleteUser = () => {
         .delete(`${USER_DELETE_URL}${token}`)
         .then((res) => {
           if (res.status === 200) {
-            console.log(res)
-             navigate(`/login`);
+            navigate(`/login`);
           }
         })
         .catch((err) => {

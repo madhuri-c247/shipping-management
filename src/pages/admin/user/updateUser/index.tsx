@@ -1,13 +1,15 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { FaEdit } from "react-icons/fa";
+import { useLocation, useNavigate } from "react-router-dom";
 //CSS
 import styles from "../../../user/accountSetting/setting.module.scss";
 //common
 import Button from "../../../../common/button";
-
-import { useLocation, useNavigate } from "react-router-dom";
-import { ADMIN_SINGLE_USER_URL, ADMIN_USER_UPDATE_URL } from "../../../../apiHelper";
+//apiHelper
+import {
+  ADMIN_SINGLE_USER_URL,
+  ADMIN_USER_UPDATE_URL,
+} from "../../../../apiHelper";
 
 const UpdateUser: React.FC = () => {
   const [message, setMessage] = useState("");
@@ -46,21 +48,26 @@ const UpdateUser: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-        await axios.put(`${ADMIN_USER_UPDATE_URL}${id}`,{
-            ...input
-        },{
-            headers:{
-                Authorization:`Bearer ${token}`
-            }
-        }).then((res)=>{
-            console.log(res)
-            navigate('/admin/all-users')
-        }).catch((error)=>{
-            console.log(error)
+      await axios
+        .put(
+          `${ADMIN_USER_UPDATE_URL}${id}`,
+          {
+            ...input,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          navigate("/admin/all-users");
         })
-    } catch (error) {
-        
-    }
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {}
     // navigate("/admin/all-users");
   };
 
@@ -123,8 +130,8 @@ const UpdateUser: React.FC = () => {
               />
             </div>
             <div className={`${styles.submit}`}>
-            <Button className={`${styles.btn}`} value="save changes" />
-          </div>
+              <Button className={`${styles.btn}`} value="save changes" />
+            </div>
           </div>
 
           {Successful ? (
@@ -132,7 +139,6 @@ const UpdateUser: React.FC = () => {
           ) : (
             <h6 className={`${styles.message} error m-1`}>{message}</h6>
           )}
-         
         </div>
       </form>
     </div>

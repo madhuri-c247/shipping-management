@@ -1,11 +1,11 @@
 import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { NavLink } from "react-router-dom";
 //apiHelper
 import { ADMIN_ALL_SHIPMENT_URL } from "../../../apiHelper";
 //css
 import styles from "../../user/saved-quote/saved-quote.module.scss";
-import { NavLink } from "react-router-dom";
 
 const AllShipment = () => {
   const token = sessionStorage.getItem("token");
@@ -49,7 +49,13 @@ const AllShipment = () => {
                     <>
                       <tr>
                         <td>{++index}</td>
-                        <td><NavLink to={`/admin/all-shipment/details/${item._id}`}>{item._id}</NavLink></td>
+                        <td>
+                          <NavLink
+                            to={`/admin/all-shipment/details/${item._id}`}
+                          >
+                            {item._id}
+                          </NavLink>
+                        </td>
                         <td>{item.fromCity}</td>
                         <td>{item.fromPostal}</td>
                         <td>{item.serviceName}</td>

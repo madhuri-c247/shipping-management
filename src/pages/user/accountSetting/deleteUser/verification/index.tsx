@@ -1,10 +1,15 @@
-import axios from "axios";
-import { UserState } from "../../../../../models/UserState";
 import { useState } from "react";
-import { USER_DELETE_VERIFY_URL } from "../../../../../apiHelper";
-import styles from "../../../../login/forgetPassword/forgetPassword.module.scss";
 import { ErrorMessage, Field, Formik } from "formik";
+import axios from "axios";
+//models
+import { UserState } from "../../../../../models/UserState";
+//apiHelper
+import { USER_DELETE_VERIFY_URL } from "../../../../../apiHelper";
+//CSS
+import styles from "../../../../login/forgetPassword/forgetPassword.module.scss";
+//validations
 import { loginValidationSchema } from "../../../../../utils/Validation";
+//common
 import Button from "../../../../../common/button";
 
 const VerifyDeletingUser = () => {
@@ -18,7 +23,6 @@ const VerifyDeletingUser = () => {
   const token = sessionStorage.getItem("token");
   const handleSubmit = (values: UserState) => {
     try {
-      
       axios
         .post(
           USER_DELETE_VERIFY_URL,
@@ -32,15 +36,15 @@ const VerifyDeletingUser = () => {
           }
         )
         .then((res) => {
-          setMessage('')
+          setMessage("");
           setSuccess(res.data.email);
         })
         .catch((error) => {
-           setSuccess('');
+          setSuccess("");
           setMessage(error.response.data.error);
         });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
   return (
