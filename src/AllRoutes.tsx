@@ -37,7 +37,7 @@ export const AllRoutes = () => (
   <Routes>
     <Route path="/signup" element={<SignUp />} />
     <Route path="/login" element={<Login />} />
-    <Route path={RouteConstant.HOME} element={<LetterSelectionGuest />} />
+    <Route path={RouteConstant.HOME} element={<Home />} />
     <Route path="/" element={<Home />}>
       <Route path="/home/letter-selection" element={<LetterSelectionGuest />} />
       <Route
