@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Form, Spinner } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
 //CSS
 import styles from "./signup.module.scss";
@@ -33,13 +33,13 @@ const SignUp: React.FC = () => {
     confirmPassword: "",
   };
 
+ 
   const handleSubmit = async (values: UserState) => {
     try {
+      setSpinner(true);         
       await axios
         .post(SIGNUP_BASE_URL, values)
         .then((response) => {
-          setSpinner(true);
-          setInterval(() => {
             setSuccessful(true);
             setSpinner(false);
             setMessage(response.data.message);
@@ -50,16 +50,20 @@ const SignUp: React.FC = () => {
             values.email = "";
             values.password = "";
             values.confirmPassword = "";
-          }, 2000);
+        
         })
         .catch((error) => {
           setSuccessful(false);
+          setSpinner(true);  
           setMessage(error.response.data.message);
         });
     } catch (error) {
       setSuccessful(false);
+      setSpinner(true);  
       setMessage("Something is Wrong");
     }
+    setSpinner(false);  
+
   };
 
   return (
@@ -81,11 +85,13 @@ const SignUp: React.FC = () => {
               initialValues={initialValues}
               validationSchema={signupValidationSchema}
               onSubmit={handleSubmit}
+             
             >
               {(formik) => (
                 <Form
                   className={` ${styles.container2} `}
                   onSubmit={formik.handleSubmit}
+                 
                 >
                   <h1 className="m-3">Sign Up</h1>
                   <div>
@@ -215,6 +221,7 @@ const SignUp: React.FC = () => {
                         <span
                           className="required-asterisk"
                           aria-label="required"
+                          
                         >
                           *
                         </span>
@@ -238,6 +245,7 @@ const SignUp: React.FC = () => {
                         <span
                           className="required-asterisk"
                           aria-label="required"
+                         
                         >
                           *
                         </span>
@@ -263,15 +271,9 @@ const SignUp: React.FC = () => {
                     <h6 className={`${styles.message} error m-1`}>{message}</h6>
                   )}
                   <div className={`${styles.submit}`}>
-                    {spinner ? (
-                      <span className={`spinner m-1`}>
-                        <Spinner animation="border" variant="dark" />
-                      </span>
-                    ) : (
-                      ""
-                    )}
+                  
 
-                    <Button className="signup-btn" value="SIGN UP" />
+                    <Button className="signup-btn" value={spinner?'Processing...':'SignUp'} />
                     <span>
                       Already Have an Account ?{" "}
                       <NavLink to={"/login"}>Login</NavLink>

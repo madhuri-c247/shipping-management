@@ -15,7 +15,10 @@ import { useNavigate } from "react-router-dom";
 
 const Setting: React.FC = () => {
   const [message, setMessage] = useState("");
+  const [spinner, setSpinner] = useState(false);
+  const [imageUploaded, setImageUploaded] = useState("");
   const [image, setImage] = useState<File | null>(null);
+
   const [Successful, setSuccessful] = useState(false);
   const [input, setInput] = useState({
     email: "",
@@ -87,12 +90,15 @@ const Setting: React.FC = () => {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setImageUploaded("");
     const files = e.target.files;
     if (files) {
       setImage(files[0]);
     }
   };
   const handleUpload = () => {
+    setImageUploaded('')
+    setSpinner(true);
     const formData = new FormData();
     if (image) {
       formData.append("avatar", image);
@@ -104,12 +110,13 @@ const Setting: React.FC = () => {
         },
       })
       .then((res) => {
-        setSuccessful(true);
-        setMessage(res.data.uploaded);
+        setSpinner(false);
+        setImageUploaded(res.data.uploaded);
       })
       .catch((error) => {
-        setSuccessful(false);
-        setMessage(error.response.data.error);
+        setSpinner(false);
+        console.log(error)
+        setImageUploaded(error.response.data.message);
       });
   };
   return (
@@ -132,17 +139,23 @@ const Setting: React.FC = () => {
 
             <div className={`${styles.password} d-flex-col`}>
               <label>Password </label>
-              <button onClick={changePassword}>Change Your Password</button>
+              <button className="btn btn-dark" onClick={changePassword}>Change Your Password</button>
             </div>
           </div>
           <h5 className="mt-5">Personal Info</h5>
           <div className={`${styles.personalInfo}`}>
             <div className={`${styles.input} d-flex-r`}>
               <div className={`${styles.formContent}`}>
-                <label>First Name </label>
+                <label>
+                  First Name
+                  <span className="required-asterisk" aria-label="required">
+                    *
+                  </span>
+                </label>
                 <input
                   name="firstName"
                   type="text"
+                  className="input"
                   placeholder="First Name"
                   onChange={handleChange}
                   value={input.firstName}
@@ -150,11 +163,17 @@ const Setting: React.FC = () => {
               </div>
 
               <div className={`${styles.formContent}`}>
-                <label>Last Name </label>
+                <label>
+                  Last Name
+                  <span className="required-asterisk" aria-label="required">
+                    *
+                  </span>{" "}
+                </label>
                 <input
                   name="lastName"
                   type="text"
                   placeholder="Last Name"
+                  className="input"
                   onChange={handleChange}
                   value={input.lastName}
                 />
@@ -163,11 +182,16 @@ const Setting: React.FC = () => {
 
             <div className={`${styles.input} d-flex-r`}>
               <div className={`${styles.formContent} `}>
-                <label className="">Company Name </label>
+                <label className="">
+                  Company Name
+                  <span className="required-asterisk" aria-label="required">
+                    *
+                  </span>
+                </label>
                 <input
-                  className=""
                   type="text"
                   name="companyName"
+                  className="input"
                   placeholder="Company Name"
                   onChange={handleChange}
                   value={input.companyName}
@@ -175,10 +199,16 @@ const Setting: React.FC = () => {
               </div>
 
               <div className={`${styles.formContent}`}>
-                <label>Phone Number</label>
+                <label>
+                  Phone Number{" "}
+                  <span className="required-asterisk" aria-label="required">
+                    *
+                  </span>
+                </label>
                 <input
                   name="number"
-                  type="tel"
+                  type="number"
+                  className="input" 
                   placeholder="Phone Number"
                   onChange={handleChange}
                   value={input.number}
@@ -197,17 +227,22 @@ const Setting: React.FC = () => {
           </div>
         </div>
         <div className={`${styles.profile} mt-5`}>
-          {/* <img src={emptyProfile} alt="empty Profile" /> */}
-          <input type="file" onChange={handleImageChange} />
-          <h6 onClick={handleUpload}>
-            Upload Image
-            <span>
-              <FaEdit />
-            </span>
-          </h6>
-
+        <label htmlFor="inputTag">
+  Choose Image
+ 
+          <input id="inputTag" type="file" onChange={handleImageChange} /> <FaEdit/>
+</label>
+          
+          <button className="btn btn-primary" onClick={handleUpload}>
+            {spinner ? "Processing.." : "Upload Image"}
+          </button>
+          {image ? (
+            <h5 className={`${styles.message} success m-1`}>{imageUploaded}</h5>
+          ) : (
+            <h5 className={`${styles.message} error m-1`}>{imageUploaded}</h5>
+          )}
           <div className={`${styles.delete}`}>
-            <a onClick={handleDelete}>Delete Your Account</a>
+            <button className="btn btn-outline-danger" onClick={handleDelete}>Delete Your Account</button>
             <p>
               Deleting Your Account will Loss all your data. Check Your data
               before deleting Your account.

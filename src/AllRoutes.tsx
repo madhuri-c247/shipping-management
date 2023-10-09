@@ -66,7 +66,7 @@ export const AllRoutes = () => (
     <Route path="/users/delete-verification" element={<VerifyDeletingUser />} />
     <Route path="/user/change-password" element={<ChangePassword />} />
     <Route path="/mail/delete-verification-mail" element={<DeleteUser />} />
-    <Route path="/user/quotes/checkout" element={<CheckoutPage />} />
+    <Route path="/user/quote/checkout" element={<CheckoutPage />} />
 
     <Route
       path="/admin"

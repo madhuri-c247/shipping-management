@@ -6,6 +6,7 @@ import axios from "axios";
 import { ADMIN_ALL_USER_URL, ADMIN_USER_DELETE_URL } from "../../../apiHelper";
 //css
 import styles from "../../user/saved-quote/saved-quote.module.scss";
+import { Button } from "react-bootstrap";
 
 const AllUser = () => {
   const token = sessionStorage.getItem("token");
@@ -66,7 +67,6 @@ const AllUser = () => {
               <th>Company Name</th>
               <th>Phone Number</th>
               <th>Verification</th>
-              <th>created At</th>
               <th>Last logged In</th>
               <th></th>
               <th></th>
@@ -87,23 +87,22 @@ const AllUser = () => {
                       <td>{item.companyName}</td>
                       <td>{item.number}</td>
                       <td>{item.verification ? "yes" : "no"}</td>
-                      <td>{item.createdAt}</td>
                       <td>{item.lastLoggedIn}</td>
                       <td>
-                        <button
-                          className={`${styles.update}`}
+                        <Button
+                          variant="info"
                           onClick={() => handleUpdate(item._id, item.number)}
                         >
                           Update
-                        </button>
+                        </Button>
                       </td>
                       <td>
-                        <button
-                          className={`${styles.delete}`}
+                        <Button
+                          variant="danger"
                           onClick={() => handleDelete(item._id)}
                         >
                           Delete
-                        </button>
+                        </Button>
                       </td>
                     </tr>
                   );

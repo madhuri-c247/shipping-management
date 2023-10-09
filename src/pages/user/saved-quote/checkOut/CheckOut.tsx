@@ -12,7 +12,7 @@ const CheckoutPage: React.FC = () => {
   const [cardHolderName, setCardHolderName] = useState<string>("");
   const [validationError, setValidationError] = useState<string>("");
   const [message, setMessage] = useState<string>("");
-  const adminToken = sessionStorage.getItem('token')
+  const userToken = sessionStorage.getItem("token");
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,7 +40,7 @@ const CheckoutPage: React.FC = () => {
 
     try {
       const { token, error } = await stripe.createToken(cardElement!, {
-        name: cardHolderName, // Pass cardholder name to createToken
+        name: cardHolderName,
       });
 
       setLoading(false);
@@ -56,18 +56,28 @@ const CheckoutPage: React.FC = () => {
   };
 
   const onSubmit = (token: any) => {
-    // Handle token submission
+    console.log(token);
     try {
-      axios.post(PAYMENT_INTENT, {
-        
-      },{
-        headers:{
-          Authorization: `Bearer ${adminToken}`
-        }
-      })
-    } catch (error) {
-      
-    }
+      axios
+        .post(
+          PAYMENT_INTENT,
+          {
+            amount: "100",
+            currency: "USD",
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${userToken}`,
+            },
+          }
+        )
+        .then((res) => {
+          setMessage('Payment')
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {}
   };
 
   return (

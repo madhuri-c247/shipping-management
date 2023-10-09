@@ -25,6 +25,7 @@ export const LetterSelectionGuest = () => {
   };
 
   const handleSubmit = async (values: GuestState) => {
+    setMessage('')
     try {
       await axios
         .post(GUEST_PACKAGE_QUOTE_URL, {
@@ -133,7 +134,7 @@ export const LetterSelectionGuest = () => {
               <div className={`${styles.inputContainer}`}>
                 <Field
                   className={`${styles.contactInput} input`}
-                  type="text"
+                  type="number"
                   name="phone"
                   placeholder="Phone Number"
                   id="phoneNumber"

@@ -43,6 +43,7 @@ const Shipment = () => {
               <th>To Postal</th>
               <th>To City</th>
               <th>Insurance</th>
+              <th>Amount</th>
               <th></th>
             </tr>
           </thead>
@@ -61,12 +62,9 @@ const Shipment = () => {
                         <td>{item.toPostal}</td>
                         <td>{item.toCity}</td>
                         <td>{item.insuranceAmount}</td>
+                        <td></td>
                         <td>
-                          <NavLink
-                            to={`/user/quote/checkout/${item.quoteDate}`}
-                          >
-                            Pay Now
-                          </NavLink>
+                          <NavLink className={`btn btn-primary`} to={`/user/quote/checkout`}>Pay Now</NavLink>
                         </td>
                       </tr>
                     </>
