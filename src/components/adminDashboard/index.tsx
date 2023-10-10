@@ -1,25 +1,20 @@
-import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Button, Spinner } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 //react-icons
 import { TfiMenuAlt } from "react-icons/tfi";
 import { LuFolder } from "react-icons/lu";
 import { RiLogoutCircleLine } from "react-icons/ri";
-import {
-  MdOutlineLocalShipping,
-} from "react-icons/md";
-import {GoReport} from 'react-icons/go'
+import { MdOutlineLocalShipping } from "react-icons/md";
+import { GoReport } from "react-icons/go";
 //CSS
 import styles from "../userDashboard/userDashboard.module.scss";
 
 const AdminDashboard = () => {
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
   const handleLogout = () => {
-    sessionStorage.removeItem('token')
-      navigate('/login')
-
-  }
+    sessionStorage.removeItem("token");
+    navigate("/login");
+  };
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -50,9 +45,8 @@ const AdminDashboard = () => {
             to={"/admin/report"}
           >
             <GoReport className={styles.icon} />
-           Report
+            Report
           </NavLink>
-         
         </ul>
       </div>
       <Button className={styles.logout} onClick={handleLogout}>

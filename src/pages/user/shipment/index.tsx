@@ -2,35 +2,46 @@ import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Spinner } from "react-bootstrap";
-import { NavLink, Navigate, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 //apiHelper
 import { MY_SHIPMENT_URL, STATUS_URL } from "../../../apiHelper";
 //css
 import styles from "./shipment.module.scss";
+//components
+import ToastView from "../../../components/Toast";
 
 const Shipment = () => {
   const token = sessionStorage.getItem("token");
   const [quotes, setQuotes] = useState([]);
   const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false)
+  const [toast, setToast] = useState(false)
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const shipment = async () => {
+  const fetchData = async ()=>{
+    try {
       await axios
-        .get(MY_SHIPMENT_URL, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          setQuotes(res.data);
-        })
-        .catch((error) => {
-          setMessage(error);
-        });
-    };
-    shipment();
+      .get(MY_SHIPMENT_URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setQuotes(res.data);
+      })
+      .catch((error) => {
+        setToast(false)
+        setSuccess(false)
+        setMessage(error);
+      });
+      
+    } catch (error) {
+      
+    }
+  }
+  useEffect(() => {
+   fetchData();
   }, []);
 
   const shipmentDetail = (id: string) => {
@@ -92,7 +103,7 @@ const Shipment = () => {
                     <tr>
                       <td>{++index}</td>
                       <td>
-                        <NavLink to={""}>{item._id}</NavLink>
+                        <NavLink to={``}>{item._id}</NavLink>
                       </td>
                       <td>{item.customer}</td>
                       <td>{item.serviceName}</td>
@@ -126,7 +137,7 @@ const Shipment = () => {
           </tbody>
         </Table>
       </div>
-      {message ? <h6 className="error">{message}</h6> : ""}
+      {toast ? <ToastView message={message} success={success} setToast={setToast} /> : ""}
     </div>
   );
 };

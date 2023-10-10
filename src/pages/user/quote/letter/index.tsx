@@ -12,9 +12,13 @@ import { LETTER_QUOTE_URL, POSTAL_URL } from "../../../../apiHelper";
 import { QuoteState } from "../../../../models/QuotesState";
 //validations
 import { letterValidationSchema } from "../../../../utils/Validation";
+import ToastView from "../../../../components/Toast";
 
 const Letter = () => {
   const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false)
+  const [toast, setToast] = useState(false);
+  const [loader, setLoader] = useState(false);
   const token = sessionStorage.getItem("token");
   const initialValues = {
     weight: 1,
@@ -46,26 +50,42 @@ const Letter = () => {
   const [postalFromError, setPostalFromError] = useState("");
   const [postalToError, setPostalToError] = useState("");
 
-  const handleSubmit = (values: any) => {
-    console.log("submitted");
+  const handleSubmit = async (values: any) => {
+    
+    if (toast) {
+      setToast(false);
+    }
     const combined = {
       ...values,
       ...postalFrom,
       ...postalTo,
       ...dropDown,
     };
-    axios
+    try {
+     await axios
       .post(LETTER_QUOTE_URL, combined, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        navigate("/user/saved-quotes");
+        setToast(true)
+        setSuccess(true)
+        setMessage(res.data.created)
+        // navigate("/user/saved-quotes");
       })
       .catch((er) => {
+        setToast(true)
+        setSuccess(false)
         setMessage("Fields Are required");
       });
+      
+    } catch (error) {
+      setToast(true)
+      setSuccess(false)
+      setMessage('Something is Wrong!')
+    }
+   
   };
 
   const handlePostalFrom = async () => {
@@ -425,9 +445,7 @@ const Letter = () => {
             </div>
             <Button className={`${styles.submitBtn}`} value="Get Quote" />
           </div>
-          <div className="errorContainer">
-            {message ? <h6 className="error">{message}</h6> : ""}
-          </div>
+          {toast ? <ToastView message={message} success={success} setToast = {setToast}/> : ""}
         </Form>
       )}
     </Formik>

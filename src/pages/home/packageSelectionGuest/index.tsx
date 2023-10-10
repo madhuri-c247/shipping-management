@@ -11,9 +11,11 @@ import { GuestState } from "../../../models/GuestState";
 import { GUEST_PACKAGE_QUOTE_URL } from "../../../apiHelper";
 //validations
 import { GuestPackageValidationSchema } from "../../../utils/Validation";
+import ToastView from "../../../components/Toast";
 
 export const PackageSelectionGuest = () => {
-  const [Successful, setSuccessful] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState("");
 
   const initialValues = {
@@ -22,38 +24,44 @@ export const PackageSelectionGuest = () => {
     name: "",
     phone: "",
     email: "",
-    package: 1,
+    package: "",
     totalWeight: "",
   };
 
   const handleSubmit = async (values: GuestState) => {
+    setLoading(true)
     try {
       await axios
         .post(GUEST_PACKAGE_QUOTE_URL, {
           ...values,
         })
         .then((res) => {
-          setSuccessful(true);
+          setSuccess(true);
+          setLoading(false)
           setMessage(res.data.message);
           values.fromCity = "";
           values.toCity = "";
           values.name = "";
           values.email = "";
           values.phone = "";
-          values.package = 0;
+          values.package = "";
           values.totalWeight = "";
         })
         .catch((error) => {
-          setSuccessful(false);
+          setSuccess(false);
+          setLoading(false)
           setMessage("Something is Wrong!" + error);
         });
     } catch (error) {
-      setSuccessful(false);
+      setSuccess(false);
+      setLoading(false)
       setMessage("Something is Wrong!" + error);
     }
   };
 
   return (
+    <>
+    
     <Formik<GuestState>
       initialValues={initialValues}
       validationSchema={GuestPackageValidationSchema}
@@ -172,7 +180,7 @@ export const PackageSelectionGuest = () => {
               <div className={`${styles.inputContainer}`}>
                 <Field
                   className={`${styles.contactInput} input`}
-                  type="text"
+                  type="tel"
                   name="phone"
                   placeholder="Enter Phone Number"
                   id="phoneNumber"
@@ -201,14 +209,11 @@ export const PackageSelectionGuest = () => {
               </div>
             </div>
           </div>
-          <Button className={styles.homeSelectionButton} value="get Quote" />
-          {Successful ? (
-            <h5 className="success">{message}</h5>
-          ) : (
-            <h5 className="error">{message}</h5>
-          )}
+          <Button className={styles.homeSelectionButton} value={loading?'Processing...':'get quote'}/>
         </form>
       )}
     </Formik>
+    {message !== "" ? <ToastView message={message} success={success} /> : ""}
+    </>
   );
 };

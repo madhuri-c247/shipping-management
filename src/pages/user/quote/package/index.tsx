@@ -12,11 +12,15 @@ import { PACKAGE_QUOTE_URL, POSTAL_URL } from "../../../../apiHelper";
 import { QuoteState } from "../../../../models/QuotesState";
 //validations
 import { letterValidationSchema } from "../../../../utils/Validation";
+import ToastView from "../../../../components/Toast";
 
 const Package = () => {
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
   const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false)
+  const [toast, setToast] = useState(false);
+  const [loader, setLoader] = useState(false);
   const initialValues = {
     weight: 1,
     unit: "",
@@ -49,6 +53,7 @@ const Package = () => {
   const [postalToError, setPostalToError] = useState("");
 
   const handleSubmit = async (values: any) => {
+    setLoader(true)
     const combined = {
       ...values,
       ...postalFrom,
@@ -63,9 +68,17 @@ const Package = () => {
           },
         })
         .then((res) => {
-          navigate("/user/saved-quotes");
+          setToast(true)
+          setSuccess(true)
+          setLoader(false)
+          setMessage(res.data.message)
+          console.log(res)
+          // navigate("/user/saved-quotes");
         })
         .catch((er) => {
+          setToast(true)
+          setSuccess(false)
+          setLoader(false)
           setMessage("All Fields Are Required");
         });
     } catch (error) {
@@ -458,11 +471,9 @@ const Package = () => {
                   </div>
                 </div>
               </div>
-              <Button className={`${styles.submitBtn}`} value="Get Quote" />
+              <Button className={`${styles.submitBtn}`} value={loader?'Processing..':"Get Quote"} />
             </div>
-            <div className="errorContainer">
-              {message ? <h6 className="error">{message}</h6> : ""}
-            </div>
+            {toast ? <ToastView message={message} success={success} setToast = {setToast}/> : ""}
           </Form>
         </>
       )}

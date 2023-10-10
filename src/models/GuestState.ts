@@ -4,6 +4,6 @@ export interface GuestState {
   name: string;
   phone: string;
   email: string;
-  package?: number;
+  package?: string;
   totalWeight?: string;
 }

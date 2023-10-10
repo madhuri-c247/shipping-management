@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Formik, Field, ErrorMessage } from "formik";
 import { Form } from "react-bootstrap";
 import axios from "axios";
@@ -16,28 +16,49 @@ import { Particle } from "../../layout/particles";
 import { loginValidationSchema } from "../../utils/Validation";
 //apiHelper
 import { LOGIN_BASE_URL } from "../../apiHelper";
+//components
+import ToastView from "../../components/Toast";
 
 const Login: React.FC = () => {
   const token = sessionStorage.getItem("token");
-  const navigate = useNavigate();
   const [message, setMessage] = useState("");
+  const [loader, setLoader] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [toast, setToast] = useState(false);
+  const navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
   };
-
+  const location = useLocation();
   useEffect(() => {
+    if (location.state) {
+      const { response } = location.state;
+      setSuccess(true);
+      setToast(true);
+      setMessage(response);
+    }
     if (token) {
       navigate("/user/quote/letter");
     }
-  });
+  },[]);
 
   const handleSubmit = async (values: UserState) => {
+    const email = values.email?.toLowerCase();
+    values.email = email;
+    if (toast) {
+      setToast(false);
+    }
     try {
+      setLoader(true);
       await axios
         .post(LOGIN_BASE_URL, values)
         .then((response) => {
+          setLoader(false);
+          setToast(true);
+          setSuccess(true);
           sessionStorage.setItem("token", response.data.token);
+          sessionStorage.setItem("role", response.data.role);
           if (response.data.role === "admin") {
             navigate("/admin/saved-quotes");
           } else {
@@ -45,9 +66,15 @@ const Login: React.FC = () => {
           }
         })
         .catch((err) => {
+          setLoader(false);
+          setToast(true);
+          setSuccess(false);
           setMessage(err.response.data.message);
         });
     } catch (error) {
+      setToast(true);
+      setLoader(false);
+      setSuccess(false);
       setMessage("something is wrong!");
     }
   };
@@ -114,14 +141,10 @@ const Login: React.FC = () => {
                     </a>
                   </div>
                   <div className={`${styles.submit}`}>
-                    {message ? (
-                      <h6 className={`${styles.message} error`}>
-                        Sorry! {message}
-                      </h6>
-                    ) : (
-                      ""
-                    )}
-                    <Button value="Login" className="login-btn" />
+                    <Button
+                      value={loader ? "Processing..." : "Login"}
+                      className="login-btn"
+                    />
                     <span>
                       Don't Have an account ?
                       <NavLink to={"/signup"}>Sign Up</NavLink>
@@ -131,6 +154,7 @@ const Login: React.FC = () => {
               </Form>
             )}
           </Formik>
+          {toast ? <ToastView message={message} success={success} setToast={setToast} /> : ""}
         </div>
       </Particle>
     </Layout>

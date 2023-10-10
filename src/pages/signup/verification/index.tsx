@@ -16,9 +16,11 @@ const Verification = () => {
         await axios
           .get(`${YOUR_VERIFICATION_ENDPOINT}${token}`)
           .then((res) => {
-            if (res.status === 200) {
-              navigate(`/login`);
-            }
+           
+              navigate(`/login`,{
+               
+          });
+            
           })
           .catch((err) => {
             navigate("/home/letter-selection", {

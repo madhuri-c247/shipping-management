@@ -57,17 +57,15 @@ label {
   font-size: 14px;
   margin-top: 2%;
   width: 100%;
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   text-transform: capitalize;
 }
-.toast {
-  color: $colorWhite;
-  z-index: 9999;
-  position: absolute;
-  text-transform: capitalize;
-  bottom: 1%;
-  right: 2%;
+.toastContainer {
   width: 20%;
+  position: fixed;
+  right: 3%;
+  bottom: 3%;
+  z-index: 9999;
 }
 .spinner {
   display: flex;

@@ -18,11 +18,14 @@ import { Particle } from "../../layout/particles";
 import { SIGNUP_BASE_URL } from "../../apiHelper";
 //validationSchema
 import { signupValidationSchema } from "../../utils/Validation";
+//components
+import ToastView from "../../components/Toast";
 
 const SignUp: React.FC = () => {
   const [message, setMessage] = useState("");
-  const [spinner, setSpinner] = useState(false);
-  const [Successful, setSuccessful] = useState(false);
+  const [loader, setLoader] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [toast, setToast] = useState(false);
   const initialValues = {
     companyName: "",
     firstName: "",
@@ -33,37 +36,41 @@ const SignUp: React.FC = () => {
     confirmPassword: "",
   };
 
- 
   const handleSubmit = async (values: UserState) => {
+    const email = values.email?.toLowerCase();
+    values.email = email;
+    if (toast) {
+      setToast(false);
+    }
     try {
-      setSpinner(true);         
+      setLoader(true);
       await axios
         .post(SIGNUP_BASE_URL, values)
         .then((response) => {
-            setSuccessful(true);
-            setSpinner(false);
-            setMessage(response.data.message);
-            values.companyName = "";
-            values.firstName = "";
-            values.lastName = "";
-            values.number = "";
-            values.email = "";
-            values.password = "";
-            values.confirmPassword = "";
-        
+          setSuccess(true);
+          setLoader(false);
+          setToast(true);
+          setMessage(response.data.message);
+          values.companyName = "";
+          values.firstName = "";
+          values.lastName = "";
+          values.number = "";
+          values.email = "";
+          values.password = "";
+          values.confirmPassword = "";
         })
         .catch((error) => {
-          setSuccessful(false);
-          setSpinner(true);  
+          setSuccess(false);
+          setToast(true);
+          setLoader(false);
           setMessage(error.response.data.message);
         });
     } catch (error) {
-      setSuccessful(false);
-      setSpinner(true);  
+      setToast(true);
+      setSuccess(false);
+      setLoader(false);
       setMessage("Something is Wrong");
     }
-    setSpinner(false);  
-
   };
 
   return (
@@ -85,13 +92,11 @@ const SignUp: React.FC = () => {
               initialValues={initialValues}
               validationSchema={signupValidationSchema}
               onSubmit={handleSubmit}
-             
             >
               {(formik) => (
                 <Form
                   className={` ${styles.container2} `}
                   onSubmit={formik.handleSubmit}
-                 
                 >
                   <h1 className="m-3">Sign Up</h1>
                   <div>
@@ -179,7 +184,7 @@ const SignUp: React.FC = () => {
                       <Field
                         name="number"
                         id="phoneNumber"
-                        type="number"
+                        type="tel"
                         min="1"
                         placeholder="Phone Number"
                       />
@@ -221,7 +226,6 @@ const SignUp: React.FC = () => {
                         <span
                           className="required-asterisk"
                           aria-label="required"
-                          
                         >
                           *
                         </span>
@@ -245,7 +249,6 @@ const SignUp: React.FC = () => {
                         <span
                           className="required-asterisk"
                           aria-label="required"
-                         
                         >
                           *
                         </span>
@@ -263,19 +266,13 @@ const SignUp: React.FC = () => {
                       />
                     </div>
                   </div>
-                  {Successful ? (
-                    <h6 className={`${styles.message} success m-1`}>
-                      {message}
-                    </h6>
-                  ) : (
-                    <h6 className={`${styles.message} error m-1`}>{message}</h6>
-                  )}
                   <div className={`${styles.submit}`}>
-                  
-
-                    <Button className="signup-btn" value={spinner?'Processing...':'SignUp'} />
+                    <Button
+                      className="signup-btn"
+                      value={loader ? "Processing..." : "SignUp"}
+                    />
                     <span>
-                      Already Have an Account ?{" "}
+                      Already Have an Account ?
                       <NavLink to={"/login"}>Login</NavLink>
                     </span>
                   </div>
@@ -284,6 +281,7 @@ const SignUp: React.FC = () => {
             </Formik>
           </div>
         </div>
+        {toast ? <ToastView message={message} success={success} setToast={setToast} /> : ""}
       </Particle>
     </Layout>
   );

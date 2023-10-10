@@ -1,28 +1,23 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Button, Spinner } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 //react-icons
 import { TfiMenuAlt } from "react-icons/tfi";
 import { LuFolder } from "react-icons/lu";
 import { RiLogoutCircleLine } from "react-icons/ri";
-import {
-  MdOutlineLocalShipping,
-} from "react-icons/md";
+import { MdOutlineLocalShipping } from "react-icons/md";
 import { FiSettings } from "react-icons/fi";
 //CSS
 import styles from "./userDashboard.module.scss";
 
 const UserDashboard = () => {
   const [spinner, setSpinner] = useState(false);
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
   const handleLogout = () => {
-    sessionStorage.removeItem('token')
-    setSpinner(true)
-    setTimeout(() => {
-      navigate('/login')
-    }, 1000)
-  }
+    sessionStorage.removeItem("token");
+    setSpinner(true);
+    navigate("/login");
+  };
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -57,9 +52,6 @@ const UserDashboard = () => {
           </NavLink>
         </ul>
       </div>
-      {spinner ?
-        <span className={`spinner`}><Spinner animation="border" variant="dark" /></span>
-        : ''}
       <Button className={styles.logout} onClick={handleLogout}>
         <RiLogoutCircleLine /> Logout
       </Button>

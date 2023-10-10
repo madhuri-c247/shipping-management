@@ -6,31 +6,50 @@ import axios from "axios";
 import { SAVED_QUOTE_URL } from "../../../apiHelper";
 //css
 import styles from "./saved-quote.module.scss";
+//components
+import ToastView from "../../../components/Toast";
 
 const Shipment = () => {
   const token = sessionStorage.getItem("token");
   const [quotes, setQuotes] = useState([]);
+  const [toast, setToast] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
+
+  const fetchQuotes = async () => {
+    if (toast) {
+      setToast(false);
+    }
+    try {
+      await axios
+        .get(SAVED_QUOTE_URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setQuotes(res.data);
+          setSuccess(true);
+        })
+        .catch((error) => {
+          setToast(true);
+          setSuccess(false);
+          setMessage(error);
+        });
+    } catch (error) {
+      setSuccess(false);
+      setToast(true)
+      setMessage("Something is Wrong!");
+    }
+  };
   useEffect(() => {
-    axios
-      .get(SAVED_QUOTE_URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setQuotes(res.data);
-      })
-      .catch((error) => {
-        setMessage(error);
-      });
+    fetchQuotes();
   }, []);
 
   return (
     <div className={`${styles.container} p-2`}>
       <h5>Saved Quotes</h5>
       <div className={`${styles.tableContainer}`}>
-        {message ? <h5>{message}</h5> : ""}
         <Table className={`${styles.table}`} responsive>
           <thead>
             <tr>
@@ -64,7 +83,12 @@ const Shipment = () => {
                         <td>{item.insuranceAmount}</td>
                         <td></td>
                         <td>
-                          <NavLink className={`btn btn-primary`} to={`/user/quote/checkout`}>Pay Now</NavLink>
+                          <NavLink
+                            className={`btn btn-primary`}
+                            to={`/user/quote/checkout`}
+                          >
+                            Pay Now
+                          </NavLink>
                         </td>
                       </tr>
                     </>
@@ -74,6 +98,11 @@ const Shipment = () => {
           </tbody>
         </Table>
       </div>
+      {toast ? (
+        <ToastView message={message} success={success} setToast={setToast} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };
