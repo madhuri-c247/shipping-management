@@ -13,7 +13,7 @@ import {
 
 const UpdateUser: React.FC = () => {
   const [message, setMessage] = useState("");
-  const [Successful, setSuccessful] = useState(false);
+  const [successful, setSuccessful] = useState(false);
   const location = useLocation();
   const { id } = location.state;
   const [input, setInput] = useState({
@@ -134,7 +134,7 @@ const UpdateUser: React.FC = () => {
             </div>
           </div>
 
-          {Successful ? (
+          {successful ? (
             <h6 className={`${styles.message} success m-1`}>{message}</h6>
           ) : (
             <h6 className={`${styles.message} error m-1`}>{message}</h6>
