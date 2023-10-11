@@ -5,24 +5,40 @@ import axios from "axios";
 import { ADMIN_SAVED_QUOTES_URL } from "../../../apiHelper";
 //css
 import styles from "../../user/saved-quote/saved-quote.module.scss";
+//components
+import ToastView from "../../../components/Toast";
 
 const AdminSavedQuotes = () => {
   const token = sessionStorage.getItem("token");
   const [quotes, setQuotes] = useState([]);
   const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [toast, setToast] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      await axios
+        .get(ADMIN_SAVED_QUOTES_URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setQuotes(res.data);
+        })
+        .catch((error) => {
+          setToast(true);
+          setSuccess(false);
+          setMessage("Something is Wrong!");
+        });
+    } catch (error) {
+      setToast(true);
+      setSuccess(false);
+      setMessage("Something is Wrong!");
+    }
+  };
   useEffect(() => {
-    axios
-      .get(ADMIN_SAVED_QUOTES_URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setQuotes(res.data);
-      })
-      .catch((error) => {
-        setMessage("Something is Wrong!");
-      });
+    fetchData();
   }, []);
 
   return (
@@ -66,7 +82,15 @@ const AdminSavedQuotes = () => {
                 })
               : ""}
           </tbody>
-          {message ? <h5 className={`${styles.message} error `}>{message}</h5> : ""}
+          {toast ? (
+            <ToastView
+              message={message}
+              success={success}
+              setToast={setToast}
+            />
+          ) : (
+            ""
+          )}
         </Table>
       </div>
     </div>

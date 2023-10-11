@@ -14,6 +14,7 @@
   flex-wrap: wrap;
   .heading {
     font-family: Georgia, "Times New Roman", Times, serif;
+    cursor: pointer;
   }
   .menuContainer {
     width: 20%;
@@ -22,6 +23,10 @@
     align-items: center;
     justify-content: space-between;
     text-transform: uppercase;
+    .home.active {
+      color: #0865c2;
+      border-bottom: 1px solid #0865c2;
+    }
   }
 }
 a {
@@ -30,7 +35,6 @@ a {
 }
 a:hover {
   color: #0865c2;
-  border-bottom: 1px solid #0865c2;
 }
 .active {
   color: #0865c2;

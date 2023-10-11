@@ -18,6 +18,7 @@ export const LetterSelectionGuest = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [toast, setToast] = useState(false);
 
   const initialValues = {
     fromCity: "",
@@ -38,6 +39,7 @@ export const LetterSelectionGuest = () => {
         .then((res) => {
           setSuccess(true);
           setLoading(false);
+          setToast(true);
           setMessage(res.data.message);
           values.fromCity = "";
           values.toCity = "";
@@ -47,12 +49,14 @@ export const LetterSelectionGuest = () => {
         })
         .catch((error) => {
           setSuccess(false);
+          setToast(true);
           setLoading(false);
           setMessage("Something is Wrong!" + error);
         });
     } catch (error) {
       setSuccess(false);
       setLoading(false);
+      setToast(true);
       setMessage("Something is wrong!");
     }
   };
@@ -181,7 +185,11 @@ export const LetterSelectionGuest = () => {
           </form>
         )}
       </Formik>
-      {message !== "" ? <ToastView message={message} success={success} /> : ""}
+      {toast ? (
+        <ToastView message={message} success={success} setToast={setToast} />
+      ) : (
+        ""
+      )}
     </>
   );
 };

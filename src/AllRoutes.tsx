@@ -13,6 +13,7 @@ import SavedQuote from "./pages/user/saved-quote";
 import Shipment from "./pages/user/shipment";
 import Setting from "./pages/user/accountSetting";
 import Letter from "./pages/user/quote/letter";
+import CheckoutPage from "./pages/user/saved-quote/checkOut/CheckOut";
 import Package from "./pages/user/quote/package";
 //admin-pages
 import Admin from "./pages/admin";
@@ -31,14 +32,13 @@ import { Route, Routes } from "react-router-dom";
 import { RouteConstant } from "./constants/routes";
 import UpdateUser from "./pages/admin/user/updateUser";
 import ShipmentDetail from "./pages/admin/shipment/shipmentDetail/shipment";
-import CheckoutPage from "./pages/user/saved-quote/checkOut/CheckOut";
 
 export const AllRoutes = () => (
   <Routes>
     <Route path="/signup" element={<SignUp />} />
     <Route path="/login" element={<Login />} />
     <Route path={RouteConstant.HOME} element={<Home />} />
-    <Route path="/" element={<Home />}>
+    <Route path="/home" element={<Home />}>
       <Route path="/home/letter-selection" element={<LetterSelectionGuest />} />
       <Route
         path="/home/package-selection"
@@ -62,9 +62,15 @@ export const AllRoutes = () => (
       <Route path="/user/saved-quotes" element={<SavedQuote />} />
       <Route path="/user/shipment" element={<Shipment />} />
       <Route path="/user/setting" element={<Setting />} />
+      <Route
+        path="/user/setting/change-password"
+        element={<ChangePassword />}
+      />
+      <Route
+        path="/user/setting/delete-verification"
+        element={<VerifyDeletingUser />}
+      />
     </Route>
-    <Route path="/users/delete-verification" element={<VerifyDeletingUser />} />
-    <Route path="/user/change-password" element={<ChangePassword />} />
     <Route path="/mail/delete-verification-mail" element={<DeleteUser />} />
     <Route path="/user/quote/checkout" element={<CheckoutPage />} />
 
@@ -78,7 +84,7 @@ export const AllRoutes = () => (
     >
       <Route path="/admin/saved-quotes" element={<AdminSavedQuote />} />
       <Route path="/admin/all-users" element={<AllUsers />} />
-      <Route path="/admin/all-users/update" element={<UpdateUser />} />
+      <Route path="/admin/all-users/update/:id" element={<UpdateUser />} />
       <Route path="/admin/report" element={<Reports />} />
       <Route path="/admin/all-shipment" element={<AllShipment />} />
       <Route

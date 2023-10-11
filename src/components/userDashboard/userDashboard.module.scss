@@ -20,13 +20,21 @@
       height: 40vh;
       padding: 0px;
       a {
-        color: black;
         display: flex;
         flex-direction: row;
         align-items: center;
-        padding: 5%;
+        height: 8vh;
         width: 100%;
         margin: 0;
+        span {
+          width: 100%;
+          height: 8vh;
+          color: rgb(3, 23, 49);
+          display: flex;
+          flex-direction: row;
+          justify-content: start;
+          align-items: center;
+        }
       }
       .active {
         background-image: $buttonBgColor;
@@ -36,16 +44,15 @@
           color: white;
         }
       }
-      a:hover {
-        background-color: rgba(128, 128, 128, 0.534);
-        color: white;
+      span:hover {
+        color: rgb(0, 110, 255);
         border: none;
         .icon {
-          color: white;
+          color: rgb(0, 110, 255);
         }
       }
       .icon {
-        color: rgb(0, 110, 255);
+        color: rgb(6, 18, 34);
         margin: 8px;
       }
     }

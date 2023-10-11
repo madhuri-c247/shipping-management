@@ -23,32 +23,34 @@ const UserDashboard = () => {
       <div className={styles.content}>
         <h1>ShipNow</h1>
         <ul>
-          <NavLink
-            className={({ isActive }) => (isActive ? styles.active : "")}
-            to={"/user/quote/letter"}
-          >
-            <TfiMenuAlt className={styles.icon} />
-            Quote
+          <NavLink to="/user/quote">
+            {({ isActive }) => (
+              <span className={isActive ? styles.active : ""}>
+                <TfiMenuAlt className={styles.icon} /> Quotes
+              </span>
+            )}
           </NavLink>
-          <NavLink
-            className={({ isActive }) => (isActive ? styles.active : "")}
-            to={"/user/saved-quotes"}
-          >
-            <LuFolder className={styles.icon} /> Saved Quotes
+          <NavLink to="/user/saved-quotes">
+            {({ isActive }) => (
+              <span className={isActive ? styles.active : ""}>
+                <LuFolder className={styles.icon} />
+                Saved Quotes
+              </span>
+            )}
           </NavLink>
-          <NavLink
-            className={({ isActive }) => (isActive ? styles.active : "")}
-            to={"/user/shipment"}
-          >
-            <MdOutlineLocalShipping className={styles.icon} />
-            My Shipment
+          <NavLink to="/user/shipment">
+            {({ isActive }) => (
+              <span className={isActive ? styles.active : ""}>
+                <MdOutlineLocalShipping className={styles.icon} /> Shipment
+              </span>
+            )}
           </NavLink>
-          <NavLink
-            className={({ isActive }) => (isActive ? styles.active : "")}
-            to={"/user/setting"}
-          >
-            <FiSettings className={styles.icon} />
-            Setting
+          <NavLink to="/user/setting">
+            {({ isActive }) => (
+              <span className={isActive ? styles.active : ""}>
+                <FiSettings className={styles.icon} /> Setting
+              </span>
+            )}
           </NavLink>
         </ul>
       </div>

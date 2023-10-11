@@ -12,6 +12,7 @@ import { PACKAGE_QUOTE_URL, POSTAL_URL } from "../../../../apiHelper";
 import { QuoteState } from "../../../../models/QuotesState";
 //validations
 import { letterValidationSchema } from "../../../../utils/Validation";
+//components
 import ToastView from "../../../../components/Toast";
 
 const Package = () => {
@@ -72,7 +73,6 @@ const Package = () => {
           setSuccess(true)
           setLoader(false)
           setMessage(res.data.message)
-          console.log(res)
           // navigate("/user/saved-quotes");
         })
         .catch((er) => {

@@ -4,12 +4,13 @@ import { ADMIN_SHIPMENT_DETAIL_URL } from "../../../../apiHelper";
 //CSS
 import styles from "../../../user/accountSetting/setting.module.scss";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import ToastView from "../../../../components/Toast";
 //apiHelper
 
 const ShipmentDetail: React.FC = () => {
   const [message, setMessage] = useState("");
-  const [Successful, setSuccessful] = useState(false);
-  const location = useLocation();
+  const [success, setSuccess] = useState(false);
+  const [toast, setToast] = useState(false);
   const { id } = useParams();
   const [shipment, setShipment] = useState({
     fromCity: "",
@@ -22,35 +23,37 @@ const ShipmentDetail: React.FC = () => {
   });
 
   const token = sessionStorage.getItem("token");
-  const navigate = useNavigate();
-
-  useEffect(() => {
+  const fetchData = async () => {
     try {
-      axios
+      await axios
         .get(`${ADMIN_SHIPMENT_DETAIL_URL}${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          console.log(res);
           setShipment({ ...res.data[0] });
         })
         .catch((err) => {
+          setToast(true);
+          setSuccess(false);
           setMessage(err.data.response.error);
         });
     } catch (error) {
+      setToast(true);
+      setSuccess(false);
       setMessage("Something is wrong!");
     }
+  };
+  useEffect(() => {
+    fetchData();
   }, []);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {};
 
   return (
     <div className={`${styles.container}`}>
-      <form className={`${styles.content} d-flex-r `} onSubmit={handleSubmit}>
+      <form className={`${styles.content} d-flex-r `}>
         <div className={`${styles.info}`}>
-          <h4>Update User</h4>
+          <h4>Shipment</h4>
           {shipment && (
             <div>
               <p>From City: {shipment.fromCity}</p>
@@ -62,15 +65,14 @@ const ShipmentDetail: React.FC = () => {
               <p>To Postal: {shipment.toPostal}</p>
             </div>
           )}
-
-          {Successful ? (
-            <h6 className={`${styles.message} success m-1`}>{message}</h6>
-          ) : (
-            <h6 className={`${styles.message} error m-1`}>{message}</h6>
-          )}
           <NavLink to={"/admin/all-shipment"}>View All Shipment</NavLink>
         </div>
       </form>
+      {toast ? (
+        <ToastView message={message} success={success} setToast={setToast} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 //CSS
 import styles from "../../../user/accountSetting/setting.module.scss";
 //common
@@ -10,12 +10,14 @@ import {
   ADMIN_SINGLE_USER_URL,
   ADMIN_USER_UPDATE_URL,
 } from "../../../../apiHelper";
+//components
+import ToastView from "../../../../components/Toast";
 
 const UpdateUser: React.FC = () => {
   const [message, setMessage] = useState("");
-  const [successful, setSuccessful] = useState(false);
-  const location = useLocation();
-  const { id } = location.state;
+  const [success, setSuccess] = useState(false);
+  const [toast, setToast] = useState(false);
+  const { id } = useParams();
   const [input, setInput] = useState({
     firstName: "",
     lastName: "",
@@ -26,9 +28,9 @@ const UpdateUser: React.FC = () => {
   const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const fetchData = async () => {
     try {
-      axios
+      await axios
         .get(`${ADMIN_SINGLE_USER_URL}${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -38,11 +40,18 @@ const UpdateUser: React.FC = () => {
           setInput({ ...res.data[0] });
         })
         .catch((err) => {
+          setToast(true);
+          setSuccess(false);
           setMessage(err.data.response.error);
         });
     } catch (error) {
-      setMessage("Something is wrong!");
+      setToast(true);
+      setSuccess(false);
+      setMessage("Something is WRONG!!");
     }
+  };
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -61,14 +70,16 @@ const UpdateUser: React.FC = () => {
           }
         )
         .then((res) => {
-          console.log(res);
-          navigate("/admin/all-users");
+          navigate("/admin/all-users", {
+            state: {
+              response: res.data.successful,
+            },
+          });
         })
         .catch((error) => {
           console.log(error);
         });
     } catch (error) {}
-    // navigate("/admin/all-users");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -134,10 +145,14 @@ const UpdateUser: React.FC = () => {
             </div>
           </div>
 
-          {successful ? (
-            <h6 className={`${styles.message} success m-1`}>{message}</h6>
+          {toast ? (
+            <ToastView
+              message={message}
+              success={success}
+              setToast={setToast}
+            />
           ) : (
-            <h6 className={`${styles.message} error m-1`}>{message}</h6>
+            ""
           )}
         </div>
       </form>

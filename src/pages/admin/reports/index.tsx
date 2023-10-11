@@ -12,19 +12,25 @@ const Reports = () => {
     totalShipment: "",
   });
   const [message, setMessage] = useState("");
+
+  const fetchData = async () => {
+    try {
+      await axios
+        .get(ADMIN_REPORT, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setReport({
+            ...res.data.report,
+          });
+        })
+        .catch((error) => {});
+    } catch (error) {}
+  };
   useEffect(() => {
-    axios
-      .get(ADMIN_REPORT, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setReport({
-          ...res.data.report,
-        });
-      })
-      .catch((error) => {});
+    fetchData();
   }, []);
 
   return (

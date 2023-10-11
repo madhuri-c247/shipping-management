@@ -1,9 +1,5 @@
-import { ErrorMessage, Field, Formik } from "formik";
 import { useState } from "react";
-import { Form } from "react-bootstrap";
 import axios from "axios";
-//common
-import Button from "../../../common/button";
 //CSS
 import styles from "./forgetPassword.module.scss";
 //models
@@ -15,18 +11,20 @@ import { emailValidationSchema } from "../../../utils/Validation";
 import Layout from "../../../layout/NavLayout";
 import { Particle } from "../../../layout/particles";
 import ToastView from "../../../components/Toast";
+import FormComponent from "../../../components/form";
+import { RESET_PASSWORD_FIELDS } from "../../../constants/inputFields";
 
 export const ForgotPassword = () => {
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [toast, setToast] = useState(false);
   const initialValues = {
     email: "",
   };
 
   const handleSubmit = async (values: UserState) => {
-    const email = values.email?.toLowerCase();
-    values.email = email;
+    setLoader(true);
     if (toast) {
       setToast(false);
     }
@@ -36,6 +34,7 @@ export const ForgotPassword = () => {
           email: values.email,
         })
         .then((res) => {
+          setLoader(false);
           setSuccess(true);
           setToast(true);
 
@@ -43,11 +42,13 @@ export const ForgotPassword = () => {
         })
         .catch((error) => {
           setSuccess(false);
+          setLoader(false);
           setToast(true);
           setMessage(error.response.data.message);
         });
     } catch (error) {
       setSuccess(false);
+      setLoader(false);
       setToast(true);
       setMessage("Something is Wrong!");
     }
@@ -56,51 +57,26 @@ export const ForgotPassword = () => {
     <Layout>
       <Particle>
         <div className={`${styles.container} `}>
-          <Formik<UserState>
+          <FormComponent
             initialValues={initialValues}
-            validationSchema={emailValidationSchema}
-            onSubmit={handleSubmit}
-          >
-            {(formik) => (
-              <Form
-                className={` ${styles.form} `}
-                onSubmit={formik.handleSubmit}
-              >
-                <h4 className="m-1">Reset Password</h4>
-                <p className={` ${styles.para} m-2`}>
-                  Enter Your email address and we will send you instructions to
-                  reset your password.
-                </p>
-                <div className={`${styles.formContent}`}>
-                  <label htmlFor="email">
-                    Email
-                    <span className="required-asterisk" aria-label="required">
-                      *
-                    </span>
-                  </label>
-                  <Field
-                    name="email"
-                    type="email"
-                    placeholder="Enter Email"
-                    id="email"
-                    autoComplete="off"
-                  />
-                  <ErrorMessage
-                    name="email"
-                    component="div"
-                    className={`${styles.error} error`}
-                  />
-                </div>
-                <div className={`${styles.submit}`}>
-                  <Button
-                    className={`${styles.forgotBtn}`}
-                    value={"Continue"}
-                  />
-                </div>
-              </Form>
-            )}
-          </Formik>
-          {toast ? <ToastView message={message} success={success} setToast={setToast}/> : ""}
+            validations={emailValidationSchema}
+            fields={RESET_PASSWORD_FIELDS}
+            heading={"Reset Password"}
+            subHeading={
+              "Enter Your email address and we will send you instructions to reset your password. :)"
+            }
+            handleSubmit={handleSubmit}
+            loader={loader}
+          />
+          {toast ? (
+            <ToastView
+              message={message}
+              success={success}
+              setToast={setToast}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </Particle>
     </Layout>

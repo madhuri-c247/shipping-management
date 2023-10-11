@@ -37,8 +37,6 @@ const SignUp: React.FC = () => {
   };
 
   const handleSubmit = async (values: UserState) => {
-    const email = values.email?.toLowerCase();
-    values.email = email;
     if (toast) {
       setToast(false);
     }

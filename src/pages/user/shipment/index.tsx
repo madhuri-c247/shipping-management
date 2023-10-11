@@ -14,40 +14,33 @@ const Shipment = () => {
   const token = sessionStorage.getItem("token");
   const [quotes, setQuotes] = useState([]);
   const [message, setMessage] = useState("");
-  const [success, setSuccess] = useState(false)
-  const [toast, setToast] = useState(false)
+  const [success, setSuccess] = useState(false);
+  const [toast, setToast] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
-  const navigate = useNavigate();
 
-  const fetchData = async ()=>{
+  const fetchData = async () => {
     try {
       await axios
-      .get(MY_SHIPMENT_URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setQuotes(res.data);
-      })
-      .catch((error) => {
-        setToast(false)
-        setSuccess(false)
-        setMessage(error);
-      });
-      
-    } catch (error) {
-      
-    }
-  }
+        .get(MY_SHIPMENT_URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setQuotes(res.data);
+        })
+        .catch((error) => {
+          setToast(false);
+          setSuccess(false);
+          setMessage(error);
+        });
+    } catch (error) {}
+  };
   useEffect(() => {
-   fetchData();
+    fetchData();
   }, []);
 
-  const shipmentDetail = (id: string) => {
-    navigate(`/admin/all-shipment/details/${id}`);
-  };
-  const handleChange = (
+  const handleChange = async (
     event: React.ChangeEvent<HTMLSelectElement>,
     index: number,
     id: any
@@ -56,32 +49,41 @@ const Shipment = () => {
     updatedOptions[index] = event.target.value;
     setSelectedOption(updatedOptions);
     const status = event.target.value;
-    axios
-      .put(
-        STATUS_URL,
-        {
-          id: id,
-          status: status,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+    try {
+      await axios
+        .put(
+          STATUS_URL,
+          {
+            id: id,
+            status: status,
           },
-        }
-      )
-      .then((res) => {
-        setMessage("");
-      })
-      .catch((error) => {
-        setMessage(error.response.data.errors[0].message);
-      });
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          setSuccess(true);
+          setToast(true);
+          setMessage(res.data.successful);
+        })
+        .catch((error) => {
+          setSuccess(false);
+          setToast(true);
+          setMessage(error.response.data.errors[0].message);
+        });
+    } catch (error) {
+      setSuccess(false);
+      setToast(true);
+      setMessage('Something is Wrong!');
+    }
   };
 
   return (
     <div className={`${styles.container} p-2`}>
       <h5>My Shipment</h5>
       <div className={`${styles.tableContainer}`}>
-        {message ? <h5>{message}</h5> : ""}
         <Table className={`${styles.table}`} responsive>
           <thead>
             <tr>
@@ -137,7 +139,11 @@ const Shipment = () => {
           </tbody>
         </Table>
       </div>
-      {toast ? <ToastView message={message} success={success} setToast={setToast} /> : ""}
+      {toast ? (
+        <ToastView message={message} success={success} setToast={setToast} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

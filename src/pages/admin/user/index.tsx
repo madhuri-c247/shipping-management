@@ -1,56 +1,79 @@
 import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import axios from "axios";
 //apiHelper
 import { ADMIN_ALL_USER_URL, ADMIN_USER_DELETE_URL } from "../../../apiHelper";
 //css
 import styles from "../../user/saved-quote/saved-quote.module.scss";
-import { Button } from "react-bootstrap";
+//components
+import ToastView from "../../../components/Toast";
 
 const AllUser = () => {
   const token = sessionStorage.getItem("token");
   const [user, setUsers] = useState([]);
   const [message, setMessage] = useState("");
+  const [toast, setToast] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const location = useLocation();
   const navigate = useNavigate();
-  const fetchData = () => {
-    axios
-      .get(ADMIN_ALL_USER_URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setUsers(res.data);
-      })
-      .catch((error) => {
-        setMessage("Something is Wrong!");
-      });
+  const fetchData = async () => {
+    try {
+      await axios
+        .get(ADMIN_ALL_USER_URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setUsers(res.data);
+        })
+        .catch((error) => {
+          setToast(true);
+          setSuccess(false);
+          setMessage("Something is Wrong!");
+        });
+    } catch (error) {
+      setToast(true);
+      setSuccess(false);
+      setMessage("Something is Wrong!");
+    }
   };
   useEffect(() => {
+    if (location.state) {
+      const { response } = location.state;
+      setSuccess(true);
+      setToast(true);
+      setMessage(response);
+    }
     fetchData();
   }, []);
 
-  const handleUpdate = (id: string, number: number) => {
-    navigate("/admin/all-users/update", {
-      state: {
-        id: id,
-      },
-    });
-  };
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     try {
-      axios
+      await axios
         .delete(`${ADMIN_USER_DELETE_URL}${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
+          setToast(true);
+          setSuccess(true);
+          setMessage(res.data.successful);
           fetchData();
         })
-        .catch((error) => {});
-    } catch (error) {}
+        .catch((error) => {
+          setToast(true);
+          setSuccess(false);
+          setMessage("something is wrong");
+        });
+    } catch (error) {
+      setToast(true);
+      setSuccess(false);
+      setMessage("something is wrong!!");
+    }
   };
 
   return (
@@ -75,7 +98,6 @@ const AllUser = () => {
           <tbody>
             {user
               ? user.map((item: any, index) => {
-                  console.log(item.verification, "verify");
                   return (
                     <tr key={item._id}>
                       <td>
@@ -91,7 +113,9 @@ const AllUser = () => {
                       <td>
                         <Button
                           variant="info"
-                          onClick={() => handleUpdate(item._id, item.number)}
+                          onClick={() => {
+                            navigate(`/admin/all-users/update/${item._id}`);
+                          }}
                         >
                           Update
                         </Button>
@@ -109,8 +133,12 @@ const AllUser = () => {
                 })
               : ""}
           </tbody>
-          {message ? (
-            <h5 className={`${styles.message} error `}>{message}</h5>
+          {toast ? (
+            <ToastView
+              message={message}
+              success={success}
+              setToast={setToast}
+            />
           ) : (
             ""
           )}

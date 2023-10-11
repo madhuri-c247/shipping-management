@@ -26,11 +26,11 @@ const Login: React.FC = () => {
   const [success, setSuccess] = useState(false);
   const [toast, setToast] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const initialValues = {
     email: "",
     password: "",
   };
-  const location = useLocation();
   useEffect(() => {
     if (location.state) {
       const { response } = location.state;
@@ -41,11 +41,9 @@ const Login: React.FC = () => {
     if (token) {
       navigate("/user/quote/letter");
     }
-  },[]);
+  }, []);
 
   const handleSubmit = async (values: UserState) => {
-    const email = values.email?.toLowerCase();
-    values.email = email;
     if (toast) {
       setToast(false);
     }
@@ -154,7 +152,15 @@ const Login: React.FC = () => {
               </Form>
             )}
           </Formik>
-          {toast ? <ToastView message={message} success={success} setToast={setToast} /> : ""}
+          {toast ? (
+            <ToastView
+              message={message}
+              success={success}
+              setToast={setToast}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </Particle>
     </Layout>

@@ -1,21 +1,25 @@
 import { useState } from "react";
-import { ErrorMessage, Field, Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 //models
 import { UserState } from "../../../../models/UserState";
 //validations
 import { changePasswordValidationSchema } from "../../../../utils/Validation";
-//common
-import Button from "../../../../common/button";
 //apiHelper
 import { USER_CHANGE_PASSWORD_URL } from "../../../../apiHelper";
-//css
-import styles from "../../../login/forgetPassword/forgetPassword.module.scss";
+//components
+import FormComponent from "../../../../components/form";
+import ToastView from "../../../../components/Toast";
+//constants
+import { CHANGE_PASSWORD_FIELDS } from "../../../../constants/inputFields";
+//CSS
+import styles from "./changePassword.module.scss";
 
 const ChangePassword = () => {
   const [message, setMessage] = useState("");
+  const [toast, setToast] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [loader, setLoader] = useState(false);
   const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -25,10 +29,9 @@ const ChangePassword = () => {
     confirmPassword: "",
   };
 
-  const handleSubmit = (values: UserState) => {
-    setMessage("");
+  const handleSubmit = async (values: UserState) => {
     try {
-      axios
+      await axios
         .put(
           USER_CHANGE_PASSWORD_URL,
           {
@@ -41,103 +44,40 @@ const ChangePassword = () => {
           }
         )
         .then((res) => {
-          setSuccess(true);
-          setMessage(res.data.message);
-          navigate("/user/setting");
+          navigate("/user/setting", {
+            state: {
+              response: res.data.message,
+            },
+          });
         })
         .catch((error) => {
           setSuccess(false);
+          setToast(true);
           setMessage(error.response.data.message);
         });
     } catch (error) {
-      console.log(error);
+      setSuccess(false);
+      setToast(true);
       setMessage("Something is Wrong!");
     }
   };
 
   return (
     <div className={`${styles.container}`}>
-      <Formik<UserState>
+      <FormComponent
         initialValues={initialValues}
-        validationSchema={changePasswordValidationSchema}
-        onSubmit={handleSubmit}
-      >
-        {(formik) => (
-          <form className={` ${styles.form} `} onSubmit={formik.handleSubmit}>
-            <h4 className="m-1">Change Password</h4>
-            <p className={` ${styles.para} m-2`}>
-              Enter the details to change your password :)
-            </p>
-
-            <div className={`${styles.formContent}`}>
-              <label htmlFor="oldPassword">
-                Old Password
-                <span className="required-asterisk" aria-label="required">
-                  *
-                </span>
-              </label>
-              <Field
-                name="oldPassword"
-                type="password"
-                placeholder="Old Password"
-                id="oldPassword"
-              />
-              <ErrorMessage
-                name="oldPassword"
-                component="div"
-                className={`${styles.error} error`}
-              />
-            </div>
-            <div className={`${styles.formContent}`}>
-              <label htmlFor="newPassword">
-                New Password
-                <span className="required-asterisk" aria-label="required">
-                  *
-                </span>
-              </label>
-              <Field
-                name="newPassword"
-                type="password"
-                placeholder="New Password"
-                id="newPassword"
-              />
-              <ErrorMessage
-                name="newPassword"
-                component="div"
-                className={`${styles.error} error`}
-              />
-            </div>
-            <div className={`${styles.formContent}`}>
-              <label htmlFor="confirmPassword">
-                Confirm Password
-                <span className="required-asterisk" aria-label="required">
-                  *
-                </span>
-              </label>
-              <Field
-                name="confirmPassword"
-                type="password"
-                placeholder="New Password"
-                id="confirmPassword"
-              />
-              <ErrorMessage
-                name="confirmPassword"
-                component="div"
-                className={`${styles.error} error`}
-              />
-            </div>
-            <div className={`${styles.submit}`}>
-              {success ? (
-                <h6 className={`${styles.message} success`}>{message}</h6>
-              ) : (
-                <h6 className={`${styles.message} error`}>{message}</h6>
-              )}
-
-              <Button className={`${styles.forgotBtn}`} value={"Continue"} />
-            </div>
-          </form>
-        )}
-      </Formik>
+        validations={changePasswordValidationSchema}
+        fields={CHANGE_PASSWORD_FIELDS}
+        heading={"Change Password"}
+        subHeading={"Enter the details to change your password :)"}
+        handleSubmit={handleSubmit}
+        loader={loader}
+      />
+      {toast ? (
+        <ToastView message={message} success={success} setToast={setToast} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

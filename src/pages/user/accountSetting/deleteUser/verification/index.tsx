@@ -11,10 +11,15 @@ import styles from "../../../../login/forgetPassword/forgetPassword.module.scss"
 import { loginValidationSchema } from "../../../../../utils/Validation";
 //common
 import Button from "../../../../../common/button";
+//components
+import ToastView from "../../../../../components/Toast";
+import { useNavigate } from "react-router-dom";
 
 const VerifyDeletingUser = () => {
   const [message, setMessage] = useState("");
-  const [success, setSuccess] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [toast, setToast] = useState(false);
+  const navigate = useNavigate()
   const initialValues = {
     email: "",
     password: "",
@@ -36,15 +41,19 @@ const VerifyDeletingUser = () => {
           }
         )
         .then((res) => {
-          setMessage("");
-          setSuccess(res.data.email);
+          setToast(true);
+          setSuccess(true);
+          setMessage(res.data.email);
         })
         .catch((error) => {
-          setSuccess("");
+          setToast(true);
+          setSuccess(false);
           setMessage(error.response.data.error);
         });
     } catch (error) {
-      console.log(error);
+      setToast(true);
+      setSuccess(false);
+      setMessage('Something is Wrong!');
     }
   };
   return (
@@ -58,7 +67,7 @@ const VerifyDeletingUser = () => {
           <form className={` ${styles.form} `} onSubmit={formik.handleSubmit}>
             <h4 className="m-1">Delete Account</h4>
             <p className={` ${styles.para} m-2`}>
-              Enter Your password and make sure you want to delete your account
+              Enter Your details and make sure you want to delete your account
             </p>
 
             <div className={`${styles.formContent}`}>
@@ -94,21 +103,16 @@ const VerifyDeletingUser = () => {
               />
             </div>
             <div className={`${styles.submit}`}>
-              {message ? (
-                <h6 className={`${styles.message} error`}>{message}</h6>
-              ) : (
-                ""
-              )}
-              {success ? (
-                <h6 className={`${styles.message} success`}>{success}</h6>
-              ) : (
-                ""
-              )}
               <Button className={`${styles.forgotBtn}`} value={"Continue"} />
             </div>
           </form>
         )}
       </Formik>
+      {toast ? (
+        <ToastView message={message} success={success} setToast={setToast} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

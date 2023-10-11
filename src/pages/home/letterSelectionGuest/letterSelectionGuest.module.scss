@@ -1,6 +1,7 @@
 .container {
-  height: 25vh;
+  height: 30vh;
   flex-wrap: wrap;
+  background-color: white;
   display: flex;
   flex-direction: row;
   font-size: 13px;
@@ -44,10 +45,9 @@
     }
   }
   .homeSelectionButton {
-    width: 93%;
+    width: 100%;
     height: 5vh;
-    position: absolute;
-    bottom: 5vh;
+    margin-top: 2%;
   }
   h5 {
     position: absolute;

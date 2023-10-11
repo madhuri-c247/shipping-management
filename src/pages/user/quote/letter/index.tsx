@@ -12,11 +12,12 @@ import { LETTER_QUOTE_URL, POSTAL_URL } from "../../../../apiHelper";
 import { QuoteState } from "../../../../models/QuotesState";
 //validations
 import { letterValidationSchema } from "../../../../utils/Validation";
+//components
 import ToastView from "../../../../components/Toast";
 
 const Letter = () => {
   const [message, setMessage] = useState("");
-  const [success, setSuccess] = useState(false)
+  const [success, setSuccess] = useState(false);
   const [toast, setToast] = useState(false);
   const [loader, setLoader] = useState(false);
   const token = sessionStorage.getItem("token");
@@ -51,7 +52,7 @@ const Letter = () => {
   const [postalToError, setPostalToError] = useState("");
 
   const handleSubmit = async (values: any) => {
-    
+    setLoader(true);
     if (toast) {
       setToast(false);
     }
@@ -62,30 +63,30 @@ const Letter = () => {
       ...dropDown,
     };
     try {
-     await axios
-      .post(LETTER_QUOTE_URL, combined, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setToast(true)
-        setSuccess(true)
-        setMessage(res.data.created)
-        // navigate("/user/saved-quotes");
-      })
-      .catch((er) => {
-        setToast(true)
-        setSuccess(false)
-        setMessage("Fields Are required");
-      });
-      
+      await axios
+        .post(LETTER_QUOTE_URL, combined, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setLoader(false);
+          setToast(true);
+          setSuccess(true);
+          setMessage(res.data.created);
+        })
+        .catch((er) => {
+          setLoader(false);
+          setToast(true);
+          setSuccess(false);
+          setMessage("Fields Are required");
+        });
     } catch (error) {
-      setToast(true)
-      setSuccess(false)
-      setMessage('Something is Wrong!')
+      setLoader(false);
+      setToast(true);
+      setSuccess(false);
+      setMessage("Something is Wrong!");
     }
-   
   };
 
   const handlePostalFrom = async () => {
@@ -95,6 +96,7 @@ const Letter = () => {
           code: postalFrom.fromPostal,
         })
         .then((res) => {
+          console.log(res)
           const { city, country, province } = res.data;
           setPostalFromError("");
           setPostalFrom((prevState) => ({
@@ -443,9 +445,20 @@ const Letter = () => {
                 </div>
               </div>
             </div>
-            <Button className={`${styles.submitBtn}`} value="Get Quote" />
+            <Button
+              className={`${styles.submitBtn}`}
+              value={loader ? "Processing.." : "get Quote"}
+            />
           </div>
-          {toast ? <ToastView message={message} success={success} setToast = {setToast}/> : ""}
+          {toast ? (
+            <ToastView
+              message={message}
+              success={success}
+              setToast={setToast}
+            />
+          ) : (
+            ""
+          )}
         </Form>
       )}
     </Formik>

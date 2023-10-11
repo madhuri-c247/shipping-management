@@ -1,25 +1,27 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+//react-icons
 import { FaEdit } from "react-icons/fa";
 //CSS
 import styles from "./setting.module.scss";
 //common
 import Button from "../../../common/button";
+//components
+import ToastView from "../../../components/Toast";
 //apiHelper
 import {
   USER_PROFILE_URL,
   USER_UPDATE_URL,
   USER_URL,
 } from "../../../apiHelper";
-import { useNavigate } from "react-router-dom";
 
 const Setting: React.FC = () => {
   const [message, setMessage] = useState("");
-  const [spinner, setSpinner] = useState(false);
-  const [imageUploaded, setImageUploaded] = useState("");
+  const [loader, setLoader] = useState(false);
   const [image, setImage] = useState<File | null>(null);
-
-  const [Successful, setSuccessful] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [toast, setToast] = useState(false);
   const [input, setInput] = useState({
     email: "",
     firstName: "",
@@ -30,10 +32,11 @@ const Setting: React.FC = () => {
 
   const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
+  const fetchData = async() =>{
     try {
-      axios
+     await axios
         .get(USER_URL, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -43,16 +46,30 @@ const Setting: React.FC = () => {
           setInput({ ...res.data });
         })
         .catch((err) => {
+          setToast(true)
+          setSuccess(false)
           setMessage(err.data.response.error);
         });
     } catch (error) {
+      setToast(true)
+      setSuccess(false)
       setMessage("Something is wrong!");
     }
+  }
+  useEffect(() => {
+    if (location.state) {
+      const { response } = location.state;
+      setSuccess(true);
+      setToast(true);
+      setMessage(response);
+    }
+    fetchData()
   }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios
+    try {
+      axios
       .put(
         USER_UPDATE_URL,
         {
@@ -65,13 +82,21 @@ const Setting: React.FC = () => {
         }
       )
       .then((res) => {
-        setSuccessful(true);
+        setSuccess(true);
+        setToast(true)
         setMessage(res.data.message);
       })
       .catch((error) => {
-        setSuccessful(false);
+        setSuccess(false);
+        setToast(true)
         setMessage(error);
       });
+      
+    } catch (error) {
+      setSuccess(false);
+      setToast(true)
+      setMessage('Something is wrong!!');
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,22 +108,20 @@ const Setting: React.FC = () => {
   };
 
   const changePassword = () => {
-    navigate("/user/change-password");
+    navigate("/user/setting/change-password");
   };
   const handleDelete = () => {
-    navigate("/users/delete-verification");
+    navigate("/user/setting/delete-verification");
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setImageUploaded("");
     const files = e.target.files;
     if (files) {
       setImage(files[0]);
     }
   };
   const handleUpload = () => {
-    setImageUploaded('')
-    setSpinner(true);
+    setLoader(true);
     const formData = new FormData();
     if (image) {
       formData.append("avatar", image);
@@ -110,13 +133,16 @@ const Setting: React.FC = () => {
         },
       })
       .then((res) => {
-        setSpinner(false);
-        setImageUploaded(res.data.uploaded);
+        setLoader(false);
+        setToast(true)
+        setSuccess(true)
+        setMessage(res.data.uploaded);
       })
       .catch((error) => {
-        setSpinner(false);
-        console.log(error)
-        setImageUploaded(error.response.data.message);
+        setLoader(false);
+        setToast(true)
+        setSuccess(false)
+        setMessage(error.response.data.message);
       });
   };
   return (
@@ -139,7 +165,9 @@ const Setting: React.FC = () => {
 
             <div className={`${styles.password} d-flex-col`}>
               <label>Password </label>
-              <button className="btn btn-dark" onClick={changePassword}>Change Your Password</button>
+              <button className="btn btn-dark" onClick={changePassword}>
+                Change Your Password
+              </button>
             </div>
           </div>
           <h5 className="mt-5">Personal Info</h5>
@@ -208,7 +236,7 @@ const Setting: React.FC = () => {
                 <input
                   name="number"
                   type="number"
-                  className="input" 
+                  className="input"
                   placeholder="Phone Number"
                   onChange={handleChange}
                   value={input.number}
@@ -217,32 +245,28 @@ const Setting: React.FC = () => {
             </div>
           </div>
 
-          {Successful ? (
-            <h6 className={`${styles.message} success m-1`}>{message}</h6>
-          ) : (
-            <h6 className={`${styles.message} error m-1`}>{message}</h6>
-          )}
           <div className={`${styles.submit}`}>
             <Button className={`${styles.btn}`} value="save changes" />
           </div>
         </div>
         <div className={`${styles.profile} mt-5`}>
-        <label htmlFor="inputTag">
-  Choose Image
- 
-          <input id="inputTag" type="file" onChange={handleImageChange} /> <FaEdit/>
-</label>
-          
-          <button className="btn btn-primary" onClick={handleUpload}>
-            {spinner ? "Processing.." : "Upload Image"}
+          <label htmlFor="inputTag">
+            Choose Image
+            <input
+              id="inputTag"
+              type="file"
+              onChange={handleImageChange}
+            />{" "}
+            <FaEdit />
+          </label>
+
+          <button type="button" className="btn btn-primary" onClick={handleUpload}>
+            {loader ? "Processing.." : "Upload Image"}
           </button>
-          {image ? (
-            <h5 className={`${styles.message} success m-1`}>{imageUploaded}</h5>
-          ) : (
-            <h5 className={`${styles.message} error m-1`}>{imageUploaded}</h5>
-          )}
           <div className={`${styles.delete}`}>
-            <button className="btn btn-outline-danger" onClick={handleDelete}>Delete Your Account</button>
+            <button className="btn btn-outline-danger" onClick={handleDelete}>
+              Delete Your Account
+            </button>
             <p>
               Deleting Your Account will Loss all your data. Check Your data
               before deleting Your account.
@@ -250,6 +274,16 @@ const Setting: React.FC = () => {
           </div>
         </div>
       </form>
+
+      {toast ? (
+            <ToastView
+              message={message}
+              success={success}
+              setToast={setToast}
+            />
+          ) : (
+            ""
+          )}
     </div>
   );
 };

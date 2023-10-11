@@ -47,9 +47,8 @@ export default function ToastView(props: any) {
               top: "3%",
               right: "1%",
               width: "7%",
-              borderRadius:'50%',
               border:'none',
-              backgroundColor:'blue',
+              backgroundColor:"transparent",
               color: "white",
             }}
           >

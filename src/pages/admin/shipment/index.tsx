@@ -3,28 +3,43 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 //apiHelper
-// import { ADMIN_ALL_SHIPMENT_URL } from "../../../apiHelper";
+import { ADMIN_ALL_SHIPMENT_URL } from "../../../apiHelper";
 //css
 import styles from "../../user/saved-quote/saved-quote.module.scss";
-import { ADMIN_ALL_SHIPMENT_URL } from "../../../apiHelper";
+//components
+import ToastView from "../../../components/Toast";
 
 const AllShipment = () => {
   const token = sessionStorage.getItem("token");
   const [shipment, setShipment] = useState([]);
+  const [success, setSuccess] = useState(false);
+  const [toast, setToast] = useState(false);
   const [message, setMessage] = useState("");
+
+  const fetchData = async () => {
+    try {
+      await axios
+        .get(ADMIN_ALL_SHIPMENT_URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setShipment(res.data);
+        })
+        .catch((error) => {
+          setToast(true);
+          setSuccess(false);
+          setMessage("Something is Wrong!");
+        });
+    } catch (error) {
+      setToast(true);
+      setSuccess(false);
+      setMessage("Something is Wrong!");
+    }
+  };
   useEffect(() => {
-    axios
-      .get(ADMIN_ALL_SHIPMENT_URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setShipment(res.data);
-      })
-      .catch((error) => {
-        setMessage("Something is Wrong!");
-      });
+    fetchData();
   }, []);
 
   return (
@@ -68,8 +83,12 @@ const AllShipment = () => {
                 })
               : ""}
           </tbody>
-          {message ? (
-            <h5 className={`${styles.message} error `}>{message}</h5>
+          {toast ? (
+            <ToastView
+              message={message}
+              success={success}
+              setToast={setToast}
+            />
           ) : (
             ""
           )}

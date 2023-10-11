@@ -15,7 +15,7 @@ input[type="submit"] {
 }
 input {
   width: 90%;
-  height: 5vh;
+  height: 4.4vh;
   border: none;
   outline: none;
   padding: 0px 2%;
@@ -35,6 +35,7 @@ select:hover {
 }
 label {
   margin: 5px 0px;
+  text-transform: capitalize;
 }
 .form {
   background-color: $colorWhite;

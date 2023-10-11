@@ -38,19 +38,19 @@ const Home = () => {
           {message ? <h5 className="error">{message}</h5> : ""}
           <div className={`${styles.shipmentForm}`}>
             <ul>
-              <NavLink
-                className={({ isActive }) => (isActive ? styles.active : "")}
-                to={"/home/letter-selection"}
-              >
-                <BsEnvelope className={`${styles.icon}`} />
-                Letter
+              <NavLink to="/home/letter-selection">
+                {({ isActive }) => (
+                  <span className={isActive ? styles.active : ""}>
+                    <BsEnvelope /> Letter
+                  </span>
+                )}
               </NavLink>
-              <NavLink
-                className={({ isActive }) => (isActive ? styles.active : "")}
-                to={"/home/package-selection"}
-              >
-                <LuPackage2 className={`${styles.icon}`} />
-                Package
+              <NavLink to="/home/package-selection" >
+                {({ isActive }) => (
+                  <span className={isActive ? styles.active : ""}>
+                    <LuPackage2 /> Package
+                  </span>
+                )}
               </NavLink>
             </ul>
             <Outlet />

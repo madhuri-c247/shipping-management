@@ -1,5 +1,5 @@
 export const RouteConstant = {
-  HOME: "/home",
+  HOME: "/",
   SIGNUP: "/signup",
   LOGIN: "/login",
   LOGIN_RESET_PASSWORD: "login/reset-password-verification",
