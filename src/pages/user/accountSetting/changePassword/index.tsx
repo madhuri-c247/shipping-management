@@ -46,7 +46,7 @@ const ChangePassword = () => {
         .then((res) => {
           navigate("/user/setting", {
             state: {
-              response: res.data.message,
+              response: res.data.result.message,
             },
           });
         })

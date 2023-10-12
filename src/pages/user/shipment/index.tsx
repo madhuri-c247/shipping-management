@@ -27,7 +27,7 @@ const Shipment = () => {
           },
         })
         .then((res) => {
-          setQuotes(res.data);
+          setQuotes(res.data.result);
         })
         .catch((error) => {
           setToast(false);

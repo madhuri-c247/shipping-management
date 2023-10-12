@@ -2,7 +2,7 @@ import "./button.module.scss";
 
 const Button = (props: any) => {
   return (
-    <input className={props.className} type="submit" value={props.value} />
+    <input disabled={props.disable?true:false} className={props.className} type="submit" value={props.value} />
   );
 };
 

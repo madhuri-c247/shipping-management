@@ -12,15 +12,15 @@ const User = () => {
   const token = sessionStorage.getItem("token");
   const [success, setSuccess] = useState(false);
   const [toast, setToast] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [userName, setUserName] = useState({
     firstName: "",
     lastName: "",
   });
 
-  const fetchData = async () =>{
+  const fetchData = async () => {
     try {
-    await axios
+      await axios
         .get(USER_URL, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -29,23 +29,25 @@ const User = () => {
         .then((res) => {
           setSuccess(true);
           setUserName({
-            firstName: res.data.firstName,
-            lastName: res.data.lastName,
+            firstName: res.data.result.firstName,
+            lastName: res.data.result.lastName,
           });
         })
         .catch((err) => {
           setSuccess(false);
-          setToast(true)
-          setMessage('Something is Wrong!')
+          setToast(true);
+          setMessage("Something is Wrong!");
         });
     } catch (error) {
       setSuccess(false);
-      setToast(true)
-      setMessage('Something is Wrong!')
+      setToast(true);
+      setMessage("Something is Wrong!");
     }
-  }
+  };
   useEffect(() => {
-   fetchData()
+    if (userName.firstName == "" && userName.lastName == "") {
+      fetchData();
+    }
   }, []);
   return (
     <div className={styles.container}>
@@ -63,14 +65,10 @@ const User = () => {
         <Outlet />
       </div>
       {toast ? (
-            <ToastView
-              message={message}
-              success={success}
-              setToast={setToast}
-            />
-          ) : (
-            ""
-          )}
+        <ToastView message={message} success={success} setToast={setToast} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

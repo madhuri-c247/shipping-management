@@ -87,3 +87,13 @@ label {
   color: $colorError;
   margin: 1%;
 }
+button{
+  border: none;
+  background-color: $colorWhite;
+}
+.link{
+  color: $colorLink;
+}
+.link:hover{
+  border-bottom: 1px solid $colorLink;
+}

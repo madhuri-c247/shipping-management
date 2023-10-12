@@ -12,8 +12,7 @@ const FormComponent = (props: JSX.Element | any) => {
         onSubmit={handleSubmit}
       >
         {(formik) => 
-        { console.log(formik,'formik')
-        return(
+       (
           <form className={` ${styles.form} `} onSubmit={formik.handleSubmit}>
             <h4 className="m-1">{props.heading}</h4>
             <p className={` ${styles.para} m-2`}>{props.subHeading}</p>
@@ -47,7 +46,7 @@ const FormComponent = (props: JSX.Element | any) => {
             </div>
           </form>
         )}
-      }
+      
       </Formik>
 
   );

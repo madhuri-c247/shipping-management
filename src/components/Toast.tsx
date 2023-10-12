@@ -38,7 +38,7 @@ export default function ToastView(props: any) {
           style={{ textTransform: "capitalize" }}
         >
           {message}
-          <button
+          <a
             onClick={handleClose}
             style={{
               cursor: "pointer",
@@ -53,7 +53,7 @@ export default function ToastView(props: any) {
             }}
           >
             X
-          </button>
+          </a>
         </Alert>
       </Snackbar>
     </div>

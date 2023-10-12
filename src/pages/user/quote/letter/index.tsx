@@ -22,11 +22,19 @@ const Letter = () => {
   const [loader, setLoader] = useState(false);
   const token = sessionStorage.getItem("token");
   const initialValues = {
-    weight: 1,
+    weight: "",
     unit: "",
-    insuranceAmount: 0,
+    insuranceAmount: "",
     currency: "",
     agreeTerms: false,
+    fromPostal: "",
+    fromCity: "",
+    fromProvince: "",
+    fromCountry: "",
+    toPostal: "",
+    toCity: "",
+    toProvince: "",
+    toCountry: "",
   };
   const [postalCheck, setPostalCheck] = useState("");
   const [dropDown, setDropDown] = useState({
@@ -73,7 +81,7 @@ const Letter = () => {
           setLoader(false);
           setToast(true);
           setSuccess(true);
-          setMessage(res.data.created);
+          setMessage(res.data.result.created);
         })
         .catch((er) => {
           setLoader(false);
@@ -96,8 +104,7 @@ const Letter = () => {
           code: postalFrom.fromPostal,
         })
         .then((res) => {
-          console.log(res)
-          const { city, country, province } = res.data;
+          const { city, country, province } = res.data.result;
           setPostalFromError("");
           setPostalFrom((prevState) => ({
             ...prevState,
@@ -105,6 +112,8 @@ const Letter = () => {
             fromCountry: country,
             fromProvince: province,
           }));
+
+          
         })
         .catch((err) => {
           const message = err.response.data.error;
@@ -127,7 +136,7 @@ const Letter = () => {
           code: postalTo.toPostal,
         })
         .then((res) => {
-          const { city, country, province } = res.data;
+          const { city, country, province } = res.data.result;
           setPostalToError("");
           setPostalTo((prevState) => ({
             ...prevState,
@@ -152,22 +161,28 @@ const Letter = () => {
   };
 
   function handleChange(
-    event: ChangeEvent<HTMLInputElement>,
-    postalCheck: string
-  ): void {
-    const { name, value } = event.target;
-    if (postalCheck === "fromPostal") {
-      setPostalCheck("from");
-      setPostalFrom((postalFrom) => ({
-        ...postalFrom,
-        [name]: value,
-      }));
-    } else {
-      setPostalCheck("to");
-      setPostalTo((postalTo) => ({
-        ...postalTo,
-        [name]: value,
-      }));
+   e: React.ChangeEvent<any>
+  ) {
+
+    console.log(e)
+    // const { name, value } = event.target;
+    // if (postalCheck === "fromPostal") {
+    //   setPostalCheck("from");
+    //   setPostalFrom((postalFrom) => ({
+    //     ...postalFrom,
+    //     [name]: value,
+    //   }));
+    // } else {
+    //   setPostalCheck("to");
+    //   setPostalTo((postalTo) => ({
+    //     ...postalTo,
+    //     [name]: value,
+    //   }));
+    // }
+    if (postalCheck === "from") {
+      handlePostalFrom();
+    } else if (postalCheck === "to") {
+      handlePostalTo();
     }
   }
 
@@ -205,14 +220,14 @@ const Letter = () => {
                   </span>
                 </h6>
                 <div className="d-flex-col">
-                  <input
+                  <Field
                     className="w-100 input"
-                    type="number"
+                    type="text"
                     name="fromPostal"
                     placeholder="Postal Code"
                     id="fromPostal"
-                    value={postalFrom.fromPostal}
-                    onChange={(e) => handleChange(e, "fromPostal")}
+                    value={formik.values.fromPostal}
+                    onChange={(e:any)=>formik.handleChange(e)}
                   />
                   {postalFromError ? (
                     <h6 className="error">{postalFromError}</h6>
@@ -221,35 +236,54 @@ const Letter = () => {
                   )}
                 </div>
                 <div className={`${styles.portalContent}  d-flex-r`}>
-                  <Field
-                    className="input"
-                    type="text"
-                    name="fromCity"
-                    placeholder="City"
-                    value={postalFrom.fromCity}
-                    onChange={handleChange}
-                    id="PostalFromCity"
-                  />
-
-                  <Field
-                    className="input"
-                    type="text"
-                    name="fromProvince"
-                    onChange={handleChange}
-                    value={postalFrom.fromProvince}
-                    placeholder="Province"
-                    id="PostalFromProvince"
-                  />
-
-                  <Field
-                    className="input"
-                    type="text"
-                    name="fromCountry"
-                    placeholder="Country"
-                    value={postalFrom.fromCountry}
-                    onChange={handleChange}
-                    id="PostalFromCountry"
-                  />
+                  <div>
+                    <Field
+                      className="input"
+                      type="text"
+                      name="fromCity"
+                      placeholder="City"
+                      value={formik.values.fromCity}
+                      onChange={(e:any)=>formik.handleChange(e)}
+                      id="PostalFromCity"
+                    />
+                    <ErrorMessage
+                      name="fromCity"
+                      component="div"
+                      className={`${styles.error} error`}
+                    />
+                  </div>
+                  <div>
+                    <Field
+                      className="input"
+                      type="text"
+                      name="fromProvince"
+                      onChange={(e:any)=>formik.handleChange(e)}
+                      value={formik.values.fromProvince}
+                      placeholder="Province"
+                      id="PostalFromProvince"
+                    />
+                    <ErrorMessage
+                      name="fromProvince"
+                      component="div"
+                      className={`${styles.error} error`}
+                    />
+                  </div>
+                  <div>
+                    <Field
+                      className="input"
+                      type="text"
+                      name="fromCountry"
+                      placeholder="Country"
+                      value={formik.values.fromCountry}
+                      onChange={(e:any)=>formik.handleChange(e)}
+                      id="PostalFromCountry"
+                    />
+                    <ErrorMessage
+                      name="fromCountry"
+                      component="div"
+                      className={`${styles.error} error`}
+                    />
+                  </div>
                 </div>
               </div>
               <div className={`${styles.packageContainer} `}>
@@ -270,8 +304,9 @@ const Letter = () => {
                     <Field
                       className="w-100 input"
                       name="weight"
-                      type="number"
+                      type="text"
                       id="weight"
+                      placeholder="weight"
                       min="1"
                     />
                     <ErrorMessage
@@ -318,13 +353,13 @@ const Letter = () => {
                     </span>
                   </h6>
                   <div className="d-flex-col">
-                    <input
+                    <Field
                       className="w-100 input"
-                      type="number"
+                      type="text"
                       name="toPostal"
                       placeholder=" Postal Code"
-                      value={postalTo.toPostal}
-                      onChange={(e) => handleChange(e, "toPostal")}
+                      value={formik.values.toPostal}
+                       onChange={(e:any) => formik.handleChange(e)}
                       id="toPostal"
                     />
                     {postalToError ? (
@@ -334,33 +369,54 @@ const Letter = () => {
                     )}
                   </div>
                   <div className={`${styles.portalContent}  d-flex-r`}>
-                    <Field
-                      type="text"
-                      className="input"
-                      name="toCity"
-                      placeholder="City"
-                      value={postalTo.toCity}
-                      onChange={handleChange}
-                      id="postalToCity"
-                    />
-                    <Field
-                      type="text"
-                      name="toProvince"
-                      placeholder="Province"
-                      className="input"
-                      value={postalTo.toProvince}
-                      onChange={handleChange}
-                      id="postalToProvince"
-                    />
-                    <Field
-                      type="text"
-                      name="toCountry"
-                      className="input"
-                      placeholder="Country"
-                      value={postalTo.toCountry}
-                      onChange={handleChange}
-                      id="postalToCountry"
-                    />
+                    <div>
+                      <Field
+                        type="text"
+                        className="input"
+                        name="toCity"
+                        placeholder="City"
+                        value={formik.values.toCity}
+                        onChange={formik.handleChange}
+                        id="postalToCity"
+                      />
+                      <ErrorMessage
+                        name="toCity"
+                        component="div"
+                        className={`${styles.error} error`}
+                      />
+                    </div>
+                    <div>
+                      <Field
+                        type="text"
+                        name="toProvince"
+                        placeholder="Province"
+                        className="input"
+                        value={formik.values.toProvince}
+                        onChange={formik.handleChange}
+                        id="postalToProvince"
+                      />
+                      <ErrorMessage
+                        name="toProvince"
+                        component="div"
+                        className={`${styles.error} error`}
+                      />
+                    </div>
+                    <div>
+                      <Field
+                        type="text"
+                        name="toCountry"
+                        className="input"
+                        placeholder="Country"
+                        value={formik.values.toCountry}
+                        onChange={formik.handleChange}
+                        id="postalToCountry"
+                      />
+                      <ErrorMessage
+                        name="toCountry"
+                        component="div"
+                        className={`${styles.error} error`}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div>
@@ -376,15 +432,15 @@ const Letter = () => {
                         </span>
                       </label>
                       <Field
-                        type="number"
-                        name="insuranceAmount"
+                        type="text"
+                        name="insurance"
                         className="input"
-                        placeholder="Enter Amount"
+                        placeholder=" Amount"
                         id="insurance"
                         min="0"
                       />
                       <ErrorMessage
-                        name="insuranceAmount"
+                        name="insurance"
                         component="div"
                         className={`${styles.error} error`}
                       />

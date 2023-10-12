@@ -43,7 +43,7 @@ const VerifyDeletingUser = () => {
         .then((res) => {
           setToast(true);
           setSuccess(true);
-          setMessage(res.data.email);
+          setMessage(res.data.result.email);
         })
         .catch((error) => {
           setToast(true);

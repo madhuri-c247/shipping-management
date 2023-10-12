@@ -28,7 +28,7 @@ const Shipment = () => {
           },
         })
         .then((res) => {
-          setQuotes(res.data);
+          setQuotes(res.data.result);
           setSuccess(true);
         })
         .catch((error) => {
@@ -38,7 +38,7 @@ const Shipment = () => {
         });
     } catch (error) {
       setSuccess(false);
-      setToast(true)
+      setToast(true);
       setMessage("Something is Wrong!");
     }
   };
@@ -70,28 +70,26 @@ const Shipment = () => {
             {quotes
               ? quotes.map((item: any, index) => {
                   return (
-                    <>
-                      <tr>
-                        <td>{++index}</td>
-                        <td>{item.quoteDate}</td>
-                        <td>{item.companyName}</td>
-                        <td>{item.serviceName}</td>
-                        <td>{item.fromPostal}</td>
-                        <td>{item.fromCity}</td>
-                        <td>{item.toPostal}</td>
-                        <td>{item.toCity}</td>
-                        <td>{item.insuranceAmount}</td>
-                        <td></td>
-                        <td>
-                          <NavLink
-                            className={`btn btn-primary`}
-                            to={`/user/quote/checkout`}
-                          >
-                            Pay Now
-                          </NavLink>
-                        </td>
-                      </tr>
-                    </>
+                    <tr key={index}>
+                      <td>{++index}</td>
+                      <td>{item.quoteDate}</td>
+                      <td>{item.companyName}</td>
+                      <td>{item.serviceName}</td>
+                      <td>{item.fromPostal}</td>
+                      <td>{item.fromCity}</td>
+                      <td>{item.toPostal}</td>
+                      <td>{item.toCity}</td>
+                      <td>{item.insuranceAmount}</td>
+                      <td></td>
+                      <td>
+                        <NavLink
+                          className={`btn btn-primary`}
+                          to={`/user/quote/checkout`}
+                        >
+                          Pay Now
+                        </NavLink>
+                      </td>
+                    </tr>
                   );
                 })
               : ""}

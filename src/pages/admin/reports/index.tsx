@@ -10,6 +10,8 @@ const Reports = () => {
   const [report, setReport] = useState({
     totalUser: "",
     totalShipment: "",
+    totalTransection:"",
+    totalAmount:""
   });
   const [message, setMessage] = useState("");
 
@@ -22,6 +24,7 @@ const Reports = () => {
           },
         })
         .then((res) => {
+          console.log(res)
           setReport({
             ...res.data.report,
           });
@@ -42,6 +45,8 @@ const Reports = () => {
           <div>
             <p>Total Users: {report.totalUser}</p>
             <p>Total Shipments: {report.totalShipment}</p>
+            <p>Total Transactions: {report.totalTransection}</p>
+            <p>Total Amount: {report.totalAmount}</p>
           </div>
         )}
       </div>

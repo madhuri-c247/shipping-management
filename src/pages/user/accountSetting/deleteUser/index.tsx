@@ -15,10 +15,9 @@ const DeleteUser = () => {
       await axios
         .delete(`${USER_DELETE_URL}${token}`)
         .then((res) => {
-         
-          console.log(res)
-            // navigate(`/login`);
-          
+          navigate(`/login`, {
+            state: { response: res.data.result.deleted },
+          });
         })
         .catch((err) => {
           navigate("/home/letter-selection", {

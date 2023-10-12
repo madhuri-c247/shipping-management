@@ -40,7 +40,7 @@ export const LetterSelectionGuest = () => {
           setSuccess(true);
           setLoading(false);
           setToast(true);
-          setMessage(res.data.message);
+          setMessage(res.data.result.message);
           values.fromCity = "";
           values.toCity = "";
           values.name = "";

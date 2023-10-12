@@ -34,28 +34,28 @@ const Setting: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const fetchData = async() =>{
+  const fetchData = async () => {
     try {
-     await axios
+      await axios
         .get(USER_URL, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          setInput({ ...res.data });
+          setInput({ ...res.data.result});
         })
         .catch((err) => {
-          setToast(true)
-          setSuccess(false)
+          setToast(true);
+          setSuccess(false);
           setMessage(err.data.response.error);
         });
     } catch (error) {
-      setToast(true)
-      setSuccess(false)
+      setToast(true);
+      setSuccess(false);
       setMessage("Something is wrong!");
     }
-  }
+  };
   useEffect(() => {
     if (location.state) {
       const { response } = location.state;
@@ -63,39 +63,38 @@ const Setting: React.FC = () => {
       setToast(true);
       setMessage(response);
     }
-    fetchData()
+    fetchData();
   }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       axios
-      .put(
-        USER_UPDATE_URL,
-        {
-          ...input,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+        .put(
+          USER_UPDATE_URL,
+          {
+            ...input,
           },
-        }
-      )
-      .then((res) => {
-        setSuccess(true);
-        setToast(true)
-        setMessage(res.data.message);
-      })
-      .catch((error) => {
-        setSuccess(false);
-        setToast(true)
-        setMessage(error);
-      });
-      
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          setSuccess(true);
+          setToast(true);
+          setMessage(res.data.result.message);
+        })
+        .catch((error) => {
+          setSuccess(false);
+          setToast(true);
+          setMessage(error);
+        });
     } catch (error) {
       setSuccess(false);
-      setToast(true)
-      setMessage('Something is wrong!!');
+      setToast(true);
+      setMessage("Something is wrong!!");
     }
   };
 
@@ -134,14 +133,14 @@ const Setting: React.FC = () => {
       })
       .then((res) => {
         setLoader(false);
-        setToast(true)
-        setSuccess(true)
-        setMessage(res.data.uploaded);
+        setToast(true);
+        setSuccess(true);
+        setMessage(res.data.result.uploaded);
       })
       .catch((error) => {
         setLoader(false);
-        setToast(true)
-        setSuccess(false)
+        setToast(true);
+        setSuccess(false);
         setMessage(error.response.data.message);
       });
   };
@@ -260,7 +259,12 @@ const Setting: React.FC = () => {
             <FaEdit />
           </label>
 
-          <button type="button" className="btn btn-primary" onClick={handleUpload}>
+          <button
+            disabled={loader?true:false}
+            type="button"
+            className="btn btn-primary"
+            onClick={handleUpload}
+          >
             {loader ? "Processing.." : "Upload Image"}
           </button>
           <div className={`${styles.delete}`}>
@@ -276,14 +280,10 @@ const Setting: React.FC = () => {
       </form>
 
       {toast ? (
-            <ToastView
-              message={message}
-              success={success}
-              setToast={setToast}
-            />
-          ) : (
-            ""
-          )}
+        <ToastView message={message} success={success} setToast={setToast} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

@@ -32,7 +32,8 @@ const ShipmentDetail: React.FC = () => {
           },
         })
         .then((res) => {
-          setShipment({ ...res.data[0] });
+          console.log(res)
+          setShipment({ ...res.data.result[0] });
         })
         .catch((err) => {
           setToast(true);

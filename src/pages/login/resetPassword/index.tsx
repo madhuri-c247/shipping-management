@@ -36,7 +36,8 @@ const Login: React.FC = () => {
           password: values.password,
         })
         .then((res) => {
-          const { message } = res.data;
+          const { message } = res.data.result;
+          console.log(res)
           navigate("/login", {
             state: {
               response: message,
@@ -44,6 +45,7 @@ const Login: React.FC = () => {
           });
         })
         .catch((error) => {
+          console.log(error)
           setMessage(error.response.error);
         });
     } catch (error) {

@@ -48,7 +48,8 @@ const SignUp: React.FC = () => {
           setSuccess(true);
           setLoader(false);
           setToast(true);
-          setMessage(response.data.message);
+          setMessage(response.data.result.message);
+          console.log(response);
           values.companyName = "";
           values.firstName = "";
           values.lastName = "";
@@ -266,6 +267,7 @@ const SignUp: React.FC = () => {
                   </div>
                   <div className={`${styles.submit}`}>
                     <Button
+                      disable={loader}
                       className="signup-btn"
                       value={loader ? "Processing..." : "SignUp"}
                     />
@@ -279,7 +281,11 @@ const SignUp: React.FC = () => {
             </Formik>
           </div>
         </div>
-        {toast ? <ToastView message={message} success={success} setToast={setToast} /> : ""}
+        {toast ? (
+          <ToastView message={message} success={success} setToast={setToast} />
+        ) : (
+          ""
+        )}
       </Particle>
     </Layout>
   );

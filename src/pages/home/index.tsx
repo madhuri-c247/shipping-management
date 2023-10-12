@@ -9,14 +9,25 @@ import { BsEnvelope } from "react-icons/bs";
 import { LuPackage2 } from "react-icons/lu";
 //nav-layout
 import Layout from "../../layout/NavLayout";
+//components
+import ToastView from "../../components/Toast";
+import { LetterSelectionGuest } from "./letterSelectionGuest";
+import { PackageSelectionGuest } from "./packageSelectionGuest";
 
 const Home = () => {
   const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [toast, setToast] = useState(false);
+  const [isActive, setIsActive] = useState(true);
+  const [letterActive, setLetterActive] = useState(true);
+  const [packageActive, setPackageActive] = useState(false);
   const { state } = useLocation();
 
   useEffect(() => {
     if (state) {
       const { response } = state;
+      setSuccess(true);
+      setToast(true);
       setMessage(response);
     }
   }, [state]);
@@ -35,27 +46,39 @@ const Home = () => {
               quote in seconds today
             </pre>
           </div>
-          {message ? <h5 className="error">{message}</h5> : ""}
-          <div className={`${styles.shipmentForm}`}>
+          <div className={`${styles.shipmentForm} `}>
             <ul>
-              <NavLink to="/home/letter-selection">
-                {({ isActive }) => (
-                  <span className={isActive ? styles.active : ""}>
-                    <BsEnvelope /> Letter
-                  </span>
-                )}
-              </NavLink>
-              <NavLink to="/home/package-selection" >
-                {({ isActive }) => (
-                  <span className={isActive ? styles.active : ""}>
-                    <LuPackage2 /> Package
-                  </span>
-                )}
-              </NavLink>
+              <button
+                className={`${isActive ? styles.active : ""}`}
+                onClick={() => {
+                  setLetterActive(true);
+                  setPackageActive(false);
+                  setIsActive(true);
+                }}
+              >
+                <BsEnvelope /> Letter
+              </button>
+              <button
+                className={isActive ? "" : styles.active}
+                onClick={() => {
+                  setLetterActive(false);
+                  setPackageActive(true);
+                  setIsActive(false);
+                }}
+              >
+                <LuPackage2 /> Package
+              </button>
             </ul>
-            <Outlet />
+            {letterActive && <LetterSelectionGuest />}
+            {packageActive && <PackageSelectionGuest />}
+            {/* <Outlet /> */}
           </div>
         </div>
+        {toast ? (
+          <ToastView message={message} success={success} setToast={setToast} />
+        ) : (
+          ""
+        )}
       </div>
     </Layout>
   );

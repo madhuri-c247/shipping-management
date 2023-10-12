@@ -25,7 +25,7 @@ const AllShipment = () => {
           },
         })
         .then((res) => {
-          setShipment(res.data);
+          setShipment(res.data.result);
         })
         .catch((error) => {
           setToast(true);
@@ -40,7 +40,7 @@ const AllShipment = () => {
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [shipment]);
 
   return (
     <div className={`${styles.container} p-2`}>
@@ -62,23 +62,19 @@ const AllShipment = () => {
             {shipment
               ? shipment.map((item: any, index) => {
                   return (
-                    <>
-                      <tr>
-                        <td>{++index}</td>
-                        <td>
-                          <NavLink
-                            to={`/admin/all-shipment/details/${item._id}`}
-                          >
-                            {item._id}
-                          </NavLink>
-                        </td>
-                        <td>{item.fromCity}</td>
-                        <td>{item.fromPostal}</td>
-                        <td>{item.serviceName}</td>
-                        <td>{item.toCity}</td>
-                        <td>{item.toPostal}</td>
-                      </tr>
-                    </>
+                    <tr>
+                      <td>{++index}</td>
+                      <td>
+                        <NavLink className={'link'} to={`/admin/all-shipment/details/${item._id}`}>
+                          {item._id}
+                        </NavLink>
+                      </td>
+                      <td>{item.fromCity}</td>
+                      <td>{item.fromPostal}</td>
+                      <td>{item.serviceName}</td>
+                      <td>{item.toCity}</td>
+                      <td>{item.toPostal}</td>
+                    </tr>
                   );
                 })
               : ""}

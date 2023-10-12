@@ -23,11 +23,20 @@ const Package = () => {
   const [toast, setToast] = useState(false);
   const [loader, setLoader] = useState(false);
   const initialValues = {
-    weight: 1,
+    weight: "",
     unit: "",
-    insuranceAmount: 0,
+    insurance: "",
     currency: "",
     agreeTerms: false,
+    toPostal: "",
+    toCity: "",
+    toProvince: "",
+    toCountry: "",
+    fromPostal: "",
+    fromCity: "",
+    fromProvince: "",
+    fromCountry: "",
+   
   };
   const [postalCheck, setPostalCheck] = useState("");
   const [dropDown, setDropDown] = useState({
@@ -72,8 +81,7 @@ const Package = () => {
           setToast(true)
           setSuccess(true)
           setLoader(false)
-          setMessage(res.data.message)
-          // navigate("/user/saved-quotes");
+          setMessage(res.data.result.message)
         })
         .catch((er) => {
           setToast(true)
@@ -100,7 +108,7 @@ const Package = () => {
           code: postalFrom.fromPostal,
         })
         .then((res) => {
-          const { city, country, province } = res.data;
+          const { city, country, province } = res.data.result;
           setPostalFromError("");
           setPostalFrom((prevState) => ({
             ...prevState,
@@ -130,7 +138,7 @@ const Package = () => {
           code: postalTo.toPostal,
         })
         .then((res) => {
-          const { city, country, province } = res.data;
+          const { city, country, province } = res.data.result;
           setPostalToError("");
           setPostalTo((prevState) => ({
             ...prevState,
@@ -206,7 +214,7 @@ const Package = () => {
                   <div className="d-flex-col">
                     <input
                       className="w-100 input"
-                      type="number"
+                      type="text"
                       name="fromPostal"
                       id="fromPostal"
                       placeholder="Postal Code"
@@ -229,6 +237,11 @@ const Package = () => {
                       value={postalFrom.fromCity}
                       onChange={handleChange}
                     />
+                     <ErrorMessage
+                        name="fromCity"
+                        component="div"
+                        className={`${styles.error} error`}
+                      />
                     <Field
                       className="input"
                       type="text"
@@ -272,6 +285,7 @@ const Package = () => {
                         name="weight"
                         type="number"
                         id="weight"
+                        placeholder="weight"
                       />
                       <ErrorMessage
                         name="weight"
@@ -348,7 +362,7 @@ const Package = () => {
                     <div className="d-flex-col">
                       <input
                         className="w-100 input"
-                        type="number"
+                        type="text"
                         name="toPostal"
                         id="toPostal"
                         placeholder=" Postal Code"
@@ -405,13 +419,13 @@ const Package = () => {
                         </label>
                         <Field
                           className="input"
-                          type="number"
-                          name="insuranceAmount"
-                          placeholder="Enter Amount"
+                          type="text"
+                          name="insurance"
+                          placeholder="Amount"
                           id="insurance"
                         />
                         <ErrorMessage
-                          name="insuranceAmount"
+                          name="insurance"
                           component="div"
                           className={`${styles.error} error`}
                         />

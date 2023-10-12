@@ -1,16 +1,18 @@
 export interface QuoteState {
+  fromPostal: any;
+  toPostal: any;
   fromCity?: string;
   fromProvince?: string;
   fromCountry?: string;
-  packageWeight?: number;
+  packageWeight?: string;
   packageUnit?: string;
   toCity?: string;
   toProvince?: string;
   toCountry?: string;
-  insuranceAmount?: number;
+  insuranceAmount?: string;
   currency?: string;
   agreeTerms?: boolean;
-  weight?: number;
+  weight?: string;
   unit?: string;
 }
 

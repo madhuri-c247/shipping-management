@@ -7,6 +7,8 @@ import { ADMIN_SAVED_QUOTES_URL } from "../../../apiHelper";
 import styles from "../../user/saved-quote/saved-quote.module.scss";
 //components
 import ToastView from "../../../components/Toast";
+//components
+import PaginationData from "../../../components/pagination";
 
 const AdminSavedQuotes = () => {
   const token = sessionStorage.getItem("token");
@@ -14,7 +16,6 @@ const AdminSavedQuotes = () => {
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
   const [toast, setToast] = useState(false);
-
   const fetchData = async () => {
     try {
       await axios
@@ -24,7 +25,7 @@ const AdminSavedQuotes = () => {
           },
         })
         .then((res) => {
-          setQuotes(res.data);
+          setQuotes(res.data.result);
         })
         .catch((error) => {
           setToast(true);
@@ -48,7 +49,6 @@ const AdminSavedQuotes = () => {
         <Table className={`${styles.table}`} responsive>
           <thead>
             <tr>
-              <th>#</th>
               <th>id</th>
               <th>From Postal</th>
               <th>From City</th>
@@ -63,21 +63,18 @@ const AdminSavedQuotes = () => {
             {quotes
               ? quotes.map((item: any, index) => {
                   return (
-                    <>
-                      <tr>
-                        <td>{++index}</td>
-                        <td>
-                          <a href="">{item._id}</a>
-                        </td>
-                        <td>{item.fromPostal}</td>
-                        <td>{item.fromCity}</td>
-                        <td>{item.toPostal}</td>
-                        <td>{item.toCity}</td>
-                        <td>{item.insuranceAmount}</td>
-                        <td>{item.serviceName}</td>
-                        <td>{item.quoteDate}</td>
-                      </tr>
-                    </>
+                    <tr>
+                      <td>
+                        <a href="">{item._id}</a>
+                      </td>
+                      <td>{item.fromPostal}</td>
+                      <td>{item.fromCity}</td>
+                      <td>{item.toPostal}</td>
+                      <td>{item.toCity}</td>
+                      <td>{item.insuranceAmount}</td>
+                      <td>{item.serviceName}</td>
+                      <td>{item.quoteDate}</td>
+                    </tr>
                   );
                 })
               : ""}
@@ -92,6 +89,7 @@ const AdminSavedQuotes = () => {
             ""
           )}
         </Table>
+        <PaginationData />,
       </div>
     </div>
   );

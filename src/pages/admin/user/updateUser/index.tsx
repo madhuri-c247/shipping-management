@@ -37,7 +37,8 @@ const UpdateUser: React.FC = () => {
           },
         })
         .then((res) => {
-          setInput({ ...res.data[0] });
+          console.log(res)
+          setInput({ ...res.data.result[0] });
         })
         .catch((err) => {
           setToast(true);
@@ -70,9 +71,10 @@ const UpdateUser: React.FC = () => {
           }
         )
         .then((res) => {
+          console.log(res)
           navigate("/admin/all-users", {
             state: {
-              response: res.data.successful,
+              response: res.data.result.successful,
             },
           });
         })

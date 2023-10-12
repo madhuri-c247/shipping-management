@@ -1,10 +1,11 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 //components
 import AdminDashboard from "../../components/adminDashboard";
 //css
 import styles from "./admin.module.scss";
 
 const Admin = () => {
+  const navigate = useNavigate()
   return (
     <div className={styles.container}>
       <AdminDashboard />
@@ -12,7 +13,10 @@ const Admin = () => {
         <div className={styles.header}>
           <pre>
             You're Logged In as Admin.
-            <NavLink to={""}> Login As User</NavLink>
+            <a onClick={()=>{
+              sessionStorage.removeItem('token')
+              navigate('/login')
+            }}> Login As User</a>
           </pre>
         </div>
         <Outlet />

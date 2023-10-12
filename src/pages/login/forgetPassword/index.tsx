@@ -37,8 +37,7 @@ export const ForgotPassword = () => {
           setLoader(false);
           setSuccess(true);
           setToast(true);
-
-          setMessage(res.data.email);
+          setMessage(res.data.result.email);
         })
         .catch((error) => {
           setSuccess(false);

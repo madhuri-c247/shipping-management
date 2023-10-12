@@ -27,7 +27,7 @@ const AllUser = () => {
           },
         })
         .then((res) => {
-          setUsers(res.data);
+          setUsers(res.data.result);
         })
         .catch((error) => {
           setToast(true);
@@ -61,7 +61,7 @@ const AllUser = () => {
         .then((res) => {
           setToast(true);
           setSuccess(true);
-          setMessage(res.data.successful);
+          setMessage(res.data.result.successful);
           fetchData();
         })
         .catch((error) => {
