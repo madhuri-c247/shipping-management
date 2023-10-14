@@ -32,6 +32,7 @@ import { Route, Routes } from "react-router-dom";
 import { RouteConstant } from "./constants/routes";
 import UpdateUser from "./pages/admin/user/updateUser";
 import ShipmentDetail from "./pages/admin/shipment/shipmentDetail/shipment";
+import Thankyou from "./pages/user/saved-quote/checkOut/thankyou";
 
 export const AllRoutes = () => (
   <Routes>
@@ -72,13 +73,14 @@ export const AllRoutes = () => (
       />
     </Route>
     <Route path="/mail/delete-verification-mail" element={<DeleteUser />} />
-    <Route path="/user/quote/checkout" element={<CheckoutPage />} />
+    <Route path="/user/quote/checkout/:id" element={<CheckoutPage />} />
+    <Route path="/user/quote/thankyou/:id" element={<Thankyou />} />
 
     <Route
       path="/admin"
       element={
         <Auth>
-          <Admin />
+        <Admin />
         </Auth>
       }
     >

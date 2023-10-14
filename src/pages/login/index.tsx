@@ -57,6 +57,7 @@ const Login: React.FC = () => {
           setSuccess(true);
           sessionStorage.setItem("token", response.data.result.token);
           sessionStorage.setItem("role", response.data.result.role);
+          console.log(response);
           if (response.data.result.role === "admin") {
             navigate("/admin/saved-quotes");
           } else {
@@ -66,7 +67,7 @@ const Login: React.FC = () => {
         .catch((err) => {
           setLoader(false);
           setToast(true);
-          console.log(err)
+          console.log(err, "err");
           setSuccess(false);
           setMessage(err.response.data.message);
         });
@@ -108,7 +109,7 @@ const Login: React.FC = () => {
                       name="email"
                       type="email"
                       id="email"
-                      placeholder="Enter Email"
+                      placeholder="Email"
                     />
                     <ErrorMessage
                       name="email"
@@ -128,7 +129,7 @@ const Login: React.FC = () => {
                       name="password"
                       type="password"
                       id="password"
-                      placeholder="Enter Password"
+                      placeholder="Password"
                     />
                     <ErrorMessage
                       name="password"
@@ -141,7 +142,7 @@ const Login: React.FC = () => {
                   </div>
                   <div className={`${styles.submit}`}>
                     <Button
-                      disable = {loader}
+                      disable={loader}
                       value={loader ? "Processing..." : "Login"}
                       className="login-btn"
                     />

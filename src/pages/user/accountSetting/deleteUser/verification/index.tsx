@@ -47,6 +47,7 @@ const VerifyDeletingUser = () => {
         })
         .catch((error) => {
           setToast(true);
+          console.log(error,'error')
           setSuccess(false);
           setMessage(error.response.data.error);
         });

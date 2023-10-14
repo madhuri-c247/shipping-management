@@ -1,28 +1,44 @@
 import { NavLink, Outlet } from "react-router-dom";
 //css
 import styles from "./quote.module.scss";
+import { useState } from "react";
+import Letter from "./letter";
+import Package from "./package";
 
-const Quote = () =>  (
+const Quote = () => {
+  const [isActive, setIsActive] = useState(true);
+  const [letterActive, setLetterActive] = useState(true);
+  const [packageActive, setPackageActive] = useState(false);
+  return (
     <div className={styles.container}>
       <div className={styles.content}>
         <ul className={styles.menuContainer}>
-          <NavLink
-            className={({ isActive }) => (isActive ? styles.active : "")}
-            to={"/user/quote/letter"}
+          <button
+            className={`${isActive ? styles.active : styles.btn}`}
+            onClick={() => {
+              setLetterActive(true);
+              setPackageActive(false);
+              setIsActive(true);
+            }}
           >
             Letter
-          </NavLink>
-          <NavLink
-            className={({ isActive }) => (isActive ? styles.active : "")}
-            to={"/user/quote/package"}
+          </button>
+          <button
+            className={`${isActive ? styles.btn : styles.active}`}
+            onClick={() => {
+              setLetterActive(false);
+              setPackageActive(true);
+              setIsActive(false);
+            }}
           >
-            Package
-          </NavLink>
+            package
+          </button>
         </ul>
       </div>
-      <Outlet />
+      {letterActive && <Letter />}
+      {packageActive && <Package />}
     </div>
   );
-
+};
 
 export default Quote;

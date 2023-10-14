@@ -1,6 +1,4 @@
 export interface QuoteState {
-  fromPostal: any;
-  toPostal: any;
   fromCity?: string;
   fromProvince?: string;
   fromCountry?: string;

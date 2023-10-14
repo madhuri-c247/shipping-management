@@ -13,6 +13,8 @@ import { Particle } from "../../../layout/particles";
 import ToastView from "../../../components/Toast";
 import FormComponent from "../../../components/form";
 import { RESET_PASSWORD_FIELDS } from "../../../constants/inputFields";
+import { ErrorMessage, Field, Formik } from "formik";
+import Button from "../../../common/button";
 
 export const ForgotPassword = () => {
   const [message, setMessage] = useState("");
@@ -56,17 +58,51 @@ export const ForgotPassword = () => {
     <Layout>
       <Particle>
         <div className={`${styles.container} `}>
-          <FormComponent
+          <Formik<UserState>
             initialValues={initialValues}
-            validations={emailValidationSchema}
-            fields={RESET_PASSWORD_FIELDS}
-            heading={"Reset Password"}
-            subHeading={
-              "Enter Your email address and we will send you instructions to reset your password. :)"
-            }
-            handleSubmit={handleSubmit}
-            loader={loader}
-          />
+            validationSchema={emailValidationSchema}
+            onSubmit={handleSubmit}
+          >
+            {(formik) => (
+              <form
+                className={` ${styles.form} `}
+                onSubmit={formik.handleSubmit}
+              >
+                <h4 className="m-1">Reset Password</h4>
+                <p className={` ${styles.para} m-2`}>
+                  Enter Your email address and we will send you instructions to
+                  reset your password. :)
+                </p>
+
+                <div className={`${styles.formContent}`}>
+                  <label htmlFor="email">
+                    Email
+                    <span className="required-asterisk" aria-label="required">
+                      *
+                    </span>
+                  </label>
+                  <Field
+                    className="input"
+                    name="email"
+                    type="email"
+                    id="email"
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className={`${styles.error} error`}
+                  />
+                </div>
+
+                <div className={`${styles.submit}`}>
+                  <Button
+                    className={`${styles.forgotBtn}`}
+                    value={loader ? "Processing.." : "Continue"}
+                  />
+                </div>
+              </form>
+            )}
+          </Formik>
           {toast ? (
             <ToastView
               message={message}

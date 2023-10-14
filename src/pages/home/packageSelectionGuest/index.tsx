@@ -125,7 +125,7 @@ export const PackageSelectionGuest = () => {
               </label>
               <Field
                 className={`${styles.input} input`}
-                type="number"
+                type="text"
                 name="package"
                 placeholder="Package"
                 id="packages"
@@ -223,7 +223,11 @@ export const PackageSelectionGuest = () => {
           </form>
         )}
       </Formik>
-      {toast ? <ToastView message={message} success={success} setToast={setToast}/> : ""}
+      {toast ? (
+        <ToastView message={message} success={success} setToast={setToast} />
+      ) : (
+        ""
+      )}
     </>
   );
 };

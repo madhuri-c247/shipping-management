@@ -43,7 +43,7 @@ const Setting: React.FC = () => {
           },
         })
         .then((res) => {
-          setInput({ ...res.data.result});
+          setInput({ ...res.data.result });
         })
         .catch((err) => {
           setToast(true);
@@ -234,7 +234,7 @@ const Setting: React.FC = () => {
                 </label>
                 <input
                   name="number"
-                  type="number"
+                  type="text"
                   className="input"
                   placeholder="Phone Number"
                   onChange={handleChange}
@@ -260,7 +260,7 @@ const Setting: React.FC = () => {
           </label>
 
           <button
-            disabled={loader?true:false}
+            disabled={loader ? true : false}
             type="button"
             className="btn btn-primary"
             onClick={handleUpload}

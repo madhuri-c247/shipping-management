@@ -6,11 +6,27 @@
     color: $colorWhite;
     padding: 8px;
   }
+  div {
+    ul {
+      li {
+        border: 1px solid rgba(7, 99, 161, 0.349);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        text-align: left;
+        span {
+          width: 20%;
+        }
+      }
+    }
+  }
+
   .tableContainer {
     scroll-behavior: smooth;
     overflow-y: scroll;
     height: 83vh;
     text-transform: capitalize;
+    text-align: left;
     .table {
       .button {
         font-size: 10px;

@@ -62,7 +62,8 @@ const SignUp: React.FC = () => {
           setSuccess(false);
           setToast(true);
           setLoader(false);
-          setMessage(error.response.data.message);
+          console.log(error)
+          setMessage(error.response.data.error);
         });
     } catch (error) {
       setToast(true);

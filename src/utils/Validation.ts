@@ -47,7 +47,7 @@ export const letterValidationSchema = Yup.object().shape({
     .positive("Weight must be positive")
     .min(0.1, "Weight must be at least 0.1")
     .max(1000, "Weight cannot exceed 1000"),
-  insurance: Yup.number()
+  insuranceAmount: Yup.number()
     .required("Insurance is required")
     .typeError("Insurance Amount must be a number")
     .positive("Insurance Amount must be positive")
@@ -56,21 +56,6 @@ export const letterValidationSchema = Yup.object().shape({
     [true],
     "You must accept the terms and conditions"
   ),
-  fromPostal: Yup.string().required("From Postal is required"),
-
-  fromCity: Yup.string().required("From City is required"),
-
-  fromProvince: Yup.string().required("From Province is required"),
-
-  fromCountry: Yup.string().required("From Country is required"),
-
-  toPostal: Yup.string().required("To Postal is required"),
-
-  toCity: Yup.string().required("To City is required"),
-
-  toProvince: Yup.string().required("To Province is required"),
-
-  toCountry: Yup.string().required("To Country is required"),
 });
 
 export const loginValidationSchema = Yup.object().shape({
@@ -122,14 +107,8 @@ export const changePasswordValidationSchema = Yup.object().shape({
       "Password must contain at least one special symbol"
     )
     .min(8, "Password must be at least 8 characters long")
-    .max(16, "Password can be at most 16 characters long")
-    .test(
-      "notSameAsNewPassword",
-      "Old password cannot be the same as the new password",
-      function (value) {
-        return value !== this.parent.newPassword;
-      }
-    ),
+    .max(16, "Password can be at most 16 characters long"),
+
   newPassword: Yup.string()
     .required("Password is required")
     .matches(
@@ -146,7 +125,14 @@ export const changePasswordValidationSchema = Yup.object().shape({
       "Password must contain at least one special symbol"
     )
     .min(8, "Password must be at least 8 characters long")
-    .max(16, "Password can be at most 16 characters long"),
+    .max(16, "Password can be at most 16 characters long")
+    .test(
+      "notSameAsNewPassword",
+      "Old password cannot be the same as the new password",
+      function (value) {
+        return value !== this.parent.oldPassword;
+      }
+    ),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("newPassword")], "Passwords must match")
     .required("Confirm Password is required"),

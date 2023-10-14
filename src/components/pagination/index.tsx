@@ -1,19 +1,31 @@
-import * as React from 'react';
-import TablePagination from '@mui/material/TablePagination';
+import * as React from "react";
+import TablePagination from "@mui/material/TablePagination";
+import styles from "./pagination.module.scss";
 
-export default function PaginationData() {
-  const [page, setPage] = React.useState(2);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+interface PaginationProps {
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  rowsPerPage: number;
+  setRowsPerPage: React.Dispatch<React.SetStateAction<number>>;
+  totalCount: number;
+}
 
+export default function Pagination({
+  page,
+  setPage,
+  rowsPerPage,
+  setRowsPerPage,
+  totalCount,
+}: PaginationProps) {
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
+    newPage: number
   ) => {
-    setPage(newPage);
+    setPage(newPage + 1);
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -21,9 +33,10 @@ export default function PaginationData() {
 
   return (
     <TablePagination
+      className={styles.pagination}
       component="div"
-      count={100}
-      page={page}
+      count={totalCount}
+      page={page - 1}
       onPageChange={handleChangePage}
       rowsPerPage={rowsPerPage}
       onRowsPerPageChange={handleChangeRowsPerPage}

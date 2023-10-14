@@ -19,24 +19,15 @@ const Package = () => {
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
   const [message, setMessage] = useState("");
-  const [success, setSuccess] = useState(false)
+  const [success, setSuccess] = useState(false);
   const [toast, setToast] = useState(false);
   const [loader, setLoader] = useState(false);
   const initialValues = {
     weight: "",
     unit: "",
-    insurance: "",
+    insuranceAmount: "",
     currency: "",
     agreeTerms: false,
-    toPostal: "",
-    toCity: "",
-    toProvince: "",
-    toCountry: "",
-    fromPostal: "",
-    fromCity: "",
-    fromProvince: "",
-    fromCountry: "",
-   
   };
   const [postalCheck, setPostalCheck] = useState("");
   const [dropDown, setDropDown] = useState({
@@ -63,7 +54,8 @@ const Package = () => {
   const [postalToError, setPostalToError] = useState("");
 
   const handleSubmit = async (values: any) => {
-    setLoader(true)
+    console.log("submit");
+    setLoader(true);
     const combined = {
       ...values,
       ...postalFrom,
@@ -78,15 +70,32 @@ const Package = () => {
           },
         })
         .then((res) => {
-          setToast(true)
-          setSuccess(true)
-          setLoader(false)
-          setMessage(res.data.result.message)
+          setToast(true);
+          setSuccess(true);
+          setLoader(false);
+          setMessage(res.data.result.message);
+          setPostalFrom({
+            fromPostal: "",
+            fromCity: "",
+            fromProvince: "",
+            fromCountry: "",
+          });
+
+          setPostalTo({
+            toPostal: "",
+            toCity: "",
+            toProvince: "",
+            toCountry: "",
+          });
+
+          (values.currency = ""),
+            (values.weight = ""),
+            (values.insuranceAmount = "");
         })
         .catch((er) => {
-          setToast(true)
-          setSuccess(false)
-          setLoader(false)
+          setToast(true);
+          setSuccess(false);
+          setLoader(false);
           setMessage("All Fields Are Required");
         });
     } catch (error) {
@@ -237,11 +246,6 @@ const Package = () => {
                       value={postalFrom.fromCity}
                       onChange={handleChange}
                     />
-                     <ErrorMessage
-                        name="fromCity"
-                        component="div"
-                        className={`${styles.error} error`}
-                      />
                     <Field
                       className="input"
                       type="text"
@@ -283,7 +287,7 @@ const Package = () => {
                       <Field
                         className="w-100 input"
                         name="weight"
-                        type="number"
+                        type="text"
                         id="weight"
                         placeholder="weight"
                       />
@@ -408,7 +412,7 @@ const Package = () => {
                   <div>
                     <div className={`${styles.insuranceContainer}  d-flex-r`}>
                       <div className={`${styles.currency} w-25  d-flex-col`}>
-                        <label htmlFor="insurance">
+                        <label htmlFor="insuranceAmount">
                           Insurance
                           <span
                             className="required-asterisk"
@@ -420,12 +424,12 @@ const Package = () => {
                         <Field
                           className="input"
                           type="text"
-                          name="insurance"
+                          name="insuranceAmount"
                           placeholder="Amount"
-                          id="insurance"
+                          id="insuranceAmount"
                         />
                         <ErrorMessage
-                          name="insurance"
+                          name="insuranceAmount"
                           component="div"
                           className={`${styles.error} error`}
                         />
@@ -485,9 +489,20 @@ const Package = () => {
                   </div>
                 </div>
               </div>
-              <Button className={`${styles.submitBtn}`} value={loader?'Processing..':"Get Quote"} />
+              <Button
+                className={`${styles.submitBtn}`}
+                value={loader ? "Processing.." : "Get Quote"}
+              />
             </div>
-            {toast ? <ToastView message={message} success={success} setToast = {setToast}/> : ""}
+            {toast ? (
+              <ToastView
+                message={message}
+                success={success}
+                setToast={setToast}
+              />
+            ) : (
+              ""
+            )}
           </Form>
         </>
       )}

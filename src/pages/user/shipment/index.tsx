@@ -4,11 +4,12 @@ import axios from "axios";
 import { Spinner } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 //apiHelper
-import { MY_SHIPMENT_URL, STATUS_URL } from "../../../apiHelper";
+import { MY_SHIPMENT_URL, STATUS_URL, apiUrl } from "../../../apiHelper";
 //css
 import styles from "./shipment.module.scss";
 //components
 import ToastView from "../../../components/Toast";
+import ReactPaginate from "react-paginate";
 
 const Shipment = () => {
   const token = sessionStorage.getItem("token");
@@ -17,17 +18,28 @@ const Shipment = () => {
   const [success, setSuccess] = useState(false);
   const [toast, setToast] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
+  const [totalCount, setTotalCount] = useState(0);
 
-  const fetchData = async () => {
+  const handlePageClick = (data: any) => {
+    console.log(data);
+    const selectedPage = data.selected + 1;
+    setPage(selectedPage);
+    fetchData(selectedPage);
+  };
+
+  const fetchData = async (page: number) => {
     try {
       await axios
-        .get(MY_SHIPMENT_URL, {
+        .get(`${apiUrl}/quote/myShipping?limit=${limit}&page=${page}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          setQuotes(res.data.result);
+          setTotalCount(res.data.result.totalPages)
+          setQuotes(res.data.result.docs);
         })
         .catch((error) => {
           setToast(false);
@@ -37,8 +49,8 @@ const Shipment = () => {
     } catch (error) {}
   };
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(page);
+  }, [page]);
 
   const handleChange = async (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -66,7 +78,8 @@ const Shipment = () => {
         .then((res) => {
           setSuccess(true);
           setToast(true);
-          setMessage(res.data.successful);
+          console.log(res,'status, res')
+          setMessage(res.data.result.successful);
         })
         .catch((error) => {
           setSuccess(false);
@@ -76,7 +89,7 @@ const Shipment = () => {
     } catch (error) {
       setSuccess(false);
       setToast(true);
-      setMessage('Something is Wrong!');
+      setMessage("Something is Wrong!");
     }
   };
 
@@ -138,6 +151,22 @@ const Shipment = () => {
             )}
           </tbody>
         </Table>
+        <ReactPaginate
+          pageCount={totalCount}
+          pageRangeDisplayed={5}
+          marginPagesDisplayed={2}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination justify-content-center"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-item"}
+          previousLinkClassName={"page-link"}
+          nextClassName={"page-item"}
+          nextLinkClassName={"page-link"}
+          breakClassName={"page-item"}
+          breakLinkClassName={"page-link"}
+          activeClassName={"active"}
+        />
       </div>
       {toast ? (
         <ToastView message={message} success={success} setToast={setToast} />

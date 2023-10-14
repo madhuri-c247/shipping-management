@@ -4,15 +4,18 @@ import { Button, Form } from "react-bootstrap";
 import styles from "./checkOut.module.scss";
 import axios from "axios";
 import { PAYMENT_INTENT } from "../../../../apiHelper";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CheckoutPage: React.FC = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const {id} = useParams()
   const [loading, setLoading] = useState<boolean>(false);
   const [cardHolderName, setCardHolderName] = useState<string>("");
   const [validationError, setValidationError] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const userToken = sessionStorage.getItem("token");
+  const navigate = useNavigate();
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -57,10 +60,11 @@ const CheckoutPage: React.FC = () => {
 
   const onSubmit = (token: any) => {
     console.log(token);
+    console.log(id)
     try {
       axios
         .post(
-          PAYMENT_INTENT,
+          `${PAYMENT_INTENT}${id}`,
           {
             amount: "100",
             currency: "USD",
@@ -72,6 +76,9 @@ const CheckoutPage: React.FC = () => {
           }
         )
         .then((res) => {
+          console.log(res)
+          const success = res.data.successful
+          navigate(`/user/quote/thankyou/${success}`)
           setMessage('Payment')
         })
         .catch((error) => {

@@ -1,9 +1,10 @@
 import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 import axios from "axios";
 //apiHelper
-import { SAVED_QUOTE_URL } from "../../../apiHelper";
+import { SAVED_QUOTE_URL, apiUrl } from "../../../apiHelper";
 //css
 import styles from "./saved-quote.module.scss";
 //components
@@ -15,20 +16,31 @@ const Shipment = () => {
   const [toast, setToast] = useState(false);
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
+  const [totalCount, setTotalCount] = useState(0);
 
-  const fetchQuotes = async () => {
+  const handlePageClick = (data: any) => {
+    console.log(data);
+    const selectedPage = data.selected + 1;
+    setPage(selectedPage);
+    fetchQuotes(selectedPage);
+  };
+
+  const fetchQuotes = async (page: number) => {
     if (toast) {
       setToast(false);
     }
     try {
       await axios
-        .get(SAVED_QUOTE_URL, {
+        .get(`${apiUrl}/quote/saveQuote?limit=${limit}&page=${page}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((res) => {
-          setQuotes(res.data.result);
+          setTotalCount(res.data.result.totalPages);
+          setQuotes(res.data.result.docs);
           setSuccess(true);
         })
         .catch((error) => {
@@ -43,8 +55,8 @@ const Shipment = () => {
     }
   };
   useEffect(() => {
-    fetchQuotes();
-  }, []);
+    fetchQuotes(page);
+  }, [page]);
 
   return (
     <div className={`${styles.container} p-2`}>
@@ -69,10 +81,12 @@ const Shipment = () => {
           <tbody>
             {quotes
               ? quotes.map((item: any, index) => {
+                  const dateObject = new Date(item.quoteDate);
+                  const quoteDate = dateObject.toLocaleDateString();
                   return (
                     <tr key={index}>
                       <td>{++index}</td>
-                      <td>{item.quoteDate}</td>
+                      <td>{quoteDate}</td>
                       <td>{item.companyName}</td>
                       <td>{item.serviceName}</td>
                       <td>{item.fromPostal}</td>
@@ -84,7 +98,7 @@ const Shipment = () => {
                       <td>
                         <NavLink
                           className={`btn btn-primary`}
-                          to={`/user/quote/checkout`}
+                          to={`/user/quote/checkout/${item._id}`}
                         >
                           Pay Now
                         </NavLink>
@@ -95,6 +109,22 @@ const Shipment = () => {
               : ""}
           </tbody>
         </Table>
+        <ReactPaginate
+          pageCount={totalCount}
+          pageRangeDisplayed={5}
+          marginPagesDisplayed={2}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination justify-content-center"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-item"}
+          previousLinkClassName={"page-link"}
+          nextClassName={"page-item"}
+          nextLinkClassName={"page-link"}
+          breakClassName={"page-item"}
+          breakLinkClassName={"page-link"}
+          activeClassName={"active"}
+        />
       </div>
       {toast ? (
         <ToastView message={message} success={success} setToast={setToast} />
