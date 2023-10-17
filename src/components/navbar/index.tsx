@@ -10,7 +10,7 @@ const Navbar = () => {
         Ship Now
       </h3>
       <ul className={`${styles.menuContainer} d-flex-r`}>
-        <NavLink  to="/home" className={styles.home}>
+        <NavLink to="/home" className={styles.home}>
           {({ isActive }) => (
             <span className={isActive ? styles.active : ""}>HOME</span>
           )}

@@ -9,6 +9,7 @@ import { ADMIN_ALL_SHIPMENT_URL, apiUrl } from "../../../apiHelper";
 import styles from "../../user/saved-quote/saved-quote.module.scss";
 //components
 import ToastView from "../../../components/Toast";
+import Pagination from "../../../components/pagination";
 
 const AllShipment = () => {
   const token = sessionStorage.getItem("token");
@@ -19,13 +20,6 @@ const AllShipment = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
-
-  const handlePageClick = (data: any) => {
-    console.log(data);
-    const selectedPage = data.selected + 1;
-    setPage(selectedPage);
-    fetchData(selectedPage);
-  };
 
   const fetchData = async (page: number) => {
     try {
@@ -66,8 +60,8 @@ const AllShipment = () => {
             <tr>
               <th>#</th>
               <th>Id</th>
-              <th>From City</th>
               <th>from Postal</th>
+              <th>From City</th>
               <th>Services</th>
               <th>To Postal</th>
               <th>To City</th>
@@ -87,11 +81,11 @@ const AllShipment = () => {
                           {item._id}
                         </NavLink>
                       </td>
-                      <td>{item.fromCity}</td>
                       <td>{item.fromPostal}</td>
+                      <td>{item.fromCity}</td>
                       <td>{item.serviceName}</td>
-                      <td>{item.toCity}</td>
                       <td>{item.toPostal}</td>
+                      <td>{item.toCity}</td>
                     </tr>
                   );
                 })
@@ -107,22 +101,13 @@ const AllShipment = () => {
             ""
           )}
         </Table>
-        <ReactPaginate
-          pageCount={totalPages}
-          pageRangeDisplayed={5}
-          marginPagesDisplayed={2}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination justify-content-center"}
-          pageClassName={"page-item"}
-          pageLinkClassName={"page-link"}
-          previousClassName={"page-item"}
-          previousLinkClassName={"page-link"}
-          nextClassName={"page-item"}
-          nextLinkClassName={"page-link"}
-          breakClassName={"page-item"}
-          breakLinkClassName={"page-link"}
-          activeClassName={"active"}
-        />
+        {!!shipment && (
+          <Pagination
+            setPage={setPage}
+            fetchData={fetchData}
+            totalPages={totalPages}
+          />
+        )}
       </div>
     </div>
   );

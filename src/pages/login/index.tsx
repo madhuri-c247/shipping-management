@@ -55,9 +55,9 @@ const Login: React.FC = () => {
           setLoader(false);
           setToast(true);
           setSuccess(true);
+          console.log(response)
           sessionStorage.setItem("token", response.data.result.token);
           sessionStorage.setItem("role", response.data.result.role);
-          console.log(response);
           if (response.data.result.role === "admin") {
             navigate("/admin/saved-quotes");
           } else {

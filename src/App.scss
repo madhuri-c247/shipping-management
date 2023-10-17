@@ -74,7 +74,6 @@ label {
   justify-content: center;
   align-items: center;
   width: 100%;
-  border: 1px solid red;
   height: 100vh;
 }
 .reset-btn {
@@ -88,13 +87,13 @@ label {
   color: $colorError;
   margin: 1%;
 }
-button{
+button {
   border: none;
   background-color: $colorWhite;
 }
-.link{
+.link {
   color: $colorLink;
 }
-.link:hover{
+.link:hover {
   border-bottom: 1px solid $colorLink;
 }

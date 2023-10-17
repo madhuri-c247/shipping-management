@@ -19,14 +19,16 @@
       align-items: left;
       height: 40vh;
       padding: 0px;
-      a {
+      a,
+      button {
         display: flex;
         flex-direction: row;
         align-items: center;
         height: 8vh;
         width: 100%;
         margin: 0;
-        span {
+        span,
+        button {
           width: 100%;
           height: 8vh;
           color: rgb(3, 23, 49);
@@ -56,15 +58,5 @@
         margin: 8px;
       }
     }
-  }
-  .logout {
-    position: absolute;
-    left: 5%;
-    bottom: 2%;
-    color: white;
-  }
-  .logout:hover {
-    color: $blueColor;
-    border: none;
   }
 }

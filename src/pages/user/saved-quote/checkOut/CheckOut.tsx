@@ -9,7 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const CheckoutPage: React.FC = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const {id} = useParams()
+  const { id } = useParams();
   const [loading, setLoading] = useState<boolean>(false);
   const [cardHolderName, setCardHolderName] = useState<string>("");
   const [validationError, setValidationError] = useState<string>("");
@@ -60,7 +60,7 @@ const CheckoutPage: React.FC = () => {
 
   const onSubmit = (token: any) => {
     console.log(token);
-    console.log(id)
+    console.log(id);
     try {
       axios
         .post(
@@ -76,10 +76,10 @@ const CheckoutPage: React.FC = () => {
           }
         )
         .then((res) => {
-          console.log(res)
-          const success = res.data.successful
-          navigate(`/user/quote/thankyou/${success}`)
-          setMessage('Payment')
+          console.log(res);
+          const success = res.data.successful;
+          navigate(`/user/quote/thankyou/${success}`);
+          setMessage("Payment");
         })
         .catch((error) => {
           console.log(error);

@@ -9,10 +9,10 @@ export interface UserState {
   newPassword?: string;
   oldPassword?: string;
 }
-export interface InputFields{
-  id: string,
-  labelName:string,
-  type: string
+export interface InputFields {
+  id: string;
+  labelName: string;
+  type: string;
 }
 export interface User {
   user: UserState[];

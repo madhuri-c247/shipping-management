@@ -8,12 +8,13 @@ import { MdOutlineLocalShipping } from "react-icons/md";
 import { GoReport } from "react-icons/go";
 //CSS
 import styles from "../userDashboard/userDashboard.module.scss";
+import AlertDialogSlide from "../../common/alert";
+import { useState } from "react";
 
 const AdminDashboard = () => {
-  const navigate = useNavigate();
+  const [alert, setAlert] = useState(false);
   const handleLogout = () => {
-    sessionStorage.removeItem("token");
-    navigate("/login");
+    setAlert(true);
   };
   return (
     <div className={styles.container}>
@@ -47,11 +48,15 @@ const AdminDashboard = () => {
             <GoReport className={styles.icon} />
             Report
           </NavLink>
+          <button onClick={handleLogout}>
+            <span>
+              <RiLogoutCircleLine className={styles.icon} /> Logout
+            </span>
+          </button>
         </ul>
+
+        {alert && <AlertDialogSlide alert={alert} setAlert={setAlert} />}
       </div>
-      <Button className={styles.logout} onClick={handleLogout}>
-        <RiLogoutCircleLine /> Logout
-      </Button>
     </div>
   );
 };

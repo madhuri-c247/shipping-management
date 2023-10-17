@@ -8,6 +8,7 @@ import { ADMIN_SAVED_QUOTES_URL, apiUrl } from "../../../apiHelper";
 import styles from "../../user/saved-quote/saved-quote.module.scss";
 //components
 import ToastView from "../../../components/Toast";
+import Pagination from "../../../components/pagination";
 
 const AdminSavedQuotes = () => {
   const token = sessionStorage.getItem("token");
@@ -20,7 +21,6 @@ const AdminSavedQuotes = () => {
   const [totalPages, setTotalPages] = useState(0);
 
   const handlePageClick = (data: any) => {
-    console.log(data);
     const selectedPage = data.selected + 1;
     setPage(selectedPage);
     fetchData(selectedPage);
@@ -75,13 +75,12 @@ const AdminSavedQuotes = () => {
           <tbody>
             {!!quotes.length &&
               quotes.map((item: any, index) => {
-                
                 const dateObject = new Date(item.quoteDate);
                 const quoteDate = dateObject.toLocaleDateString();
                 return (
                   <tr>
                     <td>
-                      <a href="">{item._id}</a>
+                      <a>{item._id}</a>
                     </td>
                     <td>{item.fromPostal}</td>
                     <td>{item.fromCity}</td>
@@ -105,22 +104,13 @@ const AdminSavedQuotes = () => {
           )}
         </Table>
 
-        <ReactPaginate
-          pageCount={totalPages}
-          pageRangeDisplayed={5}
-          marginPagesDisplayed={2}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination justify-content-center"}
-          pageClassName={"page-item"}
-          pageLinkClassName={"page-link"}
-          previousClassName={"page-item"}
-          previousLinkClassName={"page-link"}
-          nextClassName={"page-item"}
-          nextLinkClassName={"page-link"}
-          breakClassName={"page-item"}
-          breakLinkClassName={"page-link"}
-          activeClassName={"active"}
-        />
+        {!!quotes && (
+          <Pagination
+            setPage={setPage}
+            fetchData={fetchData}
+            totalPages={totalPages}
+          />
+        )}
       </div>
     </div>
   );

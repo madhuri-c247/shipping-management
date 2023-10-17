@@ -1,14 +1,14 @@
 import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import ReactPaginate from "react-paginate";
 import axios from "axios";
 //apiHelper
-import { SAVED_QUOTE_URL, apiUrl } from "../../../apiHelper";
+import { apiUrl } from "../../../apiHelper";
 //css
 import styles from "./saved-quote.module.scss";
 //components
 import ToastView from "../../../components/Toast";
+import Pagination from "../../../components/pagination";
 
 const Shipment = () => {
   const token = sessionStorage.getItem("token");
@@ -20,14 +20,7 @@ const Shipment = () => {
   const [limit, setLimit] = useState(5);
   const [totalCount, setTotalCount] = useState(0);
 
-  const handlePageClick = (data: any) => {
-    console.log(data);
-    const selectedPage = data.selected + 1;
-    setPage(selectedPage);
-    fetchQuotes(selectedPage);
-  };
-
-  const fetchQuotes = async (page: number) => {
+  const fetchData = async (page: number) => {
     if (toast) {
       setToast(false);
     }
@@ -55,7 +48,7 @@ const Shipment = () => {
     }
   };
   useEffect(() => {
-    fetchQuotes(page);
+    fetchData(page);
   }, [page]);
 
   return (
@@ -65,7 +58,6 @@ const Shipment = () => {
         <Table className={`${styles.table}`} responsive>
           <thead>
             <tr>
-              <th>#</th>
               <th>Quote Date</th>
               <th>Company Name</th>
               <th>Service Name</th>
@@ -85,7 +77,6 @@ const Shipment = () => {
                   const quoteDate = dateObject.toLocaleDateString();
                   return (
                     <tr key={index}>
-                      <td>{++index}</td>
                       <td>{quoteDate}</td>
                       <td>{item.companyName}</td>
                       <td>{item.serviceName}</td>
@@ -94,7 +85,7 @@ const Shipment = () => {
                       <td>{item.toPostal}</td>
                       <td>{item.toCity}</td>
                       <td>{item.insuranceAmount}</td>
-                      <td></td>
+                      <td>100</td>
                       <td>
                         <NavLink
                           className={`btn btn-primary`}
@@ -109,22 +100,13 @@ const Shipment = () => {
               : ""}
           </tbody>
         </Table>
-        <ReactPaginate
-          pageCount={totalCount}
-          pageRangeDisplayed={5}
-          marginPagesDisplayed={2}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination justify-content-center"}
-          pageClassName={"page-item"}
-          pageLinkClassName={"page-link"}
-          previousClassName={"page-item"}
-          previousLinkClassName={"page-link"}
-          nextClassName={"page-item"}
-          nextLinkClassName={"page-link"}
-          breakClassName={"page-item"}
-          breakLinkClassName={"page-link"}
-          activeClassName={"active"}
-        />
+        {!!quotes.length && (
+          <Pagination
+            setPage={setPage}
+            fetchData={fetchData}
+            totalPages={totalCount}
+          />
+        )}
       </div>
       {toast ? (
         <ToastView message={message} success={success} setToast={setToast} />

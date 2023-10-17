@@ -9,14 +9,12 @@ import { MdOutlineLocalShipping } from "react-icons/md";
 import { FiSettings } from "react-icons/fi";
 //CSS
 import styles from "./userDashboard.module.scss";
+import AlertDialogSlide from "../../common/alert";
 
 const UserDashboard = () => {
-  const [spinner, setSpinner] = useState(false);
-  const navigate = useNavigate();
+  const [alert, setAlert] = useState(false);
   const handleLogout = () => {
-    sessionStorage.removeItem("token");
-    setSpinner(true);
-    navigate("/login");
+    setAlert(true);
   };
   return (
     <div className={styles.container}>
@@ -52,11 +50,14 @@ const UserDashboard = () => {
               </span>
             )}
           </NavLink>
+          <button onClick={handleLogout}>
+            <span>
+              <RiLogoutCircleLine className={styles.icon} /> Logout
+            </span>
+          </button>
         </ul>
+        {alert && <AlertDialogSlide alert={alert} setAlert={setAlert} />}
       </div>
-      <Button className={styles.logout} onClick={handleLogout}>
-        <RiLogoutCircleLine /> Logout
-      </Button>
     </div>
   );
 };

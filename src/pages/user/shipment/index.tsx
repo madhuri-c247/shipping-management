@@ -2,14 +2,14 @@ import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Spinner } from "react-bootstrap";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 //apiHelper
-import { MY_SHIPMENT_URL, STATUS_URL, apiUrl } from "../../../apiHelper";
+import { STATUS_URL, apiUrl } from "../../../apiHelper";
 //css
 import styles from "./shipment.module.scss";
 //components
 import ToastView from "../../../components/Toast";
-import ReactPaginate from "react-paginate";
+import Pagination from "../../../components/pagination";
 
 const Shipment = () => {
   const token = sessionStorage.getItem("token");
@@ -22,13 +22,6 @@ const Shipment = () => {
   const [limit, setLimit] = useState(5);
   const [totalCount, setTotalCount] = useState(0);
 
-  const handlePageClick = (data: any) => {
-    console.log(data);
-    const selectedPage = data.selected + 1;
-    setPage(selectedPage);
-    fetchData(selectedPage);
-  };
-
   const fetchData = async (page: number) => {
     try {
       await axios
@@ -38,7 +31,7 @@ const Shipment = () => {
           },
         })
         .then((res) => {
-          setTotalCount(res.data.result.totalPages)
+          setTotalCount(res.data.result.totalPages);
           setQuotes(res.data.result.docs);
         })
         .catch((error) => {
@@ -78,7 +71,6 @@ const Shipment = () => {
         .then((res) => {
           setSuccess(true);
           setToast(true);
-          console.log(res,'status, res')
           setMessage(res.data.result.successful);
         })
         .catch((error) => {
@@ -100,7 +92,6 @@ const Shipment = () => {
         <Table className={`${styles.table}`} responsive>
           <thead>
             <tr>
-              <th>#</th>
               <th>Id</th>
               <th>Customer</th>
               <th>Carrier Name</th>
@@ -116,7 +107,6 @@ const Shipment = () => {
                 return (
                   <>
                     <tr>
-                      <td>{++index}</td>
                       <td>
                         <NavLink to={``}>{item._id}</NavLink>
                       </td>
@@ -144,29 +134,17 @@ const Shipment = () => {
                 );
               })
             ) : (
-              <span className={`spinner m-1`}>
-                <Spinner animation="border" variant="dark" />
-                'Loading...'
-              </span>
+              <span className={`spinner m-1`}>No Data Found</span>
             )}
           </tbody>
         </Table>
-        <ReactPaginate
-          pageCount={totalCount}
-          pageRangeDisplayed={5}
-          marginPagesDisplayed={2}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination justify-content-center"}
-          pageClassName={"page-item"}
-          pageLinkClassName={"page-link"}
-          previousClassName={"page-item"}
-          previousLinkClassName={"page-link"}
-          nextClassName={"page-item"}
-          nextLinkClassName={"page-link"}
-          breakClassName={"page-item"}
-          breakLinkClassName={"page-link"}
-          activeClassName={"active"}
-        />
+        {!!quotes.length && (
+          <Pagination
+            setPage={setPage}
+            fetchData={fetchData}
+            totalPages={totalCount}
+          />
+        )}
       </div>
       {toast ? (
         <ToastView message={message} success={success} setToast={setToast} />

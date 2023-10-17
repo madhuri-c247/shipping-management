@@ -32,7 +32,8 @@ import { Route, Routes } from "react-router-dom";
 import { RouteConstant } from "./constants/routes";
 import UpdateUser from "./pages/admin/user/updateUser";
 import ShipmentDetail from "./pages/admin/shipment/shipmentDetail/shipment";
-import Thankyou from "./pages/user/saved-quote/checkOut/thankyou";
+import Thankyou from "./pages/user/saved-quote/checkOut/Thankyou";
+import UserDetail from "./pages/admin/user/userDetail";
 
 export const AllRoutes = () => (
   <Routes>
@@ -47,7 +48,7 @@ export const AllRoutes = () => (
       />
     </Route>
 
-    <Route path="/mail/account-verification-mail" element={<Verification />} />
+    <Route path="/auth/account-verification-mail" element={<Verification />} />
     <Route
       path="/user"
       element={
@@ -72,7 +73,7 @@ export const AllRoutes = () => (
         element={<VerifyDeletingUser />}
       />
     </Route>
-    <Route path="/mail/delete-verification-mail" element={<DeleteUser />} />
+    <Route path="/auth/delete-verification-mail" element={<DeleteUser />} />
     <Route path="/user/quote/checkout/:id" element={<CheckoutPage />} />
     <Route path="/user/quote/thankyou/:id" element={<Thankyou />} />
 
@@ -86,6 +87,7 @@ export const AllRoutes = () => (
     >
       <Route path="/admin/saved-quotes" element={<AdminSavedQuote />} />
       <Route path="/admin/all-users" element={<AllUsers />} />
+      <Route path="/admin/all-users/details/:id" element={<UserDetail />} />
       <Route path="/admin/all-users/update/:id" element={<UpdateUser />} />
       <Route path="/admin/report" element={<Reports />} />
       <Route path="/admin/all-shipment" element={<AllShipment />} />
@@ -95,7 +97,7 @@ export const AllRoutes = () => (
       />
     </Route>
     <Route
-      path="/login/reset-password-verification"
+      path="auth/forget-password"
       element={<ResetPassword />}
     />
     <Route path="/forgot-password" element={<ForgotPassword />} />

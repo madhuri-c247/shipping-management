@@ -15,20 +15,25 @@ import { RESET_PASSWORD_URL } from "../../../apiHelper";
 import { resetValidationSchema } from "../../../utils/Validation";
 import Layout from "../../../layout/NavLayout";
 import { Particle } from "../../../layout/particles";
+import ToastView from "../../../components/Toast";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [toast, setToast] = useState(false);
+  const [loader, setLoader] = useState(false)
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const token = searchParams.get("token");
-
+  console.log(searchParams, token);
   const initialValues = {
     password: "",
     confirmPassword: "",
   };
 
   const handleSubmit = async (values: UserState) => {
+    setLoader(true)
     try {
       await axios
         .put(`${RESET_PASSWORD_URL}${token}`, {
@@ -36,8 +41,12 @@ const Login: React.FC = () => {
           password: values.password,
         })
         .then((res) => {
-          const { message } = res.data.result;
-          console.log(res)
+          setLoader(false)
+          const  message  = res.data.result.message;
+          console.log(message)
+          setToast(true);
+          setSuccess(true);
+          setMessage(message);
           navigate("/login", {
             state: {
               response: message,
@@ -45,10 +54,13 @@ const Login: React.FC = () => {
           });
         })
         .catch((error) => {
-          console.log(error)
-          setMessage(error.response.error);
+          setToast(true);
+          setLoader(false)
+          setSuccess(false);
+          setMessage(error.response.data.error);
         });
     } catch (error) {
+      setLoader(false)
       setMessage("Something is wrong!");
     }
   };
@@ -110,7 +122,7 @@ const Login: React.FC = () => {
                   </div>
                   <div className={`${styles.submit}`}>
                     <Button
-                      value="Reset password"
+                      value={loader?"Processing":"Reset password"}
                       className={`${styles.resetBtn}`}
                     />
                   </div>
@@ -118,6 +130,15 @@ const Login: React.FC = () => {
               </Form>
             )}
           </Formik>
+          {toast ? (
+            <ToastView
+              message={message}
+              success={success}
+              setToast={setToast}
+            />
+          ) : (
+            ""
+          )}
         </div>
       </Particle>
     </Layout>

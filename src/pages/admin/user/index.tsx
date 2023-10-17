@@ -1,13 +1,10 @@
 import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import ReactPaginate from "react-paginate";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import Pagination from "../../../components/pagination";
 import axios from "axios";
 //apiHelper
-import {
-  ADMIN_USER_DELETE_URL,
-  apiUrl,
-} from "../../../apiHelper";
+import { ADMIN_USER_DELETE_URL, apiUrl } from "../../../apiHelper";
 //css
 import styles from "../../user/saved-quote/saved-quote.module.scss";
 //components
@@ -27,13 +24,6 @@ const AllUser = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handlePageClick = (data: any) => {
-    console.log(data);
-    const selectedPage = data.selected + 1;
-    setPage(selectedPage);
-    fetchData(selectedPage);
-  };
-
   const fetchData = async (page: number) => {
     try {
       await axios
@@ -43,8 +33,8 @@ const AllUser = () => {
           },
         })
         .then((res) => {
-          console.log(res,'res')
-          setTotalCount(res.data.result.totalPages)
+          console.log(res, "res");
+          setTotalCount(res.data.result.totalPages);
           setUsers(res.data.result.docs);
         })
         .catch((error) => {
@@ -121,7 +111,12 @@ const AllUser = () => {
                   return (
                     <tr key={item._id}>
                       <td>
-                        <a href="">{item._id}</a>
+                        <NavLink
+                          className={"link"}
+                          to={`/admin/all-users/details/${item._id}`}
+                        >
+                          {item._id}
+                        </NavLink>
                       </td>
                       <td>{item.email}</td>
                       <td>
@@ -168,22 +163,13 @@ const AllUser = () => {
             ""
           )}
         </Table>
-        <ReactPaginate
-          pageCount={totalCount}
-          pageRangeDisplayed={5}
-          marginPagesDisplayed={2}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination justify-content-center"}
-          pageClassName={"page-item"}
-          pageLinkClassName={"page-link"}
-          previousClassName={"page-item"}
-          previousLinkClassName={"page-link"}
-          nextClassName={"page-item"}
-          nextLinkClassName={"page-link"}
-          breakClassName={"page-item"}
-          breakLinkClassName={"page-link"}
-          activeClassName={"active"}
-        />
+        {!!user && (
+          <Pagination
+            setPage={setPage}
+            fetchData={fetchData}
+            totalPages={totalCount}
+          />
+        )}
       </div>
     </div>
   );

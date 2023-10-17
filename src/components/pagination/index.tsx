@@ -1,45 +1,39 @@
 import * as React from "react";
-import TablePagination from "@mui/material/TablePagination";
-import styles from "./pagination.module.scss";
+import ReactPaginate from "react-paginate";
 
 interface PaginationProps {
-  page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
-  rowsPerPage: number;
-  setRowsPerPage: React.Dispatch<React.SetStateAction<number>>;
-  totalCount: number;
+  fetchData: (page: number) => Promise<void>;
+  totalPages: number;
 }
 
 export default function Pagination({
-  page,
   setPage,
-  rowsPerPage,
-  setRowsPerPage,
-  totalCount,
+  totalPages,
+  fetchData,
 }: PaginationProps) {
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage + 1);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+  const handlePageClick = (data: any) => {
+    const selectedPage = data.selected + 1;
+    setPage(selectedPage);
+    fetchData(selectedPage);
   };
 
   return (
-    <TablePagination
-      className={styles.pagination}
-      component="div"
-      count={totalCount}
-      page={page - 1}
-      onPageChange={handleChangePage}
-      rowsPerPage={rowsPerPage}
-      onRowsPerPageChange={handleChangeRowsPerPage}
+    <ReactPaginate
+      pageCount={totalPages}
+      pageRangeDisplayed={5}
+      marginPagesDisplayed={2}
+      onPageChange={handlePageClick}
+      containerClassName={"pagination justify-content-center"}
+      pageClassName={"page-item"}
+      pageLinkClassName={"page-link"}
+      previousClassName={"page-item"}
+      previousLinkClassName={"page-link"}
+      nextClassName={"page-item"}
+      nextLinkClassName={"page-link"}
+      breakClassName={"page-item"}
+      breakLinkClassName={"page-link"}
+      activeClassName={"active"}
     />
   );
 }

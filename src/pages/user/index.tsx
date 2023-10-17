@@ -59,7 +59,7 @@ const User = () => {
             <span
               className={styles.userName}
             >{`${userName.firstName} ${userName.lastName}`}</span>
-            .<NavLink to={"/login"}>Return To Your account</NavLink>
+            .
           </pre>
         </div>
         <Outlet />

@@ -13,10 +13,6 @@ const Admin = () => {
         <div className={styles.header}>
           <pre>
             You're Logged In as Admin.
-            <a onClick={()=>{
-              sessionStorage.removeItem('token')
-              navigate('/login')
-            }}> Login As User</a>
           </pre>
         </div>
         <Outlet />

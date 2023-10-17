@@ -23,7 +23,7 @@ const Verification = () => {
         .catch((err) => {
           console.log(err, "err-ver");
           navigate("/home", {
-            state: { response: err.message },
+            state: { response: err.response.data.error },
           });
         });
     } catch (error) {

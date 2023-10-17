@@ -6,7 +6,7 @@ import { UserState } from "../../../../../models/UserState";
 //apiHelper
 import { USER_DELETE_VERIFY_URL } from "../../../../../apiHelper";
 //CSS
-import styles from "../../../../login/forgetPassword/forgetPassword.module.scss";
+import styles from "../../changePassword/changePassword.module.scss";
 //validations
 import { loginValidationSchema } from "../../../../../utils/Validation";
 //common
